@@ -28,6 +28,9 @@ const LAYOUTS = [
   "l-diagram", "l-people", "l-agenda", "l-define", "l-gallery", "l-closing", "l-free",
 ];
 
+const TRANSITIONS = ["fade", "push", "rise", "cover", "zoom", "wipe", "iris", "blur", "flip", "morph", "none"];
+const ANIMS = ["fade", "rise", "drop", "left", "right", "scale", "pop", "blur", "wipe", "iris", "flip", "type", "count", "draw", "highlight"];
+
 const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".gif": "image/gif", ".svg": "image/svg+xml", ".avif": "image/avif" };
 
 /* --- CLI ------------------------------------------------------------- */
@@ -114,6 +117,13 @@ function lint(body, baseDir, warnings) {
     if (!layouts.length) warnings.push(`slide ${slideCount}: no layout class (l-*) — it will not get a designed layout`);
     layouts.filter((l) => !LAYOUTS.includes(l)).forEach((l) => warnings.push(`slide ${slideCount}: unknown layout "${l}"`));
   });
+  for (const m of body.matchAll(/data-transition=("|')([^"']*)\1/g)) {
+    if (!TRANSITIONS.includes(m[2])) warnings.push(`unknown transition "${m[2]}" (use ${TRANSITIONS.join(", ")})`);
+  }
+  for (const m of body.matchAll(/data-anim=("|')([^"']*)\1/g)) {
+    const t = m[2].split(/\s+/)[0];
+    if (!ANIMS.includes(t)) warnings.push(`unknown animation "${t}" (use ${ANIMS.join(", ")})`);
+  }
   for (const m of body.matchAll(/\ssrc=("|')([^"']+)\1/g)) {
     const url = m[2];
     if (/^(data:|https?:)/.test(url)) continue;
@@ -164,6 +174,8 @@ export function build(srcPath, opts = {}) {
   const title = meta.title || basename(src).replace(/(\.deck)?\.html?$/, "");
   const description = meta.description || meta.subtitle || `${title} — a presentation`;
   const lang = meta.lang || "en";
+  const transition = meta.transition || theme.transition || "";
+  if (transition && !TRANSITIONS.includes(transition)) warnings.push(`unknown deck transition "${transition}"`);
   const folio = meta.folio === false ? "" : meta.folio && meta.folio !== true ? meta.folio : title;
 
   const css = [
@@ -172,6 +184,7 @@ export function build(srcPath, opts = {}) {
     read(join(ENGINE, "base.css")),
     read(join(ENGINE, "layouts.css")),
     usesCharts ? read(join(ENGINE, "charts.css")) : "",
+    read(join(ENGINE, "motion.css")),
     `/* === THEME: ${theme.name} === */\n` + read(join(themeDir, "theme.css")),
     userStyles.length ? "/* === DECK-SPECIFIC STYLES === */\n" + userStyles.join("\n") : "",
   ].filter(Boolean).join("\n\n");
@@ -206,7 +219,7 @@ ${css}
 </head>
 <body>
 <div class="deck-viewport">
-<main class="deck-stage${folio ? "" : " no-folio"}" style="--deck-name: ${esc(cssString(folio))}" aria-label="${esc(title)}">
+<main class="deck-stage${folio ? "" : " no-folio"}" style="--deck-name: ${esc(cssString(folio))}"${transition ? ` data-transition="${esc(transition)}"` : ""}${meta.automorph === true ? " data-automorph" : ""} aria-label="${esc(title)}">
 ${body}
 </main>
 </div>
