@@ -112,18 +112,15 @@
 
 /* =====================================================================
    DECKLUME · STAGE
-   Fixed 1920×1080 canvas, scaled as one unit to the window.
-   Stage geometry adapted from frontend-slides/viewport-base.css
-   (MIT © 2025 Zara Zhang). Overview, chrome, print and motion are Decklume.
+   One fixed 1920×1080 canvas, centred in the window and scaled as a
+   single unit through --dl-scale (written by deck.js). Slides are
+   stacked layers on that canvas and never reflow to fit a device.
    ===================================================================== */
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  background: var(--c-stage, #000);
+:root {
+  --dl-canvas-w: 1920px;
+  --dl-canvas-h: 1080px;
+  --dl-scale: 1;
 }
 
 *,
@@ -132,7 +129,15 @@ body {
   box-sizing: border-box;
 }
 
-/* --- Viewport + stage ------------------------------------------------ */
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--c-stage, #000);
+}
+
+/* --- Canvas ------------------------------------------------------------ */
 .deck-viewport {
   position: fixed;
   inset: 0;
@@ -140,57 +145,59 @@ body {
   background: var(--c-stage, #000);
 }
 
+/* Centred by its own midpoint, then scaled about that midpoint, so the
+   letterbox bars always split evenly. */
 .deck-stage {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 1920px;
-  height: 1080px;
+  left: 50%;
+  top: 50%;
+  width: var(--dl-canvas-w);
+  height: var(--dl-canvas-h);
+  translate: -50% -50%;
+  scale: var(--dl-scale);
+  transform-origin: 50% 50%;
   overflow: hidden;
-  transform-origin: 0 0;
   background: var(--c-bg);
   counter-reset: slide;
 }
 
-/* --- Slides ----------------------------------------------------------
-   Visibility (not display) switches slides, so layout classes that set
-   display: grid/flex can never make every slide visible at once. */
-.slide {
+/* --- Slide layers -------------------------------------------------------
+   Inactive layers stay laid out (only hidden), so measuring, printing and
+   Magic Move can read their geometry at any time. */
+.deck-stage > .slide {
   position: absolute;
-  inset: 0;
-  width: 1920px;
-  height: 1080px;
+  left: 0;
+  top: 0;
+  width: var(--dl-canvas-w);
+  height: var(--dl-canvas-h);
   overflow: hidden;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
   counter-increment: slide;
   background: var(--c-bg);
   color: var(--c-ink);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
   transition: opacity var(--dur-2) var(--ease-out), visibility 0s linear var(--dur-2);
 }
 
-.slide.is-active {
+.deck-stage > .slide.is-active {
+  z-index: 1;
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-  z-index: 1;
   transition: opacity var(--dur-2) var(--ease-out), visibility 0s;
 }
 
-/* During a View Transition the browser animates snapshots, so the live
-   DOM must switch instantly. */
-.dl-vt .slide {
+/* A View Transition animates snapshots; the live layers switch at once. */
+.dl-vt .deck-stage > .slide {
   transition: none !important;
 }
 
-.slide img,
-.slide video,
-.slide canvas {
+.slide :is(img, video, canvas) {
   max-width: 100%;
 }
 
-/* Speaker notes never render on the stage. */
+/* Speaker notes belong to the presenter window only. */
 .slide .notes {
   display: none !important;
 }
@@ -294,11 +301,16 @@ body {
 }
 
 .dl-overview .deck-stage {
+  left: 0;
+  top: 0;
+  translate: none;
+  scale: none;
+  transform-origin: 0 0;
   overflow: visible;
   background: transparent;
 }
 
-.dl-overview .slide {
+.dl-overview .deck-stage > .slide {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
@@ -440,7 +452,7 @@ body {
   display: none;
 }
 
-/* --- Print: one 1920×1080 page per slide, final build state ---------- */
+/* --- Print: every slide on its own 1920×1080 page, fully built --------- */
 @page {
   size: 1920px 1080px;
   margin: 0;
@@ -449,7 +461,6 @@ body {
 @media print {
   html,
   body {
-    width: 1920px;
     height: auto;
     overflow: visible;
     background: none;
@@ -462,31 +473,28 @@ body {
 
   .deck-stage {
     position: static;
-    width: 1920px;
     height: auto;
+    translate: none;
+    scale: none;
     transform: none !important;
     overflow: visible;
   }
 
-  .slide {
+  .deck-stage > .slide {
     position: relative;
     visibility: visible !important;
     opacity: 1 !important;
     transition: none !important;
-    break-after: page;
-    page-break-after: always;
-    -webkit-print-color-adjust: exact;
+    break-inside: avoid;
     print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
-  .slide:last-child {
-    break-after: auto;
-    page-break-after: auto;
+  .deck-stage > .slide + .slide {
+    break-before: page;
   }
 
-  .slide *,
-  .slide *::before,
-  .slide *::after {
+  .slide :is(*, *::before, *::after) {
     animation: none !important;
     transition: none !important;
   }
@@ -496,10 +504,7 @@ body {
     transform: none !important;
   }
 
-  .dl-hud,
-  .dl-progress,
-  .dl-help,
-  .dl-toast {
+  :is(.dl-hud, .dl-progress, .dl-help, .dl-toast) {
     display: none !important;
   }
 }
@@ -2285,14 +2290,11 @@ body {
       });
     }
 
+    /* The stage centres itself in CSS; we only supply the fit factor. */
     scale() {
       if (this.overview) return this.layoutOverview();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const s = Math.min(vw / W, vh / H);
-      const x = (vw - W * s) / 2;
-      const y = (vh - H * s) / 2;
-      this.stage.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+      const fit = Math.min(window.innerWidth / W, window.innerHeight / H);
+      this.stage.style.setProperty("--dl-scale", String(fit));
     }
 
     /* --- Navigation ------------------------------------------------------ */
@@ -2416,6 +2418,7 @@ body {
       } else {
         this.slides.forEach((s) => (s.style.transform = ""));
         this.stage.style.height = "";
+        this.stage.style.transform = "";
         this.scale();
       }
     }
@@ -2706,7 +2709,7 @@ body {
     if (!clone.getAttribute("style")) clone.removeAttribute("style");
     clone.querySelectorAll(".dl-progress, .dl-hud, .dl-help, .dl-toast, [data-dl-generated]").forEach((n) => n.remove());
     const stage = clone.querySelector(".deck-stage");
-    if (stage) { stage.style.transform = ""; stage.style.height = ""; if (!stage.getAttribute("style")) stage.removeAttribute("style"); }
+    if (stage) { stage.style.transform = ""; stage.style.height = ""; stage.style.removeProperty("--dl-scale"); if (!stage.getAttribute("style")) stage.removeAttribute("style"); }
     clone.querySelectorAll(".slide").forEach((s) => {
       s.classList.remove("is-active", "is-entering");
       s.removeAttribute("aria-roledescription");

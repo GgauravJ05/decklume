@@ -196,7 +196,7 @@ export function home(themes) {
       <li><p>Then install the plugin:</p>${command(SITE.install[1], { big: true })}</li>
       <li><p>Now just ask, for example:</p><ul class="prompts">${prompts.map((p) => `<li>${command(p)}</li>`).join("")}</ul></li>
     </ol>
-    <details class="manual"><summary>Prefer a standalone skill?</summary>${command(SITE.manual[0])}${command(SITE.manual[1])}<p>Requires Node.js 18 or newer. Design QA, previews and PDF export install Playwright once into <code>~/.cache/decklume</code>. PowerPoint import needs <code>pip install python-pptx</code>.</p></details>
+    <details class="manual"><summary>Prefer a standalone skill?</summary>${command(SITE.manual[0])}${command(SITE.manual[1])}<p>Requires Node.js 18 or newer, and nothing else: PowerPoint import is pure Node. Design QA, previews and PDF export install Playwright once into <code>~/.cache/decklume</code>.</p></details>
   </div>
 </section>`;
 
@@ -212,8 +212,8 @@ export function home(themes) {
   const compare = `
 <section class="band compare" aria-labelledby="cmp-h">
   <div class="band-head">
-    <h2 id="cmp-h">Built on frontend-slides, taken further.</h2>
-    <p>Decklume started as a study of Zara Zhang’s excellent <a href="https://github.com/zarazhangrui/frontend-slides">frontend-slides</a>. Where it differs:</p>
+    <h2 id="cmp-h">How it compares.</h2>
+    <p>Side by side with <a href="https://github.com/zarazhangrui/frontend-slides">frontend-slides</a>, another open-source Claude Code skill for HTML presentations:</p>
   </div>
   <table class="ctable">
     <thead><tr><th scope="col"></th><th scope="col">frontend-slides</th><th scope="col">Decklume</th></tr></thead>

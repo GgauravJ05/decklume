@@ -142,8 +142,8 @@ const CLI = [
   ["preview.mjs sample.deck.html --themes folio,grid,campus --png", "Render sample slides in several themes side by side."],
   ["qa.mjs talk.html", "Run the design QA gate; writes screenshots, a contact sheet and report.json."],
   ["export.mjs talk.html", "Vector PDF. Add --png for one image per slide, --scale 2 for retina."],
-  ["extract-pptx.py old.pptx out/", "Extract text, tables, images, notes and chart data from PowerPoint."],
-  ["deploy.sh talk.html", "Publish to a live URL on Vercel."],
+  ["extract-pptx.mjs old.pptx out/", "Extract text, tables, images, notes and chart data from PowerPoint. No Python needed."],
+  ["deploy.mjs talk.html", "Publish to a live URL on Vercel (add --dry to preview what ships)."],
 ];
 export function docsPage() {
   const root = "../";
@@ -169,7 +169,7 @@ export function docsPage() {
     ${command(SITE.install[0])}${command(SITE.install[1])}
     <p>Or install it as a standalone skill:</p>
     ${command(SITE.manual[0])}${command(SITE.manual[1])}
-    <p>You need Node.js 18 or newer. The first time you run design QA, a style preview or a PDF export, Decklume installs Playwright into <code>~/.cache/decklume</code>, never into your project. Importing PowerPoint needs <code>pip install python-pptx</code>.</p>
+    <p>You need Node.js 18 or newer, and nothing else: PowerPoint import is pure Node. The first time you run design QA, a style preview or a PDF export, Decklume installs Playwright into <code>~/.cache/decklume</code>, never into your project.</p>
 
     <h2 id="first">Your first deck</h2>
     <p>Describe the presentation in plain language. Say who it is for and how long it should be:</p>
@@ -232,7 +232,7 @@ export function comparePage() {
     ["Verification", "Advice to review screenshots", "Automated QA gate with contact sheet, tested in CI"],
     ["Presenting", "Speaker notes passed to a host", "Presenter window with notes, timer and next slide"],
     ["PDF export", "Screenshot images; about 20 MB for 18 slides (per its docs)", "Vector with selectable text; 0.8 MB for 25 slides"],
-    ["PowerPoint import", "Text, images and notes", "Adds bullet levels, tables, grouped shapes and native chart data"],
+    ["PowerPoint import", "Python script: text, images and notes", "Pure Node: adds bullet levels, tables, grouped shapes and native chart data"],
     ["Output", "One self-contained HTML file", "One self-contained HTML file"],
     ["License", "MIT", "MIT"],
   ];
@@ -244,7 +244,7 @@ export function comparePage() {
     current: "",
     jsonld: [breadcrumbs([["Decklume", ""], ["Compare", "compare/frontend-slides/"]]), { "@type": "Article", headline: "Decklume vs frontend-slides", url: SITE.base + "compare/frontend-slides/", author: { "@type": "Person", name: SITE.author } }],
     body: `
-<section class="page-head"><h1>Decklume vs frontend-slides</h1><p class="lede">Both are free, MIT-licensed Claude Code skills that output a single HTML presentation. Decklume began as a study of frontend-slides by Zara Zhang and adapts parts of it, with credit. This is where they differ.</p></section>
+<section class="page-head"><h1>Decklume vs frontend-slides</h1><p class="lede">Both are free, MIT-licensed Claude Code skills that output a single HTML presentation. This is where they differ.</p></section>
 <section class="band">
   <table class="ctable ctable-full"><thead><tr><th scope="col"></th><th scope="col">frontend-slides</th><th scope="col">Decklume</th></tr></thead><tbody>${rows.map(([k, a, b]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join("")}</tbody></table>
   <div class="prose narrow">

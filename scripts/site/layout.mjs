@@ -113,7 +113,7 @@ ${body}
     <nav aria-label="Use cases"><p class="col-h">Made for</p><ul><li><a href="${root}for/students/">Students</a></li><li><a href="${root}for/teachers/">Teachers</a></li><li><a href="${root}for/researchers/">Researchers</a></li><li><a href="${root}for/founders/">Founders</a></li></ul></nav>
     <nav aria-label="Project"><p class="col-h">Project</p><ul><li><a href="${SITE.repo}">GitHub</a></li><li><a href="${SITE.repo}/blob/main/CHANGELOG.md">Changelog</a></li><li><a href="${SITE.repo}/blob/main/CONTRIBUTING.md">Contribute</a></li><li><a href="${SITE.repo}/blob/main/LICENSE">MIT License</a></li></ul></nav>
   </div>
-  <p class="credit">Inspired by <a href="https://github.com/zarazhangrui/frontend-slides">frontend-slides</a> by Zara Zhang. Typefaces from Google Fonts.</p>
+  <p class="credit">© 2026 GgauravJ05 · MIT License · Typefaces from Google Fonts.</p>
 </footer>
 <script src="${root}assets/site.js" defer></script>
 </body>
