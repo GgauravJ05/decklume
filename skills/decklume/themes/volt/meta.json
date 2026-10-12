@@ -1,0 +1,14 @@
+{
+  "name": "Volt",
+  "tagline": "Brutalist terminal energy — monospace grid, black field, acid-lime signal.",
+  "mood": ["technical", "bold", "raw", "energetic"],
+  "formality": "low",
+  "density": "medium",
+  "scheme": "dark",
+  "motion": "crisp",
+  "best_for": ["developer talks", "hackathon demos", "tech meetups", "engineering deep-dives", "open-source launches"],
+  "avoid_for": ["formal academic defenses", "luxury or wellness brands"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;500;700&display=swap",
+  "font_families": ["Bricolage Grotesque", "JetBrains Mono"],
+  "colors": { "bg": "#0B0B0B", "ink": "#F2F2EC", "accent": "#C8F031" }
+}

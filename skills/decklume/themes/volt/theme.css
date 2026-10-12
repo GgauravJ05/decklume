@@ -1,0 +1,113 @@
+/* =====================================================================
+   THEME · VOLT
+   Brutalist terminal. Bricolage Grotesque headlines, JetBrains Mono for
+   everything else, a visible grid and an acid-lime signal on black.
+   ===================================================================== */
+:root {
+  --c-stage: #000;
+  --c-bg: #0b0b0b;
+  --c-surface: #161616;
+  --c-ink: #f2f2ec;
+  --c-ink-2: #b9b9b2;
+  --c-ink-3: #8c8c86;
+  --c-line: rgba(242, 242, 236, 0.18);
+  --c-accent: #c8f031;
+  --c-accent-ink: #0b0b0b;
+  --c-accent-2: #ff6b3d;
+  --c-bar: #3a3a38;
+  --c-chart-1: #8c8c86;
+  --c-chart-2: #c8f031;
+  --c-chart-3: #ff6b3d;
+  --c-chart-4: #3a3a38;
+  --c-code-bg: #121212;
+
+  --f-display: "Bricolage Grotesque", "Arial Black", sans-serif;
+  --f-body: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --fw-display: 800;
+  --fw-heading: 750;
+  --fw-body: 400;
+  --fw-strong: 700;
+  --lh-display: 0.88;
+  --lh-heading: 0.98;
+  --lh-body: 1.5;
+  --tr-display: -0.04em;
+  --tr-heading: -0.03em;
+  --tr-caps: 0.08em;
+  --em-style: normal;
+  --em-color: var(--c-accent);
+
+  --fs-body: 28px;
+  --fs-h2: 92px;
+  --fs-h1: 136px;
+  --fs-display: 210px;
+
+  --m-x: 96px;
+  --m-top: 104px;
+  --m-bottom: 112px;
+  --radius: 0;
+  --radius-lg: 0;
+  --rule: 2px;
+
+  --dur-2: 180ms;
+  --dur-3: 380ms;
+  --stagger: 40ms;
+  --ease-out: cubic-bezier(0.3, 1, 0.4, 1);
+  --enter-from: translateX(-16px);
+  --vt-duration: 380ms;
+}
+
+/* Visible 12-column grid, very faint. */
+.slide:not(.l-bleed)::before {
+  content: "";
+  position: absolute;
+  inset: 0 var(--m-x);
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(242, 242, 236, 0.045) 0 1px,
+    transparent 1px calc((100% - 1px) / 12)
+  );
+}
+
+.slide > * { position: relative; }
+
+.slide :where(h1, h2, h3, .display, .statement) {
+  font-variation-settings: "opsz" 96;
+}
+
+/* Eyebrows read like terminal prompts. */
+.slide .eyebrow::before {
+  content: "> ";
+  color: var(--c-ink-3);
+}
+
+.slide .eyebrow { text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+.l-title > :is(h1, .display) { font-size: 196px; max-width: 11ch; }
+
+.l-section > .kicker {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: 220px;
+  letter-spacing: -0.06em;
+}
+
+.slide .card {
+  --card-bg: var(--c-surface);
+  border: 1px solid var(--c-line);
+}
+
+.slide .card.is-highlight { background: var(--c-accent); }
+
+.l-statement .statement { font-size: 140px; line-height: 0.95; }
+
+.l-quote blockquote > p { font-family: var(--f-display); font-weight: 650; font-size: 80px; }
+
+.slide .flow > .node { background: var(--c-surface); border-color: var(--c-ink-3); }
+
+.slide pre.code { border: 1px solid var(--c-line); }
+
+.l-stats .stat .value,
+.l-kpi .big-number { font-weight: 800; }
