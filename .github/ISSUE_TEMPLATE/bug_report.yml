@@ -1,0 +1,30 @@
+name: Bug report
+description: Something looks or behaves wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include a screenshot of the slide if it's visual.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+  - type: input
+    id: theme
+    attributes:
+      label: Theme and layout
+      placeholder: "folio · l-cards"
+  - type: input
+    id: env
+    attributes:
+      label: Browser / OS / Node version
+      placeholder: "Chrome 140 · macOS 15 · Node 22"
+  - type: textarea
+    id: qa
+    attributes:
+      label: QA output (if relevant)
+      render: text

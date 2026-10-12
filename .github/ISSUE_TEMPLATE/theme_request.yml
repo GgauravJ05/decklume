@@ -1,0 +1,21 @@
+name: Theme request
+description: Suggest a new theme or a look you need
+labels: [theme]
+body:
+  - type: textarea
+    id: occasion
+    attributes:
+      label: What would you present with it?
+      placeholder: "Medical school case presentations, biology lab reports…"
+    validations:
+      required: true
+  - type: textarea
+    id: look
+    attributes:
+      label: Describe the look (links or images welcome)
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Contribution
+      options:
+        - label: I'd like to build this theme myself (see CONTRIBUTING.md)
