@@ -1,0 +1,277 @@
+<div align="center">
+
+# Decklume — AI presentation maker for Claude Code
+
+**Turn any topic, notes or PowerPoint into a stunning, animated HTML presentation.**<br>
+Story-first outlines · your slides in three styles side by side · 10 designer themes · Magic Move transitions · presenter view · vector PDF · automated design QA.
+
+[![CI](https://github.com/GgauravJ05/decklume/actions/workflows/ci.yml/badge.svg)](https://github.com/GgauravJ05/decklume/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-e9b44c.svg)](LICENSE)
+[![Claude Code skill](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-1a1916.svg)](#install)
+[![Themes](https://img.shields.io/badge/themes-10-b83a22.svg)](#themes)
+[![Zero dependencies](https://img.shields.io/badge/output-single%20HTML%20file-3d5a4c.svg)](#what-you-get)
+
+[**Live demos**](https://ggauravj05.github.io/decklume/) · [Install](#install) · [Themes](#themes) · [How it works](#how-it-works) · [FAQ](#faq)
+
+<img src="site/assets/hero.jpg" alt="The same lecture title slide rendered in ten Decklume themes" width="100%">
+
+</div>
+
+---
+
+Most AI-made slides look the same: a heading, three bullets, a purple gradient.
+**Decklume** is a [Claude Code](https://claude.com/claude-code) skill that gives
+Claude a real design system instead of adjectives. It has a fixed 16:9 canvas, a
+modular type scale, a 12-column grid, 22 tested slide layouts and ten complete
+themes. A **QA gate** renders every slide in a real browser and fails the deck on
+overflow, overlap, low contrast or tiny text before you ever see it.
+
+It's built for **students, teachers, researchers and founders**: lectures,
+thesis defenses, class projects, case competitions, hackathon demos, pitch decks
+and conference talks.
+
+> *"Make a 15-minute lecture on how sleep shapes memory for first-year psychology students."*
+>
+> The result is [this 25-slide deck](https://ggauravj05.github.io/decklume/demos/folio.html):
+> press → to step through it, `P` for the presenter view, `O` for the overview.
+
+## Contents
+
+- [What you get](#what-you-get)
+- [Install](#install)
+- [How it works](#how-it-works)
+- [Themes](#themes)
+- [Layouts](#layouts)
+- [Presenting](#presenting)
+- [Command-line tools](#command-line-tools)
+- [Decklume vs. frontend-slides](#decklume-vs-frontend-slides)
+- [FAQ](#faq)
+- [Contributing](#contributing)
+- [Credits](#credits)
+
+## What you get
+
+| | |
+|---|---|
+| 🧭 **Story first** | Claude writes a slide-by-slide outline with an *assertion headline* on every slide ("Half the night is stage N2", not "Sleep stages"). You approve it before any design happens. |
+| 👀 **Show, don't ask** | Your own title and content slides, rendered in three themes on **one comparison page**. Pick A, B, C, or mix them. |
+| 🎨 **10 designer themes** | Editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful and chalkboard. Each is complete across every layout. |
+| 🧱 **22 tested layouts** | Title, section, statement, quote, cards, split, full-bleed, compare, timeline, steps, KPI, stats, chart, table, code, diagram, people, agenda, definition, gallery, closing and free-form. |
+| ✨ **Magic Move** | Elements glide between slides (Keynote-style) using the View Transitions API, plus step-by-step builds and staggered entrances tuned per theme. |
+| 📊 **Charts without libraries** | Bar, horizontal bar, line and donut charts from data attributes, coloured by the theme, highlighting the point your headline makes. |
+| ✅ **Automated design QA** | Overflow, clipped text, overlap, type size, WCAG contrast, font loading, leaked placeholder text, broken images, 16:9 on phones, AI-slop patterns, plus a contact sheet of every slide. |
+| 🎤 **Presenter view** | Notes, timer, clock and next slide in a second window, synced live. Also overview grid, jump-to-slide, blackout and fullscreen. |
+| ✏️ **Edit in the browser** | Press `E`, click any text, `⌘/Ctrl+S` saves a clean HTML file. |
+| 📄 **Share anywhere** | A single self-contained HTML file, a **vector PDF with selectable text** (a 25-slide deck is about 0.8 MB), PNG per slide, or a live link. |
+| 🔁 **PowerPoint import** | Reads `.pptx`, including bullet levels, tables, images in groups, speaker notes and **native chart data**. |
+
+## Install
+
+### As a Claude Code plugin (recommended)
+
+Run these one at a time inside Claude Code:
+
+```text
+/plugin marketplace add https://github.com/GgauravJ05/decklume
+```
+
+```text
+/plugin install decklume@decklume
+```
+
+Then ask for a presentation, or call it directly with `/decklume:decklume`.
+
+### As a standalone skill
+
+```bash
+git clone https://github.com/GgauravJ05/decklume.git
+cp -R decklume/skills/decklume ~/.claude/skills/
+```
+
+Then use `/decklume`, or just ask Claude for a presentation.
+
+**Requirements:** Node.js 18+. Design QA, style previews and PDF export use
+Playwright, which installs itself once into `~/.cache/decklume` (never into your
+project). PowerPoint import needs `pip install python-pptx`.
+
+### Other coding agents
+
+The skill is plain Markdown plus Node scripts. Point any agent with file and
+shell access at [`skills/decklume/SKILL.md`](skills/decklume/SKILL.md).
+
+## How it works
+
+```
+ Brief ──▶ Storyline ──▶ Style discovery ──▶ Build ──▶ QA gate ──▶ Deliver
+  1 round    you approve    3 themes, your      single    must pass,    PDF · PNG ·
+  of Qs      the outline    own slides          HTML      contact sheet  live link
+```
+
+1. **Brief.** One round of questions: purpose, audience, speaker-led or
+   reading deck, length, assets.
+2. **Storyline.** An outline table: layout, assertion headline and content
+   for every slide, paced for the talk's length.
+3. **Style discovery.** Claude writes your title slide and two key content
+   slides once, and `preview.mjs` renders them in three contrasting themes side
+   by side. You can also ask for a custom theme designed for your brand.
+4. **Build.** Claude writes only slide *content* using layout classes;
+   `build.mjs` inlines the engine, theme and fonts into one HTML file.
+5. **QA gate.** `qa.mjs` renders every slide and must pass with zero errors.
+   Claude then reviews the contact sheet like a designer.
+6. **Deliver.** It opens the deck and offers PDF, PNG or a live link.
+
+Prompts that work well:
+
+```text
+Make a 10-minute thesis defense deck from my abstract and results in ./thesis.md
+Turn lecture-04.pptx into a Chalk-themed deck and keep my speaker notes
+Pitch deck for our hackathon project — dark, techy, 8 slides, end with the demo link
+Case competition deck from this analysis, consulting style, numbered exhibits
+Explain the French Revolution to 10th graders in 15 slides, playful but clear
+```
+
+## Themes
+
+Every theme is complete across all 22 layouts and passes the same QA.
+[**Open the live demos →**](https://ggauravj05.github.io/decklume/#themes)
+
+| Theme | Best for | Preview |
+|---|---|---|
+| **Folio**: editorial serif on warm paper | keynotes, humanities, thesis defenses | <img src="site/assets/themes/folio.jpg" width="420" alt="Folio theme"> |
+| **Nocturne**: dark cinematic | conference keynotes, storytelling | <img src="site/assets/themes/nocturne.jpg" width="420" alt="Nocturne theme"> |
+| **Grid**: Swiss International Style | business reviews, design talks, pitches | <img src="site/assets/themes/grid.jpg" width="420" alt="Grid theme"> |
+| **Campus**: academic, reading-first | lectures, seminars, study guides | <img src="site/assets/themes/campus.jpg" width="420" alt="Campus theme"> |
+| **Atlas**: consulting, numbered exhibits | case competitions, strategy, finance | <img src="site/assets/themes/atlas.jpg" width="420" alt="Atlas theme"> |
+| **Aurora**: product-launch glow | launches, demo days, AI announcements | <img src="site/assets/themes/aurora.jpg" width="420" alt="Aurora theme"> |
+| **Volt**: brutalist terminal | dev talks, hackathons, open source | <img src="site/assets/themes/volt.jpg" width="420" alt="Volt theme"> |
+| **Ma**: Japanese minimal | design, architecture, philosophy | <img src="site/assets/themes/ma.jpg" width="420" alt="Ma theme"> |
+| **Bloom**: warm and playful | workshops, school and club talks | <img src="site/assets/themes/bloom.jpg" width="420" alt="Bloom theme"> |
+| **Chalk**: classroom blackboard | lessons, tutoring, maths and science | <img src="site/assets/themes/chalk.jpg" width="420" alt="Chalk theme"> |
+
+Need something else? Claude can design a **custom theme** for your brand or
+subject. See [`references/custom-themes.md`](skills/decklume/references/custom-themes.md).
+
+## Layouts
+
+Slides are written as semantic HTML with one layout class each. The engine does
+the rest:
+
+```html
+<section class="slide l-kpi">
+  <p class="eyebrow">Short on sleep</p>
+  <p class="big-number num" data-morph="stat">1 in 3</p>
+  <p class="lead">US adults regularly sleep less than the recommended seven hours.</p>
+  <p class="source">Source: US Centers for Disease Control and Prevention.</p>
+</section>
+```
+
+`l-title` · `l-section` · `l-statement` · `l-quote` · `l-list` · `l-cards` ·
+`l-split` · `l-bleed` · `l-compare` · `l-timeline` · `l-steps` · `l-kpi` ·
+`l-stats` · `l-chart` · `l-table` · `l-code` · `l-diagram` · `l-people` ·
+`l-agenda` · `l-define` · `l-gallery` · `l-closing` · `l-free`
+
+Each layout's markup and content limits are in
+[`references/layouts.md`](skills/decklume/references/layouts.md).
+
+## Presenting
+
+| Key | Action |
+|---|---|
+| `→` `Space` / `←` | Next step or slide / back |
+| `O` | Overview grid (click to jump) |
+| `P` | Presenter window: notes, timer, next slide |
+| `12` `Enter` | Jump to slide 12 |
+| `F` · `B` | Fullscreen · blackout |
+| `E` then `⌘/Ctrl+S` | Edit text in the browser, save the file |
+| `G` | Show the 12-column grid overlay |
+| `?` | All shortcuts |
+
+Swipe works on phones and tablets, and the slide always stays 16:9.
+
+## Command-line tools
+
+Everything Claude runs, you can run too. Node 18+, no install step.
+
+```bash
+S=skills/decklume/scripts
+
+node $S/build.mjs talk.deck.html                 # → talk.html (one self-contained file)
+node $S/build.mjs talk.deck.html --theme grid --inline-assets --watch
+node $S/build.mjs --list-themes
+
+node $S/preview.mjs sample.deck.html --themes folio,nocturne,grid --png
+node $S/qa.mjs talk.html                          # design QA + contact sheet
+node $S/export.mjs talk.html                      # vector PDF
+node $S/export.mjs talk.html --png --scale 2      # retina PNG per slide
+python3 $S/extract-pptx.py old.pptx out/          # PowerPoint → JSON + assets
+bash $S/deploy.sh talk.html                       # live link on Vercel
+```
+
+## Decklume vs. frontend-slides
+
+Decklume began as a study of the excellent
+[frontend-slides](https://github.com/zarazhangrui/frontend-slides) by Zara Zhang
+and adapts parts of it under the MIT license. The aim was to go further on
+consistency and verification:
+
+| | frontend-slides | Decklume |
+|---|---|---|
+| How design is controlled | Prose guidance + style recipes the model translates by hand | Design tokens, 22 tested layouts, themes as code |
+| Style previews | 3 separate title-slide files | One comparison page with your title **and content** slides |
+| Story | Asks for content | Approves an assertion-headline outline first |
+| Themes | 12 presets + 34 bold recipes (title slide previewed) | 10 complete themes, every layout designed and tested |
+| Motion | Entrance animations | Entrances + **Magic Move** + step builds, per-theme timing |
+| Charts | — | Built-in SVG charts |
+| Verification | Screenshot advice | Automated QA gate + contact sheet, CI-tested |
+| Presenter mode | Notes via host | Presenter window with notes, timer and next slide |
+| PDF | Screenshot images (~20 MB for 18 slides) | Vector with selectable text (~0.8 MB for 25 slides) |
+| PowerPoint import | Text, images, notes | + bullet levels, tables, groups, native chart data |
+
+## FAQ
+
+**How do I make a presentation with Claude?**
+Install Decklume (above) and ask: *"Make a presentation about…"*. Claude
+handles the outline, style, build and QA.
+
+**Is it free?** Yes, MIT-licensed and open source. You need Claude Code.
+
+**Can it convert my PowerPoint?** Yes. Give it a `.pptx`. Text, bullet levels,
+tables, images, notes and native charts come through, redesigned.
+
+**Does it work offline?** The deck is a single HTML file. Fonts load from Google
+Fonts the first time; after that the browser caches them. Use
+`--inline-assets` to bake images into the file.
+
+**Can I edit the slides myself?** Press `E` in the browser to edit text, or edit
+the `.deck.html` source (plain HTML) and rebuild.
+
+**Will it make things up?** The skill forbids inventing statistics, quotes or
+sources. Numbers come from your material or well-established facts, and QA
+flags placeholder text.
+
+**PowerPoint or Google Slides output?** Decklume's native format is HTML (it's
+what makes Magic Move and the presenter view possible). Export to PDF for any
+platform that needs a file.
+
+## Contributing
+
+Contributions are very welcome, especially **new themes**, layouts and example
+decks. Read [CONTRIBUTING.md](CONTRIBUTING.md). Every theme must pass `npm test`
+and the QA gate on the showcase deck.
+
+```bash
+npm test                 # build + browser runtime tests
+npm run build:examples   # rebuild examples
+npm run build:site       # rebuild live demos and gallery images
+```
+
+## Credits
+
+- [frontend-slides](https://github.com/zarazhangrui/frontend-slides) by Zara Zhang
+  (MIT): the fixed-stage idea, PowerPoint extraction and deploy flow that
+  Decklume builds on.
+- Typefaces from [Google Fonts](https://fonts.google.com) under the SIL Open Font License.
+
+If Decklume helped you present something, **a ⭐ helps other students find it.**
+
+<sub>MIT © 2026 GgauravJ05 and contributors</sub>
