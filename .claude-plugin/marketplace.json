@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "decklume",
+  "description": "Decklume — designer-grade HTML presentations for Claude Code.",
+  "owner": {
+    "name": "GgauravJ05",
+    "url": "https://github.com/GgauravJ05"
+  },
+  "plugins": [
+    {
+      "name": "decklume",
+      "description": "Turn a topic, notes or a PowerPoint into a stunning animated HTML deck: storyline first, side-by-side style previews, Magic Move, presenter view, vector PDF and automated design QA.",
+      "source": "./",
+      "category": "productivity",
+      "tags": ["presentations", "slides", "html", "design", "powerpoint", "students", "teaching", "pitch-deck"]
+    }
+  ]
+}

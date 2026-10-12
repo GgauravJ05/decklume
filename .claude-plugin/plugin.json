@@ -1,0 +1,14 @@
+{
+  "name": "decklume",
+  "version": "0.1.0",
+  "description": "Beautiful, animated HTML presentations from a topic, notes or PowerPoint — storyline first, side-by-side style previews, Magic-Move transitions, presenter view, vector PDF export and an automated design QA gate.",
+  "author": {
+    "name": "GgauravJ05",
+    "url": "https://github.com/GgauravJ05"
+  },
+  "homepage": "https://ggauravj05.github.io/decklume/",
+  "repository": "https://github.com/GgauravJ05/decklume",
+  "license": "MIT",
+  "keywords": ["presentations", "slides", "html-slides", "pitch-deck", "lecture", "powerpoint", "pptx", "keynote", "students", "design"],
+  "skills": "./skills/"
+}
