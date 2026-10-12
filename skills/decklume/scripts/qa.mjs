@@ -15,7 +15,7 @@
    ===================================================================== */
 import { mkdirSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { dirname, basename, resolve, join, relative } from "node:path";
-import { launch, serve, freeze, waitForFonts } from "./lib/browser.mjs";
+import { launch, serve, freeze, waitForFonts, open } from "./lib/browser.mjs";
 
 const args = process.argv.slice(2);
 const opt = (name, dflt) => {
@@ -155,7 +155,9 @@ function inspectSlide({ index, minBody, minChrome }) {
       const cs = getComputedStyle(el);
       const bg = bgOf(el);
       if (!bg) return;
-      let fg = toRgb(cs.color);
+      // Outlined text (transparent fill + stroke) is judged by its stroke.
+      const stroke = parseFloat(cs.webkitTextStrokeWidth) || 0;
+      let fg = toRgb(stroke > 0 && /rgba\(.*,\s*0\)$|transparent/.test(cs.color) ? cs.webkitTextStrokeColor : cs.color);
       if (!fg) return;
       const op = Number(cs.opacity);
       fg = blend({ ...fg, a: fg.a * op }, bg);
@@ -235,7 +237,7 @@ try {
   const consoleErrors = [];
   page.on("pageerror", (e) => consoleErrors.push(e.message));
   page.on("console", (m) => m.type() === "error" && consoleErrors.push(m.text()));
-  await page.goto(server.url(basename(deck)), { waitUntil: "networkidle" });
+  await open(page, server.url(basename(deck)));
   await waitForFonts(page);
   await freeze(page);
 
@@ -260,7 +262,7 @@ try {
 
   // Phone check: the stage must stay 16:9 (scaled, never reflowed).
   const phone = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
-  await phone.goto(server.url(basename(deck)), { waitUntil: "networkidle" });
+  await open(phone, server.url(basename(deck)));
   const ratio = await phone.evaluate(() => {
     const r = document.querySelector(".deck-stage").getBoundingClientRect();
     return r.width / r.height;

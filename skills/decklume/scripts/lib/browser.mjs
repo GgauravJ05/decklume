@@ -92,8 +92,17 @@ export async function freeze(page) {
   await page.evaluate(() => document.documentElement.classList.add("dl-static"));
 }
 
-export async function waitForFonts(page) {
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-  });
+/** Wait for web fonts, but never forever: a stalled font request must
+ *  surface as a QA font error, not a hung process. */
+export async function waitForFonts(page, timeoutMs = 15000) {
+  await page.evaluate(
+    (ms) => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, ms))]),
+    timeoutMs
+  );
+}
+
+/** Navigate and settle: load event, then a bounded wait for network idle. */
+export async function open(page, url) {
+  await page.goto(url, { waitUntil: "load", timeout: 60000 });
+  await page.waitForLoadState("networkidle", { timeout: 15000 }).catch(() => {});
 }
