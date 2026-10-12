@@ -1,0 +1,166 @@
+/* =====================================================================
+   THEME · GRID
+   Swiss International Style. Archivo at heavy weights and semi-expanded
+   width, flush-left rag-right, hairlines on the grid, one cobalt signal.
+   ===================================================================== */
+:root {
+  --c-stage: #0e0e0e;
+  --c-bg: #f5f4f0;
+  --c-surface: #e8e6e0;
+  --c-ink: #0e0e0e;
+  --c-ink-2: #3a3a3a;
+  --c-ink-3: #5e5e5e;
+  --c-line: rgba(14, 14, 14, 0.2);
+  --c-accent: #1e3bd8;
+  --c-accent-ink: #ffffff;
+  --c-accent-2: #0e0e0e;
+  --c-bar: #c4c2bb;
+  --c-chart-1: #0e0e0e;
+  --c-chart-2: #1e3bd8;
+  --c-chart-3: #8a8880;
+  --c-chart-4: #c4c2bb;
+
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --fw-display: 760;
+  --fw-heading: 700;
+  --fw-body: 400;
+  --fw-strong: 650;
+  --lh-display: 0.88;
+  --lh-heading: 1;
+  --tr-display: -0.045em;
+  --tr-heading: -0.03em;
+  --tr-caps: 0.06em;
+  --caps-transform: none;
+  --em-style: normal;
+  --em-color: var(--c-accent);
+
+  --fs-h2: 88px;
+  --fs-h1: 132px;
+  --fs-display: 200px;
+  --fs-mega: 340px;
+
+  --m-x: 96px;
+  --m-top: 96px;
+  --m-bottom: 112px;
+  --radius: 0;
+  --radius-lg: 0;
+  --rule: 3px;
+
+  --dur-2: 220ms;
+  --dur-3: 460ms;
+  --stagger: 45ms;
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --enter-from: translateY(12px);
+  --vt-duration: 420ms;
+}
+
+.slide :where(h1, h2, h3, .display, .statement, .term, .big-number, .value, .kicker) {
+  font-stretch: 112%;
+}
+
+/* Eyebrows are small bold labels, not tracked caps. */
+.slide .eyebrow,
+.slide .kicker {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  color: var(--c-ink);
+}
+
+.slide .eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 12px;
+  background: var(--c-accent);
+  vertical-align: -1px;
+}
+
+/* Every content slide carries a top hairline across the full grid. */
+.slide:not(.l-bleed, .l-split, .l-section)::before {
+  content: "";
+  position: absolute;
+  left: var(--m-x);
+  right: var(--m-x);
+  top: calc(var(--m-top) - 32px);
+  height: 1px;
+  background: var(--c-ink);
+}
+
+.l-title > :is(h1, .display) {
+  font-size: 220px;
+  max-width: 12ch;
+}
+
+.l-title > .byline {
+  border-top-width: 1px;
+  border-top-color: var(--c-ink);
+  font-family: var(--f-mono);
+}
+
+/* Section slides flip to full cobalt. */
+.slide.l-section {
+  --c-bg: #1e3bd8; /* literal: --c-accent is redefined below */
+  --c-ink: #ffffff;
+  --c-ink-2: rgba(255, 255, 255, 0.86);
+  --c-accent: #ffffff;
+  --em-color: #c7d0ff;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+
+.l-section > .kicker {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: var(--fs-mega);
+  letter-spacing: -0.06em;
+}
+
+.slide .card {
+  --card-bg: transparent;
+  --card-pad: var(--sp-4) 0 0;
+  border-top: var(--rule) solid var(--c-ink);
+  border-radius: 0;
+}
+
+.slide .card > h3 { font-weight: 700; }
+
+.slide .card.is-highlight {
+  --card-pad: var(--sp-4);
+  background: var(--c-accent);
+}
+
+.l-statement .statement {
+  font-size: 150px;
+  line-height: 0.92;
+  max-width: 14ch;
+}
+
+.l-quote blockquote::before {
+  font-family: var(--f-display);
+  font-weight: 800;
+  color: var(--c-accent);
+}
+
+.l-quote blockquote > p {
+  font-weight: 650;
+  font-size: 80px;
+  line-height: 1.02;
+}
+
+.l-steps .steps > li { border-top-width: var(--rule); }
+.l-steps .steps > li::before { font-weight: 800; color: var(--c-ink); }
+.l-steps .steps > li:last-child::before { color: var(--c-accent); }
+
+.slide .flow > .node {
+  border-radius: 0;
+  border-width: var(--rule);
+}
+
+.slide pre.code { border-radius: 0; --c-code-bg: #0e0e0e; }
+
+.l-agenda .agenda > li { font-weight: 650; font-stretch: 112%; letter-spacing: -0.02em; }

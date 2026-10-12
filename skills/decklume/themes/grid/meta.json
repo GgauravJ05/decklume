@@ -1,0 +1,14 @@
+{
+  "name": "Grid",
+  "tagline": "Swiss International Style — bold grotesk, strict grid, one cobalt signal.",
+  "mood": ["precise", "modern", "rational", "bold"],
+  "formality": "high",
+  "density": "medium",
+  "scheme": "light",
+  "motion": "crisp",
+  "best_for": ["business reviews", "design and architecture talks", "startup pitches", "engineering strategy"],
+  "avoid_for": ["emotional storytelling", "children's lessons"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap",
+  "font_families": ["Archivo", "IBM Plex Mono"],
+  "colors": { "bg": "#F5F4F0", "ink": "#0E0E0E", "accent": "#1E3BD8" }
+}
