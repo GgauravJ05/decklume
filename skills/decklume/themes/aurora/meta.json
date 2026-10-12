@@ -1,0 +1,14 @@
+{
+  "name": "Aurora",
+  "tagline": "Product-launch glow — wide display type, glass panels and northern-light gradients.",
+  "mood": ["futuristic", "premium", "energetic", "optimistic"],
+  "formality": "medium",
+  "density": "low",
+  "scheme": "dark",
+  "motion": "cinematic",
+  "best_for": ["product launches", "startup demo days", "AI and tech announcements", "feature reveals"],
+  "avoid_for": ["printed handouts", "academic seminars"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300..800&family=Onest:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap",
+  "font_families": ["Unbounded", "Onest", "JetBrains Mono"],
+  "colors": { "bg": "#07131A", "ink": "#EAF6F4", "accent": "#5EF0C4" }
+}

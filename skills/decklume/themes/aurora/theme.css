@@ -1,0 +1,109 @@
+/* =====================================================================
+   THEME · AURORA
+   Deep teal-black field with drifting northern-light gradients (teal,
+   green, sky — never purple). Unbounded display, Onest body, frosted
+   glass panels and a mint signal.
+   ===================================================================== */
+:root {
+  --c-stage: #020709;
+  --c-bg: #07131a;
+  --c-surface: rgba(234, 246, 244, 0.06);
+  --c-ink: #eaf6f4;
+  --c-ink-2: #a9c3c2;
+  --c-ink-3: #7e9a9b;
+  --c-line: rgba(234, 246, 244, 0.14);
+  --c-accent: #5ef0c4;
+  --c-accent-ink: #04130f;
+  --c-accent-2: #6fb7ff;
+  --c-bar: #23414a;
+  --c-chart-1: #7e9a9b;
+  --c-chart-2: #5ef0c4;
+  --c-chart-3: #6fb7ff;
+  --c-chart-4: #23414a;
+  --c-code-bg: #030b0f;
+
+  --f-display: "Unbounded", "Arial Black", sans-serif;
+  --f-body: "Onest", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --fw-display: 600;
+  --fw-heading: 500;
+  --fw-body: 400;
+  --fw-strong: 600;
+  --lh-display: 0.98;
+  --lh-heading: 1.08;
+  --tr-display: -0.04em;
+  --tr-heading: -0.03em;
+  --tr-caps: 0.2em;
+  --em-style: normal;
+
+  --fs-h2: 76px;
+  --fs-h1: 112px;
+  --fs-display: 156px;
+  --fs-mega: 260px;
+
+  --radius: 12px;
+  --radius-lg: 24px;
+  --rule: 1px;
+
+  --dur-3: 900ms;
+  --stagger: 90ms;
+  --enter-from: translateY(24px);
+  --vt-duration: 760ms;
+}
+
+/* Northern lights: three soft blooms behind every slide. */
+.slide:not(.l-bleed) {
+  background:
+    radial-gradient(900px 520px at 85% -10%, rgba(94, 240, 196, 0.22), transparent 70%),
+    radial-gradient(800px 600px at 105% 70%, rgba(111, 183, 255, 0.16), transparent 70%),
+    radial-gradient(700px 500px at -10% 110%, rgba(46, 160, 120, 0.18), transparent 70%),
+    var(--c-bg);
+}
+
+@keyframes aurora-drift {
+  from { background-position: 0 0, 0 0, 0 0, 0 0; }
+  to { background-position: -60px 30px, 40px -30px, 30px -20px, 0 0; }
+}
+
+.slide.is-active:not(.l-bleed) {
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+.slide .eyebrow { font-weight: 500; }
+
+.l-title > :is(h1, .display) { font-size: 148px; max-width: 12ch; }
+.l-title > .byline { border-top-color: var(--c-line); }
+
+.l-section > .kicker {
+  font-family: var(--f-display);
+  font-weight: 300;
+  font-size: 240px;
+}
+
+/* Frosted glass panels. */
+.slide .card,
+.slide .flow > .node,
+.slide pre.code {
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.slide .card.is-highlight {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+}
+
+.slide .flow > .node.is-highlight { background: var(--c-accent); border-color: var(--c-accent); }
+
+.l-statement .statement { font-size: 112px; line-height: 1.02; }
+.l-quote blockquote > p { font-family: var(--f-display); font-weight: 400; font-size: 64px; line-height: 1.14; }
+
+.l-stats .stat .value,
+.l-kpi .big-number { font-weight: 300; }
+
+@media print {
+  .slide.is-active { animation: none; }
+}
