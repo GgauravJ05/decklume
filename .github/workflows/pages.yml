@@ -22,6 +22,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Pages needs a public repo on the free plan; skip quietly until launch.
+    if: ${{ !github.event.repository.private }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
