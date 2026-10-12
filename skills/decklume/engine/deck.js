@@ -33,7 +33,9 @@
       this.overview = false;
       this.editing = false;
       this.presenterWin = null;
-      this.channel = "BroadcastChannel" in window ? new BroadcastChannel("decklume:" + location.pathname) : null;
+      // Embedded copies (presenter previews, style previews) are driven only
+      // by their parent window, never by the shared channel.
+      this.channel = MODE !== "embed" && "BroadcastChannel" in window ? new BroadcastChannel("decklume:" + location.pathname) : null;
 
       this.prepareSlides();
       this.scale = this.scale.bind(this);
@@ -413,7 +415,7 @@
     }
 
     broadcast() {
-      if (this._fromRemote) return;
+      if (this._fromRemote || MODE === "embed") return;
       const msg = this.state();
       try { this.presenterWin && !this.presenterWin.closed && this.presenterWin.postMessage(msg, "*"); } catch {}
       try { MODE === "presenter" && window.opener && window.opener.postMessage(msg, "*"); } catch {}
