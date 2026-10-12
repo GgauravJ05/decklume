@@ -1,0 +1,410 @@
+/* =====================================================================
+   DECKLUME · STAGE
+   Fixed 1920×1080 canvas, scaled as one unit to the window.
+   Stage geometry adapted from frontend-slides/viewport-base.css
+   (MIT © 2025 Zara Zhang). Overview, chrome, print and motion are Decklume.
+   ===================================================================== */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--c-stage, #000);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* --- Viewport + stage ------------------------------------------------ */
+.deck-viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--c-stage, #000);
+}
+
+.deck-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: var(--c-bg);
+  counter-reset: slide;
+}
+
+/* --- Slides ----------------------------------------------------------
+   Visibility (not display) switches slides, so layout classes that set
+   display: grid/flex can never make every slide visible at once. */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  counter-increment: slide;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  transition: opacity var(--dur-2) var(--ease-out), visibility 0s linear var(--dur-2);
+}
+
+.slide.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+  transition: opacity var(--dur-2) var(--ease-out), visibility 0s;
+}
+
+/* During a View Transition the browser animates snapshots, so the live
+   DOM must switch instantly. */
+.dl-vt .slide {
+  transition: none !important;
+}
+
+.slide img,
+.slide video,
+.slide canvas {
+  max-width: 100%;
+}
+
+/* Speaker notes never render on the stage. */
+.slide .notes {
+  display: none !important;
+}
+
+/* --- Builds (step-by-step reveals) ----------------------------------- */
+.slide .step {
+  opacity: 0;
+  transform: var(--step-from, translateY(16px));
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+
+.slide .step.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+.slide .step.is-dimmed {
+  opacity: 0.35;
+}
+
+/* --- Window chrome (outside the stage) ------------------------------- */
+.dl-progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--dl-progress, 0));
+  background: var(--c-accent);
+  z-index: 50;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+.dl-hud {
+  position: fixed;
+  right: 20px;
+  bottom: 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font: 500 13px/1 ui-sans-serif, system-ui, sans-serif;
+  color: #fff;
+  z-index: 60;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dl-hud.is-visible,
+.dl-hud:hover,
+.dl-hud:focus-within {
+  opacity: 1;
+}
+
+.dl-hud button,
+.dl-hud .dl-count {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 20, 20, 0.72);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dl-hud button:hover {
+  background: rgba(20, 20, 20, 0.92);
+}
+
+.dl-hud button:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.dl-hud .dl-count {
+  cursor: default;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Blackout (B) */
+.dl-blackout::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 40;
+}
+
+/* --- Overview (O) ------------------------------------------------------ */
+.dl-overview .deck-viewport {
+  overflow-y: auto;
+}
+
+.dl-overview .deck-stage {
+  overflow: visible;
+  background: transparent;
+}
+
+.dl-overview .slide {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: none;
+  outline: 6px solid transparent;
+  outline-offset: 10px;
+}
+
+.dl-overview .slide:hover {
+  outline-color: rgba(255, 255, 255, 0.35);
+}
+
+.dl-overview .slide.is-active {
+  outline-color: var(--c-accent);
+}
+
+.dl-overview .slide .step,
+.dl-static .slide .step {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Help overlay (?) ------------------------------------------------- */
+.dl-help {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  font: 15px/1.5 ui-sans-serif, system-ui, sans-serif;
+  color: #f2f2f2;
+}
+
+.dl-help.is-open {
+  display: grid;
+}
+
+.dl-help .dl-help-card {
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 28px 32px;
+  min-width: 360px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.dl-help h2 {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.dl-help dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  margin: 0;
+}
+
+.dl-help dt {
+  font-family: ui-monospace, monospace;
+  color: #bbb;
+}
+
+.dl-help dd {
+  margin: 0;
+}
+
+.dl-help .dl-credit {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #2a2a2a;
+  font-size: 13px;
+  color: #999;
+}
+
+.dl-help .dl-credit a {
+  color: #fff;
+}
+
+/* --- Grid overlay (G): 12 columns + 8px baseline ----------------------- */
+.dl-grid-on .slide.is-active::before {
+  content: "";
+  position: absolute;
+  inset: var(--m-top) var(--m-x) var(--m-bottom);
+  z-index: 999;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(255, 0, 80, 0.12) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(
+      to right,
+      rgba(0, 160, 255, 0.1) 0 calc((100% - 11 * var(--gutter)) / 12),
+      transparent calc((100% - 11 * var(--gutter)) / 12) calc((100% - 11 * var(--gutter)) / 12 + var(--gutter))
+    );
+}
+
+/* --- Edit mode (E) --------------------------------------------------- */
+.dl-editing .slide [contenteditable="true"] {
+  outline: 1px dashed color-mix(in srgb, var(--c-accent) 70%, transparent);
+  outline-offset: 6px;
+  cursor: text;
+}
+
+.dl-editing .slide [contenteditable="true"]:focus {
+  outline-style: solid;
+}
+
+.dl-toast {
+  position: fixed;
+  left: 50%;
+  top: 18px;
+  transform: translate(-50%, -12px);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.9);
+  color: #fff;
+  font: 500 13px/1 ui-sans-serif, system-ui, sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 110;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.dl-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* --- Embedded (presenter previews) ------------------------------------ */
+.dl-embed .dl-hud,
+.dl-embed .dl-progress {
+  display: none;
+}
+
+/* --- Print: one 1920×1080 page per slide, final build state ---------- */
+@page {
+  size: 1920px 1080px;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: 1920px;
+    height: auto;
+    overflow: visible;
+    background: none;
+  }
+
+  .deck-viewport {
+    position: static;
+    overflow: visible;
+  }
+
+  .deck-stage {
+    position: static;
+    width: 1920px;
+    height: auto;
+    transform: none !important;
+    overflow: visible;
+  }
+
+  .slide {
+    position: relative;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transition: none !important;
+    break-after: page;
+    page-break-after: always;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .slide:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .slide *,
+  .slide *::before,
+  .slide *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .slide .step {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .dl-hud,
+  .dl-progress,
+  .dl-help,
+  .dl-toast {
+    display: none !important;
+  }
+}
+
+/* --- Reduced motion: keep fades, drop movement ------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .slide *,
+  .slide *::before,
+  .slide *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .slide .step,
+  .slide .reveal {
+    transform: none !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.2s !important;
+  }
+}
