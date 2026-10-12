@@ -108,6 +108,7 @@
         this.index = n;
         this.setSteps(steps === Infinity ? to._steps.length : steps, { silent: true });
         if (changed) this.playEntrance(to);
+        this.afterChange();
       };
 
       const morphs = from !== to ? this.matchMorphs(from, to) : [];
@@ -129,8 +130,6 @@
       } else {
         swap();
       }
-
-      this.afterChange();
     }
 
     setSteps(count, { silent = false } = {}) {
@@ -454,6 +453,11 @@
         });
       });
       this.toast(this.editing ? "Editing · ⌘/Ctrl+S to save · Esc to finish" : "Editing off");
+    }
+
+    /** Clean HTML source of the deck, without runtime state. */
+    serialize() {
+      return serialize();
     }
 
     async save() {
