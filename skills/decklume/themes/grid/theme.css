@@ -164,3 +164,6 @@
 .slide pre.code { border-radius: 0; --c-code-bg: #0e0e0e; }
 
 .l-agenda .agenda > li { font-weight: 650; font-stretch: 112%; letter-spacing: -0.02em; }
+
+/* Title eyebrows are flex rows; pull the square back next to its label. */
+.l-title > .eyebrow::before { margin-right: calc(12px - var(--sp-6)); align-self: center; }
