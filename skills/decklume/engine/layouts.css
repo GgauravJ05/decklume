@@ -148,17 +148,19 @@
   grid-auto-columns: 1fr;
   gap: var(--gutter);
   align-items: stretch;
+  align-self: end;
 }
 
 .slide .card {
   display: grid;
   align-content: start;
   gap: var(--sp-3);
+  min-height: 320px;
   padding: var(--card-pad, var(--sp-5));
   background: var(--card-bg, var(--c-surface));
   border: var(--card-border, 0);
   border-radius: var(--radius-lg);
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   line-height: 1.45;
   color: var(--c-ink-2);
 }
@@ -377,7 +379,7 @@
   grid-auto-columns: 1fr;
   gap: var(--gutter);
   counter-reset: step;
-  align-self: start;
+  align-self: end;
 }
 
 .l-steps .steps > li {
@@ -387,7 +389,8 @@
   gap: var(--sp-3);
   padding-top: var(--sp-4);
   border-top: var(--rule) solid var(--c-ink);
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
+  line-height: 1.4;
   color: var(--c-ink-2);
 }
 
@@ -448,6 +451,7 @@
 
 .l-stats .stat {
   display: grid;
+  align-content: start;
   gap: var(--sp-2);
   padding-top: var(--sp-4);
   border-top: var(--rule) solid var(--c-line);
@@ -799,7 +803,7 @@
   display: block;
   color: var(--c-ink-3);
   font-weight: var(--fw-body);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-small);
   letter-spacing: var(--tr-caps);
   text-transform: var(--caps-transform);
 }

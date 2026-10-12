@@ -56,6 +56,10 @@
 .slide p,
 .slide li {
   text-wrap: pretty;
+}
+
+/* Line length applies to running text only, never to labels or rules. */
+.slide :is(p:not([class]), .lead, .muted) {
   max-width: var(--measure);
 }
 
