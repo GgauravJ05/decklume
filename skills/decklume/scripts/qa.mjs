@@ -81,11 +81,16 @@ function inspectSlide({ index, minBody, minChrome }) {
       add("error", "clipped", `text is clipped inside <${el.tagName.toLowerCase()}>`, el);
     }
   });
-  // Text below the safe area collides with the folio.
-  const marginBottom = parseFloat(getComputedStyle(slide).paddingBottom) || 0;
-  if (!slide.matches(".l-bleed, .l-split, .l-title, .l-section, .l-statement, .l-closing, .no-folio")) {
+  // Text must stay clear of the folio (deck name + page number), which is
+  // drawn by ::after in the bottom margin. Measure where it actually sits.
+  const folio = getComputedStyle(slide, "::after");
+  if (folio.content && folio.content !== "none" && folio.display !== "none") {
+    const fs = parseFloat(folio.fontSize) || 20;
+    const lh = parseFloat(folio.lineHeight) || fs * 1.3;
+    const folioTop = 1080 - (parseFloat(folio.bottom) || 0) - lh;
     textEls.forEach((el) => {
-      if (rect(el).b > 1080 - marginBottom / 2 + 4) add("error", "safe-area", `text runs into the bottom margin/folio`, el);
+      if (el.closest(".l-bleed, .media")) return;
+      if (rect(el).b > folioTop - 6) add("error", "safe-area", "text runs into the folio (deck name and page number)", el);
     });
   }
 
