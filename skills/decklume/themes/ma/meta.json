@@ -1,0 +1,14 @@
+{
+  "name": "Ma",
+  "tagline": "Japanese minimalism — stillness, generous space and a single indigo note.",
+  "mood": ["calm", "minimal", "refined", "contemplative"],
+  "formality": "medium",
+  "density": "low",
+  "scheme": "light",
+  "motion": "calm",
+  "best_for": ["design and architecture talks", "philosophy and humanities", "mindful or wellbeing topics", "portfolio reviews"],
+  "avoid_for": ["dense data reviews", "high-energy launches"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400&display=swap",
+  "font_families": ["Shippori Mincho", "Zen Kaku Gothic New", "IBM Plex Mono"],
+  "colors": { "bg": "#EEEBE4", "ink": "#262522", "accent": "#2B4A73" }
+}
