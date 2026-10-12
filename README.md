@@ -13,7 +13,7 @@ Story-first outlines · your slides in three styles side by side · 10 designer 
 
 [**Live demos**](https://ggauravj05.github.io/decklume/) · [Install](#install) · [Themes](#themes) · [How it works](#how-it-works) · [FAQ](#faq)
 
-<img src="site/assets/hero.jpg" alt="The same lecture title slide rendered in ten Decklume themes" width="100%">
+<img src="docs/media/decklume-demo.gif" alt="A Decklume engineering talk playing: a typed title, push and wipe transitions, a TCP handshake diagram drawing itself, highlight builds and a code walkthrough" width="100%">
 
 </div>
 
@@ -38,6 +38,8 @@ and conference talks.
 ## Contents
 
 - [What you get](#what-you-get)
+- [Example decks](#example-decks)
+- [Animations and transitions](#animations-and-transitions)
 - [Install](#install)
 - [How it works](#how-it-works)
 - [Themes](#themes)
@@ -56,13 +58,53 @@ and conference talks.
 | 👀 **Show, don't ask** | Your own title and content slides, rendered in three themes on **one comparison page**. Pick A, B, C, or mix them. |
 | 🎨 **10 designer themes** | Editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful and chalkboard. Each is complete across every layout. |
 | 🧱 **22 tested layouts** | Title, section, statement, quote, cards, split, full-bleed, compare, timeline, steps, KPI, stats, chart, table, code, diagram, people, agenda, definition, gallery, closing and free-form. |
-| ✨ **Magic Move** | Elements glide between slides (Keynote-style) using the View Transitions API, plus step-by-step builds and staggered entrances tuned per theme. |
+| ✨ **Magic Move** | Elements glide between slides (Keynote-style) using the View Transitions API. Pair them by hand, or let auto Magic Move match titles, numbers and images. |
+| 🎬 **Animation library** | 10 slide transitions, 13 entrance effects (typewriter, count-up, SVG draw…), step builds with highlight sweeps, and line-by-line code walkthroughs. |
 | 📊 **Charts without libraries** | Bar, horizontal bar, line and donut charts from data attributes, coloured by the theme, highlighting the point your headline makes. |
 | ✅ **Automated design QA** | Overflow, clipped text, overlap, type size, WCAG contrast, font loading, leaked placeholder text, broken images, 16:9 on phones, AI-slop patterns, plus a contact sheet of every slide. |
 | 🎤 **Presenter view** | Notes, timer, clock and next slide in a second window, synced live. Also overview grid, jump-to-slide, blackout and fullscreen. |
 | ✏️ **Edit in the browser** | Press `E`, click any text, `⌘/Ctrl+S` saves a clean HTML file. |
 | 📄 **Share anywhere** | A single self-contained HTML file, a **vector PDF with selectable text** (a 25-slide deck is about 0.8 MB), PNG per slide, or a live link. |
 | 🔁 **PowerPoint import** | Reads `.pptx`, including bullet levels, tables, images in groups, speaker notes and **native chart data**. |
+
+## Example decks
+
+Four complete decks, each made for a different room. Open one and use the arrow keys; press `P` for the presenter view.
+
+| Deck | For | Theme | What it shows |
+|---|---|---|---|
+| [How Sleep Shapes Memory](https://ggauravj05.github.io/decklume/examples/sleep-and-memory.html) | Students and teachers | Folio | All 22 layouts, builds, Magic Move, speaker notes |
+| [From URL to Pixels](https://ggauravj05.github.io/decklume/examples/url-to-pixels.html) | Engineers | Volt | Push/wipe/flip/iris transitions, a self-drawing diagram, code walkthroughs |
+| [Does Retrieval Practice Beat Rereading?](https://ggauravj05.github.io/decklume/examples/retrieval-practice-defense.html) | Researchers | Campus | A thesis defense with a MathML formula, count-up and highlight builds (fictional study, labelled) |
+| [Orbit Notes: Seed Pitch](https://ggauravj05.github.io/decklume/examples/orbit-notes-pitch.html) | Founders | Aurora | Auto Magic Move carrying a traction number between slides (fictional company, labelled) |
+
+Sources live in [`examples/`](examples/); every deck passes the design QA gate.
+
+## Animations and transitions
+
+Motion is declared in plain HTML and choreographed by the engine. The full guide is in
+[`references/motion.md`](skills/decklume/references/motion.md).
+
+```html
+---
+transition: push            # deck default: fade, push, rise, cover, zoom, wipe, iris, blur, flip, morph, none
+---
+<section class="slide l-kpi" data-transition="iris">
+  <p class="big-number num" data-anim="count">1,250<span class="unit">ms</span></p>
+</section>
+
+<li class="step" data-anim="highlight">The phrase that matters</li>
+
+<pre class="code" data-lines="1-3|5|7-9"><code>…</code></pre>   <!-- one range per press -->
+```
+
+| | |
+|---|---|
+| **Slide transitions** | fade · push · rise · cover · zoom · wipe · iris · blur · flip · morph · none, reversed automatically when going back |
+| **Entrances** | fade · rise · drop · left · right · scale · pop · blur · wipe · iris · flip · type (typewriter) · count (count-up) · draw (SVG strokes) |
+| **Builds** | any entrance on a `.step`, plus `highlight`; `data-dim` dims earlier points |
+| **Code** | `data-lines` walkthroughs focus one range of lines per press |
+| **Always safe** | reduced motion is respected; PDF, PNG and QA always show the finished slide |
 
 ## Install
 
@@ -130,6 +172,8 @@ Explain the French Revolution to 10th graders in 15 slides, playful but clear
 ```
 
 ## Themes
+
+<img src="site/assets/hero.jpg" alt="The same lecture title slide rendered in ten Decklume themes" width="100%">
 
 Every theme is complete across all 22 layouts and passes the same QA.
 [**Open the live demos →**](https://ggauravj05.github.io/decklume/#themes)
