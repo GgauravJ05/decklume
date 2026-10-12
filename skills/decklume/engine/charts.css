@@ -1,0 +1,67 @@
+/* =====================================================================
+   DECKLUME · CHART STYLES
+   Pairs with charts.js. Colours come from theme tokens; bars grow,
+   lines draw and arcs sweep when the slide enters.
+   ===================================================================== */
+.slide .chart {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--sp-2);
+  min-height: 0;
+  align-items: end;
+}
+
+.slide .chart > svg {
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
+  overflow: visible;
+}
+
+.slide .chart text {
+  font-family: var(--f-body);
+  fill: var(--c-ink-2);
+}
+
+.slide .chart .dl-lab { font-size: 24px; }
+.slide .chart .dl-val { font-size: 26px; font-weight: 600; fill: var(--c-ink); font-variant-numeric: tabular-nums; }
+.slide .chart .is-hl { fill: var(--c-accent); font-weight: 600; }
+.slide .chart .dl-donut-val { font-family: var(--f-display); font-size: 96px; fill: var(--c-ink); }
+.slide .chart .dl-axis { stroke: var(--c-ink); stroke-width: 2; }
+.slide .chart .dl-grid { stroke: var(--c-line); stroke-width: 1; stroke-dasharray: 4 6; }
+.slide .chart .dl-bar { rx: 3; }
+
+.slide .chart .dl-key {
+  display: flex;
+  gap: var(--sp-4);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+}
+
+.slide .chart .dl-key i {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  margin-right: 10px;
+  vertical-align: -2px;
+}
+
+/* --- Entry animation (only while the slide is entering) ----------------- */
+@keyframes dl-grow-y { from { transform: scaleY(0); } }
+@keyframes dl-grow-x { from { transform: scaleX(0); } }
+@keyframes dl-draw { from { stroke-dashoffset: 1; } }
+@keyframes dl-pop { from { opacity: 0; transform: scale(0.4); } }
+@keyframes dl-sweep { from { stroke-dasharray: 0 1; } }
+
+.slide .chart .dl-bar { transform-box: fill-box; transform-origin: 50% 100%; }
+.slide .chart .dl-hbar { transform-origin: 0 50%; }
+.slide .chart .dl-dot { transform-box: fill-box; transform-origin: center; }
+.slide .chart .dl-line { stroke-dasharray: 1; }
+
+.slide.is-entering .chart .dl-bar { animation: dl-grow-y var(--dur-4) var(--ease-out) both; animation-delay: calc(var(--d) + 200ms); }
+.slide.is-entering .chart .dl-hbar { animation-name: dl-grow-x; }
+.slide.is-entering .chart .dl-val { animation: dl-fade var(--dur-2) ease both; animation-delay: calc(var(--d) + 600ms); }
+.slide.is-entering .chart .dl-line { animation: dl-draw 1.3s var(--ease-in-out) both; animation-delay: calc(var(--d) + 200ms); }
+.slide.is-entering .chart .dl-dot { animation: dl-pop var(--dur-2) var(--ease-spring) both; animation-delay: calc(var(--d) + 400ms); }
+.slide.is-entering .chart .dl-arc { animation: dl-sweep var(--dur-4) var(--ease-out) both; animation-delay: calc(var(--d) + 200ms); }
