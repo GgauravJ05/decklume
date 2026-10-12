@@ -129,9 +129,14 @@ export function build(srcPath, opts = {}) {
   const baseDir = dirname(src);
   const { meta, body: rawBody } = parseSource(read(src));
 
-  const themeSlug = opts.theme || meta.theme || "folio";
-  const themeDir = join(THEMES, themeSlug);
-  if (!existsSync(join(themeDir, "theme.css"))) {
+  // A theme is a built-in slug, or a path (./my-theme) to a folder with
+  // theme.css + meta.json — used for one-off custom designs.
+  const themeRef = opts.theme || meta.theme || "folio";
+  const isPath = /[\\/]/.test(themeRef) || themeRef.startsWith(".");
+  const themeDir = isPath ? resolve(baseDir, themeRef) : join(THEMES, themeRef);
+  const themeSlug = isPath ? basename(themeDir) : themeRef;
+  if (!existsSync(join(themeDir, "theme.css")) || !existsSync(join(themeDir, "meta.json"))) {
+    if (isPath) throw new Error(`Custom theme "${themeRef}" needs theme.css and meta.json in ${themeDir}`);
     const known = listThemes().map((t) => t.slug).join(", ") || "none installed";
     throw new Error(`Unknown theme "${themeSlug}". Available: ${known}`);
   }
