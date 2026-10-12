@@ -16,9 +16,9 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { build, listThemes } from "../skills/decklume/scripts/build.mjs";
-import { SITE, AUDIENCES } from "./site/content.mjs";
+import { SITE, AUDIENCES, EXAMPLES } from "./site/content.mjs";
 import { home } from "./site/home.mjs";
-import { themesIndex, themePage, audiencePage, docsPage, comparePage, notFound } from "./site/pages.mjs";
+import { themesIndex, themePage, audiencePage, docsPage, comparePage, notFound, examplesPage } from "./site/pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "site");
@@ -36,6 +36,8 @@ const write = (rel, html) => {
 // 1. Live demo decks (assets inlined so each is one file).
 for (const t of themes) build(SRC, { theme: t.slug, out: join(OUT, "demos", `${t.slug}.html`), inline: true });
 console.log(`✓ ${themes.length} demo decks`);
+for (const ex of EXAMPLES) build(join(ROOT, "examples", ex.slug, `${ex.slug}.deck.html`), { out: join(OUT, "examples", `${ex.slug}.html`), inline: true });
+console.log(`✓ ${EXAMPLES.length} example decks`);
 
 // 2. Pages.
 const pages = [
@@ -43,6 +45,7 @@ const pages = [
   ["themes/index.html", themesIndex(themes), "themes/"],
   ...themes.map((t) => [`themes/${t.slug}/index.html`, themePage(t, themes), `themes/${t.slug}/`]),
   ...Object.values(AUDIENCES).map((a) => [`for/${a.slug}/index.html`, audiencePage(a, themes), `for/${a.slug}/`]),
+  ["examples/index.html", examplesPage(themes), "examples/"],
   ["docs/index.html", docsPage(), "docs/"],
   ["compare/frontend-slides/index.html", comparePage(), "compare/frontend-slides/"],
   ["404.html", notFound(), null],
@@ -100,6 +103,23 @@ try {
       if ([0, 6, 14].includes(i)) strips[t.slug].push((await page.screenshot({ type: "jpeg", quality: 88 })).toString("base64"));
     }
     console.log(`✓ frames ${t.slug} (${n})`);
+  }
+
+  // Example deck frames for the gallery and audience pages.
+  for (const ex of EXAMPLES) {
+    await open(page, server.url(`examples/${ex.slug}.html`));
+    await waitForFonts(page);
+    await freeze(page);
+    mkdirSync(join(OUT, "assets/examples", ex.slug), { recursive: true });
+    for (const n of ex.frames) {
+      await page.evaluate((i) => window.decklume.go(i, { steps: Infinity, instant: true }), n - 1);
+      await page.waitForTimeout(60);
+      const png = join(tmp, `${ex.slug}-${n}.png`);
+      await page.screenshot({ path: png });
+      const nn = String(n).padStart(2, "0");
+      webp(png, join(OUT, "assets/examples", ex.slug, `${nn}.webp`), 640, `Slide ${nn} of examples/${ex.slug} rendered at 1920x1080 by scripts/build-site.mjs (Playwright), resized with cwebp to 640px.`);
+    }
+    console.log(`✓ example frames ${ex.slug}`);
   }
 
   const img = (b64) => `<img src="data:image/jpeg;base64,${b64}">`;

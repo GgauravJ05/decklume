@@ -48,6 +48,7 @@ export const command = (text, { big = false } = {}) =>
 /* --- Page shell ----------------------------------------------------------- */
 const NAV = [
   ["themes/", "Themes"],
+  ["examples/", "Examples"],
   ["for/students/", "Students"],
   ["for/teachers/", "Teachers"],
   ["for/researchers/", "Researchers"],
@@ -109,7 +110,7 @@ ${body}
       <a class="wordmark" href="${root}">Decklume</a>
       <p>Designer-grade HTML presentations for Claude Code. Free and open source.</p>
     </div>
-    <nav aria-label="Product"><p class="col-h">Product</p><ul><li><a href="${root}themes/">Themes</a></li><li><a href="${root}docs/">Docs</a></li><li><a href="${root}compare/frontend-slides/">Compare</a></li><li><a href="${root}demos/folio.html">Live demo</a></li></ul></nav>
+    <nav aria-label="Product"><p class="col-h">Product</p><ul><li><a href="${root}themes/">Themes</a></li><li><a href="${root}docs/">Docs</a></li><li><a href="${root}examples/">Examples</a></li><li><a href="${root}compare/frontend-slides/">Compare</a></li><li><a href="${root}demos/folio.html">Live demo</a></li></ul></nav>
     <nav aria-label="Use cases"><p class="col-h">Made for</p><ul><li><a href="${root}for/students/">Students</a></li><li><a href="${root}for/teachers/">Teachers</a></li><li><a href="${root}for/researchers/">Researchers</a></li><li><a href="${root}for/founders/">Founders</a></li></ul></nav>
     <nav aria-label="Project"><p class="col-h">Project</p><ul><li><a href="${SITE.repo}">GitHub</a></li><li><a href="${SITE.repo}/blob/main/CHANGELOG.md">Changelog</a></li><li><a href="${SITE.repo}/blob/main/CONTRIBUTING.md">Contribute</a></li><li><a href="${SITE.repo}/blob/main/LICENSE">MIT License</a></li></ul></nav>
   </div>

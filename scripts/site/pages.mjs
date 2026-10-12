@@ -1,5 +1,5 @@
 /* Secondary pages: themes, audiences, docs, comparison, 404. */
-import { SITE, SLIDES, AUDIENCES } from "./content.mjs";
+import { SITE, SLIDES, AUDIENCES, EXAMPLES } from "./content.mjs";
 import { page, esc, icon, frame, frameSrc, command, faqHtml, faqLd, breadcrumbs, softwareLd } from "./layout.mjs";
 
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
@@ -130,6 +130,10 @@ export function audiencePage(a, themes) {
   <div class="band-head"><h2 id="rec-h">Themes to start with</h2></div>
   <div class="strip s4 strip-wide">${rec.map((t) => `<figure class="frame aud"><a class="frame-link" href="${root}themes/${t.slug}/"><img src="${frameSrc(root, t.slug, 1)}" alt="${esc(t.name)} theme title slide" width="640" height="360" loading="lazy" decoding="async"></a><figcaption><a href="${root}themes/${t.slug}/">${esc(t.name)}</a><span>${esc(t.tagline)}</span></figcaption></figure>`).join("")}</div>
 </section>
+${(() => {
+  const ex = EXAMPLES.find((e) => e.audience === a.slug) || EXAMPLES[0];
+  return `<section class="band" aria-labelledby="ex-h"><div class="band-head"><h2 id="ex-h">See a finished example</h2><p>${esc(ex.kind)}: ${esc(ex.summary)}</p></div><div class="strip s3">${ex.frames.map((n) => exampleFrame(root, ex, n)).join("")}</div><p class="ex-cta"><a class="btn btn-primary" href="${root}examples/${ex.slug}.html">${icon("play")}<span>Play “${esc(ex.title)}”</span></a></p></section>`;
+})()}
 ${faqHtml(a.faq)}`,
   });
 }
@@ -271,5 +275,42 @@ export function notFound() {
   <p class="lede">The page you’re looking for doesn’t exist. Try the themes, the docs, or play the demo deck.</p>
   <div class="head-act"><a class="btn btn-primary" href="/decklume/">Back to the contact sheet</a><a class="btn btn-ghost" href="/decklume/themes/">Browse themes</a></div>
 </section>`,
+  });
+}
+
+/* --- Example decks ----------------------------------------------------------- */
+const exampleFrame = (root, ex, n) =>
+  `<figure class="frame"><a class="frame-link" href="${root}examples/${ex.slug}.html#/${n}"><img src="${root}assets/examples/${ex.slug}/${String(n).padStart(2, "0")}.webp" alt="${esc(ex.title)}, slide ${n}" width="640" height="360" loading="lazy" decoding="async"></a><figcaption class="edge" aria-hidden="true"><span>${esc(ex.theme.toUpperCase())}</span><span>${String(n).padStart(2, "0")}A</span></figcaption></figure>`;
+
+export function examplesPage(themes) {
+  const root = "../";
+  const name = Object.fromEntries(themes.map((t) => [t.slug, t.name]));
+  const rows = EXAMPLES.map((ex) => `
+  <article class="trow ex-row" id="${ex.slug}">
+    <div class="trow-copy">
+      <p class="ex-kind">${esc(ex.kind)} · ${esc(name[ex.theme])} theme · ${ex.slides} slides</p>
+      <h2><a href="${ex.slug}.html">${esc(ex.title)}</a></h2>
+      <p>${esc(ex.summary)}</p>
+      <p class="trow-for"><strong>Motion:</strong> ${esc(ex.motion)}</p>
+      <a class="btn btn-primary ex-play" href="${ex.slug}.html">${icon("play")}<span>Play the deck</span></a>
+    </div>
+    <div class="strip s3">${ex.frames.map((n) => exampleFrame(root, ex, n)).join("")}</div>
+  </article>`).join("");
+  return page({
+    root,
+    path: "examples/",
+    title: "Example Presentations Made with Claude: Lecture, Thesis Defense, Pitch, Tech Talk",
+    description: "Play complete example decks made with Decklume: a university lecture, an engineering talk, a thesis defense and a startup pitch, each showing different themes, transitions and animations.",
+    current: "examples/",
+    jsonld: [
+      breadcrumbs([["Decklume", ""], ["Examples", "examples/"]]),
+      { "@type": "CollectionPage", name: "Decklume example presentations", url: SITE.base + "examples/", hasPart: EXAMPLES.map((ex) => ({ "@type": "PresentationDigitalDocument", name: ex.title, url: `${SITE.base}examples/${ex.slug}.html`, description: ex.summary })) },
+    ],
+    body: `
+<section class="page-head">
+  <h1>Real decks you can play.</h1>
+  <p class="lede">Four complete presentations, each built for a different room. Open one and use the arrow keys; press P for the presenter view.</p>
+</section>
+<section class="themes-list">${rows}</section>`,
   });
 }

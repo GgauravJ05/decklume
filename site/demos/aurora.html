@@ -1385,6 +1385,7 @@ body {
 }
 
 .slide table.data {
+  align-self: start; /* natural height: rows never stretch to fill the slide */
   width: 100%;
   border-collapse: collapse;
   font-size: var(--fs-small);
@@ -1515,6 +1516,7 @@ body {
 .l-people .person > :is(img, .avatar) {
   width: 100%;
   aspect-ratio: 1;
+  max-height: 440px; /* three or four people never push captions into the folio */
   object-fit: cover;
   border-radius: var(--radius-avatar, var(--radius-lg));
   background: var(--c-surface);
@@ -1616,6 +1618,11 @@ body {
   max-width: 36ch;
   padding-left: var(--sp-4);
   border-left: var(--rule) solid var(--c-accent);
+}
+
+.l-define .meaning math[display="block"] {
+  font-size: var(--fs-h2);
+  margin: 0;
 }
 
 .l-define .example {
@@ -1761,6 +1768,181 @@ body {
 .slide.is-entering .chart .dl-line { animation: dl-draw 1.3s var(--ease-in-out) both; animation-delay: calc(var(--d) + 200ms); }
 .slide.is-entering .chart .dl-dot { animation: dl-pop var(--dur-2) var(--ease-spring) both; animation-delay: calc(var(--d) + 400ms); }
 .slide.is-entering .chart .dl-arc { animation: dl-sweep var(--dur-4) var(--ease-out) both; animation-delay: calc(var(--d) + 200ms); }
+
+
+/* =====================================================================
+   DECKLUME · MOTION LIBRARY
+   Slide transitions (View Transitions), element entrance presets,
+   step-build effects and the code walkthrough. Every effect starts from
+   a visible resting state, so print, QA and reduced motion show the
+   finished slide. Vocabulary: references/motion.md.
+   ===================================================================== */
+
+/* --- Slide transitions ---------------------------------------------------
+   deck.js sets html[data-vt="<type>"] and --vt-dir (1 forward, -1 back)
+   for the length of one View Transition. */
+html[data-vt]::view-transition-old(root),
+html[data-vt]::view-transition-new(root) {
+  animation-duration: var(--vt-duration);
+  animation-timing-function: var(--ease-in-out);
+  animation-fill-mode: both;
+}
+
+/* push: the deck moves sideways like a filmstrip */
+@keyframes dl-vt-push-out { to { translate: calc(-100% * var(--vt-dir)) 0; } }
+@keyframes dl-vt-push-in { from { translate: calc(100% * var(--vt-dir)) 0; } }
+html[data-vt="push"]::view-transition-old(root) { animation-name: dl-vt-push-out; }
+html[data-vt="push"]::view-transition-new(root) { animation-name: dl-vt-push-in; }
+
+/* rise: vertical push, for sections and chapters */
+@keyframes dl-vt-rise-out { to { translate: 0 calc(-100% * var(--vt-dir)); } }
+@keyframes dl-vt-rise-in { from { translate: 0 calc(100% * var(--vt-dir)); } }
+html[data-vt="rise"]::view-transition-old(root) { animation-name: dl-vt-rise-out; }
+html[data-vt="rise"]::view-transition-new(root) { animation-name: dl-vt-rise-in; }
+
+/* cover: the new slide slides over a dimming old one */
+@keyframes dl-vt-dim { to { opacity: 0.35; scale: 0.96; } }
+html[data-vt="cover"]::view-transition-old(root) { animation-name: dl-vt-dim; }
+html[data-vt="cover"]::view-transition-new(root) { animation-name: dl-vt-push-in; }
+
+/* zoom: dive into the next idea */
+@keyframes dl-vt-zoom-out { to { opacity: 0; scale: calc(1 + 0.18 * var(--vt-dir)); } }
+@keyframes dl-vt-zoom-in { from { opacity: 0; scale: calc(1 - 0.14 * var(--vt-dir)); } }
+html[data-vt="zoom"]::view-transition-old(root) { animation-name: dl-vt-zoom-out; }
+html[data-vt="zoom"]::view-transition-new(root) { animation-name: dl-vt-zoom-in; }
+
+/* wipe: a hard edge sweeps the new slide in */
+@keyframes dl-vt-wipe-fwd { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+@keyframes dl-vt-wipe-back { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes dl-vt-hold { to { opacity: 1; } }
+html[data-vt="wipe"]::view-transition-old(root) { animation-name: dl-vt-hold; }
+html[data-vt="wipe"]::view-transition-new(root) { animation-name: dl-vt-wipe-fwd; }
+html[data-vt="wipe"][data-vt-dir="back"]::view-transition-new(root) { animation-name: dl-vt-wipe-back; }
+
+/* iris: a circle opens from the centre */
+@keyframes dl-vt-iris { from { clip-path: circle(0% at 50% 50%); } to { clip-path: circle(75% at 50% 50%); } }
+html[data-vt="iris"]::view-transition-old(root) { animation-name: dl-vt-hold; }
+html[data-vt="iris"]::view-transition-new(root) { animation-name: dl-vt-iris; }
+
+/* blur: rack focus between slides */
+@keyframes dl-vt-blur-out { to { opacity: 0; filter: blur(18px); } }
+@keyframes dl-vt-blur-in { from { opacity: 0; filter: blur(18px); } }
+html[data-vt="blur"]::view-transition-old(root) { animation-name: dl-vt-blur-out; }
+html[data-vt="blur"]::view-transition-new(root) { animation-name: dl-vt-blur-in; }
+
+/* flip: a card turning over */
+@keyframes dl-vt-flip-out { to { transform: perspective(2400px) rotateY(calc(-90deg * var(--vt-dir))); opacity: 0.6; } }
+@keyframes dl-vt-flip-in { from { transform: perspective(2400px) rotateY(calc(90deg * var(--vt-dir))); opacity: 0.6; } }
+html[data-vt="flip"]::view-transition-old(root) { animation-name: dl-vt-flip-out; animation-timing-function: ease-in; animation-duration: calc(var(--vt-duration) / 2); }
+html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in; animation-timing-function: var(--ease-out); animation-duration: calc(var(--vt-duration) / 2); animation-delay: calc(var(--vt-duration) / 2); }
+
+/* Spatial transitions carry the whole slide; default staggers stay still. */
+.slide.is-entering.dl-quiet .dl-enter:not([class*="dl-a-"]) { animation: none; }
+
+/* --- Element entrance presets (data-anim="…") --------------------------- */
+.slide.is-entering .dl-enter[class*="dl-a-"] {
+  animation-duration: var(--a-dur, var(--dur-3));
+  animation-delay: var(--a-delay, calc(var(--i, 0) * var(--stagger) + 80ms));
+  animation-fill-mode: both;
+  animation-timing-function: var(--ease-out);
+}
+
+@keyframes dl-a-fade { from { opacity: 0; } }
+@keyframes dl-a-rise { from { opacity: 0; transform: translateY(40px); } }
+@keyframes dl-a-drop { from { opacity: 0; transform: translateY(-40px); } }
+@keyframes dl-a-left { from { opacity: 0; transform: translateX(-64px); } }
+@keyframes dl-a-right { from { opacity: 0; transform: translateX(64px); } }
+@keyframes dl-a-scale { from { opacity: 0; transform: scale(0.88); } }
+@keyframes dl-a-pop { 0% { opacity: 0; transform: scale(0.6); } 60% { opacity: 1; transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes dl-a-blur { from { opacity: 0; filter: blur(14px); } }
+@keyframes dl-a-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes dl-a-iris { from { clip-path: circle(0% at 50% 50%); } to { clip-path: circle(80% at 50% 50%); } }
+@keyframes dl-a-flip { from { opacity: 0; transform: perspective(1200px) rotateX(-70deg); transform-origin: 50% 0; } }
+@keyframes dl-a-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes dl-a-draw { from { stroke-dashoffset: 1; } }
+
+.slide.is-entering .dl-a-fade { animation-name: dl-a-fade; }
+.slide.is-entering .dl-a-rise { animation-name: dl-a-rise; }
+.slide.is-entering .dl-a-drop { animation-name: dl-a-drop; }
+.slide.is-entering .dl-a-left { animation-name: dl-a-left; }
+.slide.is-entering .dl-a-right { animation-name: dl-a-right; }
+.slide.is-entering .dl-a-scale { animation-name: dl-a-scale; }
+.slide.is-entering .dl-a-pop { animation-name: dl-a-pop; animation-timing-function: var(--ease-in-out); }
+.slide.is-entering .dl-a-blur { animation-name: dl-a-blur; }
+.slide.is-entering .dl-a-wipe { animation-name: dl-a-wipe; animation-timing-function: var(--ease-in-out); }
+.slide.is-entering .dl-a-iris { animation-name: dl-a-iris; }
+.slide.is-entering .dl-a-flip { animation-name: dl-a-flip; }
+.slide.is-entering .dl-a-type { animation-name: dl-a-type; animation-timing-function: steps(var(--chars, 24), end); animation-duration: var(--a-dur, calc(var(--chars, 24) * 45ms)); }
+.slide.is-entering .dl-a-count { animation-name: dl-a-fade; }
+
+/* draw: every stroke inside the element traces itself */
+.dl-a-draw :is(path, line, polyline, polygon, circle, ellipse, rect) { stroke-dasharray: 1; }
+.slide.is-entering .dl-a-draw { animation-name: dl-a-fade; animation-duration: 1ms; }
+.slide.is-entering .dl-a-draw :is(path, line, polyline, polygon, circle, ellipse, rect) {
+  animation: dl-a-draw var(--a-dur, 1400ms) var(--ease-in-out) both;
+  animation-delay: var(--a-delay, calc(var(--i, 0) * var(--stagger) + 120ms));
+}
+
+/* --- Step-build effects (class="step" data-anim="…") -------------------- */
+.slide .step {
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-3) var(--ease-out),
+    clip-path var(--dur-3) var(--ease-in-out),
+    filter var(--dur-3) var(--ease-out),
+    background-size var(--dur-3) var(--ease-in-out);
+}
+.slide .step[data-anim="fade"]:not(.is-shown) { transform: none; }
+.slide .step[data-anim="left"]:not(.is-shown) { transform: translateX(-48px); }
+.slide .step[data-anim="right"]:not(.is-shown) { transform: translateX(48px); }
+.slide .step[data-anim="drop"]:not(.is-shown) { transform: translateY(-32px); }
+.slide .step[data-anim="scale"]:not(.is-shown) { transform: scale(0.9); }
+.slide .step[data-anim="pop"]:not(.is-shown) { transform: scale(0.6); }
+.slide .step[data-anim="pop"].is-shown { transition-timing-function: var(--ease-spring); }
+.slide .step[data-anim="blur"]:not(.is-shown) { transform: none; filter: blur(12px); }
+.slide .step[data-anim="wipe"]:not(.is-shown) { opacity: 1; transform: none; clip-path: inset(0 100% 0 0); }
+.slide .step[data-anim="wipe"].is-shown { clip-path: inset(0 0 0 0); }
+.slide .step[data-anim="iris"]:not(.is-shown) { opacity: 1; transform: none; clip-path: circle(0% at 50% 50%); }
+.slide .step[data-anim="iris"].is-shown { clip-path: circle(80% at 50% 50%); }
+
+/* highlight: the element is always visible; the step sweeps a marker over it */
+.slide .step[data-anim="highlight"] {
+  opacity: 1;
+  transform: none;
+  background: linear-gradient(transparent 58%, color-mix(in srgb, var(--c-accent) 34%, transparent) 58%) no-repeat 0 0 / 0% 100%;
+}
+.slide .step[data-anim="highlight"].is-shown { background-size: 100% 100%; }
+
+/* Code walkthrough markers carry state only. */
+.slide .dl-codestep { display: none !important; }
+
+/* --- Code walkthrough focus ------------------------------------------------ */
+.slide pre.code .ln { transition: opacity var(--dur-2) var(--ease-out), filter var(--dur-2) var(--ease-out); }
+.slide pre.code.has-focus .ln:not(.is-focus) { opacity: 0.28; filter: blur(0.6px); }
+.slide pre.code.has-focus .ln.is-focus { opacity: 1; }
+
+/* --- Final states for print, QA, overview and reduced motion ---------------- */
+:is(.dl-static, .dl-overview) .slide .step,
+:is(.dl-static, .dl-overview) .slide .step[data-anim] {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+  filter: none !important;
+}
+:is(.dl-static, .dl-overview) .slide .step[data-anim="highlight"] { background-size: 100% 100% !important; }
+:is(.dl-static, .dl-overview) .slide pre.code .ln { opacity: 1 !important; filter: none !important; }
+
+@media print {
+  .slide .step[data-anim] { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; }
+  .slide .step[data-anim="highlight"] { background-size: 100% 100% !important; }
+  .slide pre.code .ln { opacity: 1 !important; filter: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-vt]::view-transition-old(root),
+  html[data-vt]::view-transition-new(root) { animation-name: dl-a-fade !important; animation-duration: 0.2s !important; transform: none !important; clip-path: none !important; }
+  .slide .step[data-anim] { clip-path: none !important; filter: none !important; transform: none !important; }
+}
 
 
 /* === THEME: Aurora === */
@@ -2175,6 +2357,11 @@ body {
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Motion vocabulary (see references/motion.md).
+  const TRANSITIONS = new Set(["fade", "push", "rise", "cover", "zoom", "wipe", "iris", "blur", "flip", "morph", "none"]);
+  const SPATIAL = new Set(["push", "rise", "cover", "zoom", "wipe", "iris", "flip"]);
+  const AUTO_MORPH = "h1, h2, h3, .display, .statement, .big-number, .value, .term, .kicker, img, figure.media";
+
   class Deck {
     constructor() {
       this.viewport = document.querySelector(".deck-viewport");
@@ -2211,6 +2398,14 @@ body {
         slide.setAttribute("aria-roledescription", "slide");
         slide.setAttribute("aria-label", `${n + 1} of ${this.slides.length}`);
 
+        // Code walkthrough: <pre data-lines="1-3|5|7-9"> focuses one range per press.
+        slide.querySelectorAll("pre[data-lines]").forEach((pre) => this.prepareCode(pre));
+
+        // SVG drawn on entrance: normalise every stroke to pathLength 1.
+        slide.querySelectorAll('[data-anim="draw"]').forEach((el) => {
+          el.querySelectorAll("path, line, polyline, polygon, circle, ellipse, rect").forEach((g) => g.setAttribute("pathLength", "1"));
+        });
+
         // Steps: explicit .step elements, ordered by data-step then DOM order.
         const steps = [...slide.querySelectorAll(".step")];
         steps.forEach((el, i) => (el.dataset.dlOrder = el.dataset.step ?? i));
@@ -2227,6 +2422,83 @@ body {
           el.classList.add("dl-enter");
           el.style.setProperty("--i", String(Math.min(i++, 9)));
         });
+
+        // Named entrance presets override the default for that element.
+        slide.querySelectorAll("[data-anim]:not(.step)").forEach((el) => {
+          const type = el.dataset.anim.split(/\s+/)[0];
+          el.classList.add("dl-enter", "dl-a-" + type);
+          if (!el.style.getPropertyValue("--i")) el.style.setProperty("--i", String(Math.min(i++, 9)));
+          if (el.dataset.delay) el.style.setProperty("--a-delay", `${parseInt(el.dataset.delay, 10)}ms`);
+          if (el.dataset.duration) el.style.setProperty("--a-dur", `${parseInt(el.dataset.duration, 10)}ms`);
+          if (type === "type") el.style.setProperty("--chars", String(Math.max(1, el.textContent.trim().length)));
+        });
+      });
+    }
+
+    /* Wrap each code line and create one hidden step per range. */
+    prepareCode(pre) {
+      const code = pre.querySelector("code") || pre;
+      const lines = code.innerHTML.replace(/\n$/, "").split("\n");
+      code.innerHTML = lines.map((l) => `<span class="ln">${l}</span>`).join("\n");
+      pre._lines = [...code.querySelectorAll(":scope > .ln")];
+      pre._ranges = pre.dataset.lines.split("|").map((r) => {
+        const set = new Set();
+        r.split(",").forEach((part) => {
+          const [a, b] = part.trim().split("-").map(Number);
+          for (let k = a; k <= (b || a); k++) set.add(k - 1);
+        });
+        return set;
+      });
+      pre._steps = pre._ranges.map((_, k) => {
+        const marker = document.createElement("span");
+        marker.className = "step dl-codestep";
+        marker.dataset.dlGenerated = "";
+        marker.dataset.range = String(k);
+        if (pre.dataset.step) marker.dataset.step = String(Number(pre.dataset.step) + k / 100);
+        pre.after(marker);
+        return marker;
+      });
+    }
+
+    focusCode(slide) {
+      slide.querySelectorAll("pre[data-lines]").forEach((pre) => {
+        const shown = pre._steps.filter((m) => m.classList.contains("is-shown"));
+        const range = shown.length ? pre._ranges[shown.length - 1] : null;
+        pre.classList.toggle("has-focus", !!range);
+        pre._lines.forEach((ln, k) => ln.classList.toggle("is-focus", !!range && range.has(k)));
+      });
+    }
+
+    /* Count numbers up from zero, keeping prefixes, separators and decimals. */
+    countUp(slide) {
+      if (reduceMotion || root.classList.contains("dl-static")) return;
+      slide.querySelectorAll('[data-anim~="count"]').forEach((el) => {
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode()) && !/\d/.test(node.nodeValue));
+        if (!node) return;
+        const original = node._dlOriginal ?? node.nodeValue;
+        node._dlOriginal = original;
+        const m = original.match(/-?\d[\d,]*(\.\d+)?/);
+        if (!m) return;
+        const target = parseFloat(m[0].replace(/,/g, ""));
+        const decimals = m[1] ? m[1].length - 1 : 0;
+        const commas = m[0].includes(",");
+        const dur = parseInt(el.dataset.duration || "1400", 10);
+        const t0 = performance.now() + parseInt(el.dataset.delay || "200", 10);
+        const fmt = (v) => {
+          let out = v.toFixed(decimals);
+          if (commas) out = Number(out).toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+          return original.replace(m[0], out);
+        };
+        cancelAnimationFrame(el._dlRaf);
+        const tick = (now) => {
+          const p = Math.min(1, Math.max(0, (now - t0) / dur));
+          node.nodeValue = p >= 1 ? original : fmt(target * (1 - Math.pow(1 - p, 4)));
+          if (p < 1) el._dlRaf = requestAnimationFrame(tick);
+        };
+        node.nodeValue = fmt(0);
+        el._dlRaf = requestAnimationFrame(tick);
       });
     }
 
@@ -2255,7 +2527,16 @@ body {
       const to = this.slides[n];
       const changed = from !== to || instant;
 
+      // Forward uses the incoming slide's transition; backward replays the
+      // outgoing slide's transition in reverse.
+      const forward = n > this.index;
+      const owner = forward ? to : from;
+      let type = owner.dataset.transition || this.stage.dataset.transition || "fade";
+      if (!TRANSITIONS.has(type)) type = "fade";
       const swap = () => {
+        // Spatial transitions move the slide as one piece: skip the default
+        // stagger (named data-anim presets still play).
+        to.classList.toggle("dl-quiet", !instant && from !== to && SPATIAL.has(type));
         this.slides.forEach((s) => s.classList.toggle("is-active", s === to));
         this.index = n;
         this.setSteps(steps === Infinity ? to._steps.length : steps, { silent: true });
@@ -2263,13 +2544,16 @@ body {
         this.afterChange();
       };
 
-      const morphs = from !== to ? this.matchMorphs(from, to) : [];
-      const canVT = !instant && from !== to && document.startViewTransition && !reduceMotion && !this.overview;
+      const auto = type === "morph" || this.stage.hasAttribute("data-automorph");
+      const morphs = from !== to ? this.matchMorphs(from, to, auto) : [];
+      const canVT = !instant && from !== to && type !== "none" && document.startViewTransition && !reduceMotion && !this.overview;
 
       if (canVT) {
         this.nameMorphs(morphs, "from");
         root.classList.add("dl-vt");
-        root.style.setProperty("--vt-dir", n > this.index ? "1" : "-1");
+        root.dataset.vt = type === "morph" ? "fade" : type;
+        root.style.setProperty("--vt-dir", forward ? "1" : "-1");
+        root.dataset.vtDir = forward ? "fwd" : "back";
         const vt = document.startViewTransition(() => {
           this.clearMorphNames(morphs);
           swap();
@@ -2278,6 +2562,8 @@ body {
         vt.finished.finally(() => {
           this.clearMorphNames(morphs);
           root.classList.remove("dl-vt");
+          delete root.dataset.vt;
+          delete root.dataset.vtDir;
         });
       } else {
         swap();
@@ -2293,6 +2579,7 @@ body {
         el.classList.toggle("is-shown", i < this.stepIndex);
         el.classList.toggle("is-dimmed", dimPrev && i < this.stepIndex - 1);
       });
+      this.focusCode(slide);
       if (!silent) this.afterChange();
     }
 
@@ -2301,6 +2588,7 @@ body {
       slide.classList.remove("is-entering");
       void slide.offsetWidth; // restart the animation
       slide.classList.add("is-entering");
+      this.countUp(slide);
       clearTimeout(slide._enterTimer);
       slide._enterTimer = setTimeout(() => slide.classList.remove("is-entering"), 2600);
     }
@@ -2325,13 +2613,30 @@ body {
     /* --- Magic Move ---------------------------------------------------------
        Elements sharing a data-morph value on consecutive slides glide from
        one position to the other through a View Transition. */
-    matchMorphs(from, to) {
+    matchMorphs(from, to, auto = false) {
       const pairs = [];
       from.querySelectorAll("[data-morph]").forEach((a) => {
         const key = a.dataset.morph;
         const b = to.querySelector(`[data-morph="${CSS.escape(key)}"]`);
         if (b) pairs.push({ key, from: a, to: b });
       });
+      // Auto Magic Move: pair elements whose text (or image source) matches.
+      if (auto) {
+        const sig = (el) => (el.tagName === "IMG" ? "img:" + el.getAttribute("src") : el.matches("figure.media") ? "img:" + (el.querySelector("img")?.getAttribute("src") || "") : el.textContent.trim().replace(/\s+/g, " "));
+        const taken = new Set(pairs.flatMap((p) => [p.from, p.to]));
+        const pool = [...to.querySelectorAll(AUTO_MORPH)].filter((b) => !taken.has(b) && !b.closest(".notes"));
+        from.querySelectorAll(AUTO_MORPH).forEach((a, k) => {
+          if (taken.has(a) || a.closest(".notes")) return;
+          const s = sig(a);
+          if (!s || s.length > 140) return;
+          const b = pool.find((x) => !taken.has(x) && sig(x) === s);
+          if (b) {
+            taken.add(a);
+            taken.add(b);
+            pairs.push({ key: "auto" + k, from: a, to: b });
+          }
+        });
+      }
       return pairs;
     }
 
@@ -2646,6 +2951,8 @@ body {
     if (!clone.classList.length) clone.removeAttribute("class");
     clone.style.removeProperty("--dl-progress");
     clone.style.removeProperty("--vt-dir");
+    delete clone.dataset.vt;
+    delete clone.dataset.vtDir;
     if (!clone.getAttribute("style")) clone.removeAttribute("style");
     clone.querySelectorAll(".dl-progress, .dl-hud, .dl-help, .dl-toast, [data-dl-generated]").forEach((n) => n.remove());
     const stage = clone.querySelector(".deck-stage");
@@ -2664,6 +2971,17 @@ body {
       if (!el.classList.length) el.removeAttribute("class");
     });
     clone.querySelectorAll(".step").forEach((el) => { el.classList.remove("is-shown", "is-dimmed"); delete el.dataset.dlOrder; });
+    clone.querySelectorAll("pre[data-lines]").forEach((pre) => {
+      pre.classList.remove("has-focus");
+      if (!pre.classList.length) pre.removeAttribute("class");
+      pre.querySelectorAll("span.ln").forEach((ln) => ln.replaceWith(...ln.childNodes));
+    });
+    clone.querySelectorAll("[data-anim]").forEach((el) => {
+      [...el.classList].filter((c) => c.startsWith("dl-a-")).forEach((c) => el.classList.remove(c));
+      ["--a-delay", "--a-dur", "--chars"].forEach((v) => el.style.removeProperty(v));
+      if (!el.getAttribute("style")) el.removeAttribute("style");
+      if (!el.classList.length) el.removeAttribute("class");
+    });
     clone.querySelectorAll("[contenteditable]").forEach((el) => el.removeAttribute("contenteditable"));
     clone.querySelectorAll("[data-morph]").forEach((el) => { el.style.viewTransitionName = ""; if (!el.getAttribute("style")) el.removeAttribute("style"); });
     return "<!DOCTYPE html>\n" + clone.outerHTML + "\n";

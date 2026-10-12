@@ -148,3 +148,31 @@ export const FAQ_HOME = [
   ["What does the design QA check?", "It renders every slide in a real browser and fails the deck on text overflowing its box, overlapping text, type below the minimum size, WCAG contrast failures, web fonts that did not load, leftover placeholder text, broken images and JavaScript errors."],
   ["Does it work outside Claude Code?", "The skill is Markdown plus Node scripts, so any coding agent with file and shell access can follow it. The command-line tools also work on their own."],
 ];
+
+/* Example decks published on the site (built from examples/<slug>/<slug>.deck.html). */
+export const EXAMPLES = [
+  {
+    slug: "sleep-and-memory", title: "How Sleep Shapes Memory", theme: "folio", audience: "students", slides: 25, frames: [1, 8, 15],
+    kind: "University lecture",
+    summary: "A 20-minute psychology lecture using all 22 layouts: definitions, a timeline, charts, builds, Magic Move and speaker notes.",
+    motion: "Fade transitions, staggered entrances, step builds with dimming, a Magic Move between two slides.",
+  },
+  {
+    slug: "url-to-pixels", title: "From URL to Pixels", theme: "volt", audience: "engineers", slides: 14, frames: [1, 5, 8],
+    kind: "Engineering talk",
+    summary: "What happens between pressing Enter and seeing a page: DNS, TCP, TLS, HTTP and rendering.",
+    motion: "Push, wipe, flip, zoom and iris transitions, a self-drawing TCP handshake, count-up figures and code walkthroughs.",
+  },
+  {
+    slug: "retrieval-practice-defense", title: "Does Retrieval Practice Beat Rereading?", theme: "campus", audience: "researchers", slides: 18, frames: [1, 11, 12],
+    kind: "Thesis defense",
+    summary: "A master's defense that cites real prior work with a fictional study whose data are labelled illustrative.",
+    motion: "Rise transitions for sections, iris for the main result, a MathML effect-size formula, count-up and highlight builds.",
+  },
+  {
+    slug: "orbit-notes-pitch", title: "Orbit Notes: Seed Pitch", theme: "aurora", audience: "founders", slides: 13, frames: [1, 6, 8],
+    kind: "Startup pitch",
+    summary: "A seed pitch for a fictional study app. The company, team and every figure are illustrative.",
+    motion: "Push transitions with automatic Magic Move carrying the traction number between slides, plus count-ups.",
+  },
+];
