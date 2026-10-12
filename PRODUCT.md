@@ -66,7 +66,7 @@ Name: Decklume. Author and copyright holder: GgauravJ05 (MIT). Existing assets: 
 - Real example: 25-slide lecture "How Sleep Shapes Memory"
   (`examples/sleep-and-memory/`), live in all 10 themes (`site/demos/`).
 - Measured: vector PDF of that deck is 0.8 MB with selectable text; PDF export
-  takes ~3 s; 24 automated tests; every theme passes QA on the showcase deck.
+  takes ~3 s; 33 automated tests; every theme passes QA on the showcase deck.
 - Absent and must not be fabricated: testimonials, user counts, star counts,
   download numbers, press, logos of organisations using it. A live GitHub star
   count may be shown only once the repo is public (fetched, never hardcoded).
