@@ -1,0 +1,92 @@
+/* =====================================================================
+   DECKLUME · TOKENS
+   The design system every theme overrides. Values are authored for the
+   1920×1080 canvas. Pick from these; never invent one-off sizes.
+   ===================================================================== */
+
+:root {
+  /* --- Colour ---------------------------------------------------------
+     One dominant field, one accent, a neutral ink ramp. */
+  --c-stage: #000;          /* letterbox around the stage */
+  --c-bg: #f6f3ec;          /* slide field */
+  --c-surface: #ece7dc;     /* cards, panels */
+  --c-ink: #1a1916;         /* primary text */
+  --c-ink-2: #4a4740;       /* secondary text */
+  --c-ink-3: #6e6a61;       /* captions, meta (still AA on --c-bg) */
+  --c-line: rgba(26, 25, 22, 0.16);
+  --c-accent: #c8402a;      /* the one loud colour */
+  --c-accent-ink: #fff;     /* text placed on --c-accent */
+  --c-accent-2: #2f5d50;    /* optional secondary, charts only */
+  --c-chart: var(--c-accent), var(--c-accent-2), var(--c-ink-2), var(--c-ink-3);
+
+  /* --- Type families ------------------------------------------------- */
+  --f-display: Georgia, "Times New Roman", serif;
+  --f-body: ui-sans-serif, system-ui, sans-serif;
+  --f-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* --- Type scale (ratio ≈ 1.333 on a 30px body) ----------------------
+     Eight steps. Nothing on a slide sits outside them. */
+  --fs-micro: 20px;    /* folio, legal, source lines — chrome only */
+  --fs-small: 24px;    /* captions, labels, eyebrows */
+  --fs-body: 30px;     /* running text */
+  --fs-lead: 40px;     /* lead paragraphs, card titles */
+  --fs-h3: 54px;
+  --fs-h2: 76px;
+  --fs-h1: 112px;
+  --fs-display: 168px; /* title + section slides */
+  --fs-mega: 300px;    /* single big numbers */
+
+  --fw-display: 400;
+  --fw-heading: 500;
+  --fw-body: 400;
+  --fw-strong: 600;
+
+  --lh-display: 0.95;
+  --lh-heading: 1.08;
+  --lh-body: 1.45;
+
+  --tr-display: -0.025em;
+  --tr-heading: -0.015em;
+  --tr-caps: 0.14em;
+
+  --measure: 52ch;          /* max line length for running text */
+  --display-style: normal;  /* themes may set italic */
+  --caps-transform: uppercase;
+
+  /* --- Space: 8px base ------------------------------------------------- */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-5: 48px;
+  --sp-6: 64px;
+  --sp-7: 96px;
+  --sp-8: 128px;
+  --sp-9: 192px;
+
+  /* --- Grid: 12 columns inside fixed margins ------------------------- */
+  --m-x: 128px;
+  --m-top: 112px;
+  --m-bottom: 112px;
+  --gutter: 32px;
+
+  /* --- Shape ----------------------------------------------------------- */
+  --radius: 4px;
+  --radius-lg: 12px;
+  --rule: 2px;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 24px 48px -24px rgba(0, 0, 0, 0.25);
+
+  /* --- Motion ---------------------------------------------------------
+     Durations and curves. A theme's personality lives here. */
+  --dur-1: 160ms;
+  --dur-2: 360ms;
+  --dur-3: 640ms;
+  --dur-4: 1000ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: linear(0, 0.38 9%, 0.86 21%, 1.04 30%, 1.07 36%, 1.02 48%, 0.99 62%, 1);
+  --stagger: 70ms;
+  --enter-from: translateY(28px);
+  --step-from: translateY(16px);
+  --vt-duration: 560ms;
+}
