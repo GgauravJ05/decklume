@@ -1,0 +1,134 @@
+/* =====================================================================
+   THEME · CAMPUS
+   A reading-first academic theme: Newsreader headings, Source Sans 3
+   body, navy ink on bright paper, a teal accent and an ochre second.
+   Tighter scale so self-contained slides still breathe.
+   ===================================================================== */
+:root {
+  --c-stage: #0f1522;
+  --c-bg: #fbfaf7;
+  --c-surface: #eff1f0;
+  --c-ink: #172033;
+  --c-ink-2: #3c4658;
+  --c-ink-3: #5d6676;
+  --c-line: rgba(23, 32, 51, 0.16);
+  --c-accent: #0f6e66;
+  --c-accent-ink: #ffffff;
+  --c-accent-2: #b45309;
+  --c-bar: #b9c3c8;
+  --c-chart-1: #172033;
+  --c-chart-2: #0f6e66;
+  --c-chart-3: #b45309;
+  --c-chart-4: #9aa6b2;
+  --c-code-bg: #172033;
+
+  --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --fw-display: 450;
+  --fw-heading: 500;
+  --fw-body: 400;
+  --fw-strong: 650;
+  --tr-display: -0.02em;
+  --tr-heading: -0.01em;
+  --tr-caps: 0.12em;
+
+  /* Reading density: one step tighter. */
+  --fs-body: 28px;
+  --fs-lead: 36px;
+  --fs-h3: 46px;
+  --fs-h2: 68px;
+  --fs-h1: 96px;
+  --fs-display: 140px;
+  --fs-mega: 240px;
+  --lh-body: 1.5;
+  --measure: 60ch;
+
+  --m-x: 112px;
+  --m-top: 120px;
+  --m-bottom: 104px;
+  --radius: 4px;
+  --radius-lg: 8px;
+  --rule: 2px;
+
+  --dur-3: 560ms;
+  --stagger: 60ms;
+  --enter-from: translateY(14px);
+  --vt-duration: 520ms;
+}
+
+/* Running header band: a teal tab at the top-left of content slides. */
+.slide:not(.l-title, .l-section, .l-bleed, .l-split, .l-statement, .l-closing)::before {
+  content: "";
+  position: absolute;
+  left: var(--m-x);
+  top: 0;
+  width: 120px;
+  height: 10px;
+  background: var(--c-accent);
+}
+
+.slide::after {
+  text-align: left;
+  font-family: var(--f-body);
+  letter-spacing: 0.02em;
+}
+
+.slide .eyebrow,
+.slide .kicker {
+  font-weight: 700;
+}
+
+.slide :where(h1, h2, h3, .display, .statement) em {
+  color: var(--c-accent);
+}
+
+/* Title: a navy panel on the left third. */
+.slide.l-title {
+  background: linear-gradient(90deg, var(--c-ink) 0 33.333%, var(--c-bg) 33.333%);
+  padding-left: calc(640px + var(--sp-7));
+}
+
+.l-title > .eyebrow { color: var(--c-accent); }
+.l-title > :is(h1, .display) { font-size: 128px; max-width: 12ch; }
+
+.slide.l-section {
+  --c-bg: #172033; /* literal: --c-ink is redefined below */
+  background: var(--c-bg);
+  --c-ink: #f4f1ea;
+  --c-ink-2: rgba(244, 241, 234, 0.82);
+  --c-accent: #5fc4b8;
+  color: var(--c-ink);
+}
+
+.slide .card {
+  --card-bg: #ffffff;
+  border: 1px solid var(--c-line);
+  border-top: 4px solid var(--c-ink);
+  border-radius: var(--radius);
+}
+
+.slide .card.is-highlight {
+  border-top-color: var(--c-accent);
+  background: var(--c-accent);
+}
+
+.slide table.data tbody tr:nth-child(even) td {
+  background: rgba(23, 32, 51, 0.035);
+}
+
+.slide table.data { font-size: var(--fs-body); }
+
+.l-define .meaning { border-left-width: 6px; }
+
+.l-quote blockquote > p { font-style: italic; }
+
+.slide .flow > .node {
+  background: #ffffff;
+  border-width: 2px;
+  border-color: var(--c-line);
+  border-top: 4px solid var(--c-ink);
+}
+
+.slide .flow > .node.is-highlight { border-top-color: var(--c-accent-2); }

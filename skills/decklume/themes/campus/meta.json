@@ -1,0 +1,14 @@
+{
+  "name": "Campus",
+  "tagline": "Academic and clear — a reading-first theme for lectures, seminars and theses.",
+  "mood": ["academic", "clear", "trustworthy", "calm"],
+  "formality": "high",
+  "density": "high",
+  "scheme": "light",
+  "motion": "calm",
+  "best_for": ["university lectures", "thesis defenses", "research seminars", "study guides", "handouts read on screen"],
+  "avoid_for": ["hype product launches", "kinetic marketing"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Source+Sans+3:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap",
+  "font_families": ["Newsreader", "Source Sans 3", "IBM Plex Mono"],
+  "colors": { "bg": "#FBFAF7", "ink": "#172033", "accent": "#0F6E66" }
+}
