@@ -512,6 +512,7 @@
 }
 
 .slide table.data {
+  align-self: start; /* natural height: rows never stretch to fill the slide */
   width: 100%;
   border-collapse: collapse;
   font-size: var(--fs-small);
@@ -642,6 +643,7 @@
 .l-people .person > :is(img, .avatar) {
   width: 100%;
   aspect-ratio: 1;
+  max-height: 440px; /* three or four people never push captions into the folio */
   object-fit: cover;
   border-radius: var(--radius-avatar, var(--radius-lg));
   background: var(--c-surface);
@@ -743,6 +745,11 @@
   max-width: 36ch;
   padding-left: var(--sp-4);
   border-left: var(--rule) solid var(--c-accent);
+}
+
+.l-define .meaning math[display="block"] {
+  font-size: var(--fs-h2);
+  margin: 0;
 }
 
 .l-define .example {
