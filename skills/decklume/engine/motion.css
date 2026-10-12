@@ -158,6 +158,7 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
   filter: none !important;
 }
 :is(.dl-static, .dl-overview) .slide .step[data-anim="highlight"] { background-size: 100% 100% !important; }
+:is(.dl-static, .dl-overview) .slide pre.code .ln { opacity: 1 !important; filter: none !important; }
 
 @media print {
   .slide .step[data-anim] { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; }
