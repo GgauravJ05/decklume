@@ -41,6 +41,7 @@ function parseArgs(argv) {
     else if (a === "--inline-assets") args.inline = true;
     else if (a === "--watch") args.watch = true;
     else if (a === "--list-themes") args.listThemes = true;
+    else if (a === "--json") args.json = true;
     else if (a === "-h" || a === "--help") args.help = true;
     else args._.push(a);
   }
@@ -51,7 +52,7 @@ const HELP = `decklume build — compile a deck source into one HTML file
 
   node build.mjs <deck.deck.html> [-o out.html] [--theme slug] [--variant name]
                  [--inline-assets] [--watch]
-  node build.mjs --list-themes`;
+  node build.mjs --list-themes [--json]`;
 
 /* --- Front matter ----------------------------------------------------
    ---
@@ -238,6 +239,10 @@ if (isMain) {
     process.exit(0);
   }
   if (args.listThemes) {
+    if (args.json) {
+      console.log(JSON.stringify(listThemes().map(({ fonts, ...t }) => t), null, 2));
+      process.exit(0);
+    }
     for (const t of listThemes()) console.log(`${t.slug.padEnd(14)} ${t.name} — ${t.tagline}`);
     process.exit(0);
   }
