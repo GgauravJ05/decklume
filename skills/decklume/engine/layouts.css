@@ -11,7 +11,12 @@
   gap: var(--sp-4);
 }
 
-.l-title > .eyebrow { align-self: start; }
+.l-title > .eyebrow {
+  align-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--sp-6);
+}
 .l-title > :is(h1, .display) { max-width: 15ch; }
 .l-title > .lead { max-width: 36ch; }
 
@@ -83,14 +88,16 @@
   max-width: 1440px;
 }
 
+/* The mark sits above the quote, never in the margin, so it is safe at
+   any margin width. */
 .l-quote blockquote::before {
   content: "\201C";
-  position: absolute;
-  left: -0.5em;
-  top: -0.22em;
+  display: block;
+  height: 0.42em;
+  margin-left: -0.06em;
   font-family: var(--f-display);
-  font-size: 280px;
-  line-height: 1;
+  font-size: 240px;
+  line-height: 0.9;
   color: var(--c-accent);
   opacity: var(--quote-mark-opacity, 0.9);
 }
