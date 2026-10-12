@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ggauravj05.github.io/decklume/sitemap.xml

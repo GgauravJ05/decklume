@@ -1,0 +1,3023 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="grid">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Sleep Shapes Memory</title>
+<meta name="description" content="A 20-minute lecture on what the sleeping brain does with the day's learning — and how students can use it.">
+<meta name="author" content="Decklume Examples">
+<meta name="generator" content="Decklume — https://github.com/GgauravJ05/decklume">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How Sleep Shapes Memory">
+<meta property="og:description" content="A 20-minute lecture on what the sleeping brain does with the day's learning — and how students can use it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F4F0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+/* =====================================================================
+   DECKLUME · TOKENS
+   The design system every theme overrides. Values are authored for the
+   1920×1080 canvas. Pick from these; never invent one-off sizes.
+   ===================================================================== */
+
+:root {
+  /* --- Colour ---------------------------------------------------------
+     One dominant field, one accent, a neutral ink ramp. */
+  --c-stage: #000;          /* letterbox around the stage */
+  --c-bg: #f6f3ec;          /* slide field */
+  --c-surface: #ece7dc;     /* cards, panels */
+  --c-ink: #1a1916;         /* primary text */
+  --c-ink-2: #4a4740;       /* secondary text */
+  --c-ink-3: #6e6a61;       /* captions, meta (still AA on --c-bg) */
+  --c-line: rgba(26, 25, 22, 0.16);
+  --c-accent: #c8402a;      /* the one loud colour */
+  --c-accent-ink: #fff;     /* text placed on --c-accent */
+  --c-accent-2: #2f5d50;    /* optional secondary, charts only */
+  --c-chart: var(--c-accent), var(--c-accent-2), var(--c-ink-2), var(--c-ink-3);
+
+  /* --- Type families ------------------------------------------------- */
+  --f-display: Georgia, "Times New Roman", serif;
+  --f-body: ui-sans-serif, system-ui, sans-serif;
+  --f-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* --- Type scale (ratio ≈ 1.333 on a 30px body) ----------------------
+     Eight steps. Nothing on a slide sits outside them. */
+  --fs-micro: 20px;    /* folio, legal, source lines — chrome only */
+  --fs-small: 24px;    /* captions, labels, eyebrows */
+  --fs-body: 30px;     /* running text */
+  --fs-lead: 40px;     /* lead paragraphs, card titles */
+  --fs-h3: 54px;
+  --fs-h2: 84px;
+  --fs-h1: 112px;
+  --fs-display: 168px; /* title + section slides */
+  --fs-mega: 300px;    /* single big numbers */
+
+  --fw-display: 400;
+  --fw-heading: 500;
+  --fw-body: 400;
+  --fw-strong: 600;
+
+  --lh-display: 0.95;
+  --lh-heading: 1.08;
+  --lh-body: 1.45;
+
+  --tr-display: -0.025em;
+  --tr-heading: -0.015em;
+  --tr-caps: 0.14em;
+
+  --measure: 52ch;          /* max line length for running text */
+  --display-style: normal;  /* themes may set italic */
+  --caps-transform: uppercase;
+
+  /* --- Space: 8px base ------------------------------------------------- */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-5: 48px;
+  --sp-6: 64px;
+  --sp-7: 96px;
+  --sp-8: 128px;
+  --sp-9: 192px;
+
+  /* --- Grid: 12 columns inside fixed margins ------------------------- */
+  --m-x: 128px;
+  --m-top: 112px;
+  --m-bottom: 112px;
+  --gutter: 32px;
+
+  /* --- Shape ----------------------------------------------------------- */
+  --radius: 4px;
+  --radius-lg: 12px;
+  --rule: 2px;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 24px 48px -24px rgba(0, 0, 0, 0.25);
+
+  /* --- Motion ---------------------------------------------------------
+     Durations and curves. A theme's personality lives here. */
+  --dur-1: 160ms;
+  --dur-2: 360ms;
+  --dur-3: 640ms;
+  --dur-4: 1000ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: linear(0, 0.38 9%, 0.86 21%, 1.04 30%, 1.07 36%, 1.02 48%, 0.99 62%, 1);
+  --stagger: 70ms;
+  --enter-from: translateY(28px);
+  --step-from: translateY(16px);
+  --vt-duration: 560ms;
+}
+
+
+/* =====================================================================
+   DECKLUME · STAGE
+   Fixed 1920×1080 canvas, scaled as one unit to the window.
+   Stage geometry adapted from frontend-slides/viewport-base.css
+   (MIT © 2025 Zara Zhang). Overview, chrome, print and motion are Decklume.
+   ===================================================================== */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--c-stage, #000);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* --- Viewport + stage ------------------------------------------------ */
+.deck-viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--c-stage, #000);
+}
+
+.deck-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: var(--c-bg);
+  counter-reset: slide;
+}
+
+/* --- Slides ----------------------------------------------------------
+   Visibility (not display) switches slides, so layout classes that set
+   display: grid/flex can never make every slide visible at once. */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  counter-increment: slide;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  transition: opacity var(--dur-2) var(--ease-out), visibility 0s linear var(--dur-2);
+}
+
+.slide.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+  transition: opacity var(--dur-2) var(--ease-out), visibility 0s;
+}
+
+/* During a View Transition the browser animates snapshots, so the live
+   DOM must switch instantly. */
+.dl-vt .slide {
+  transition: none !important;
+}
+
+.slide img,
+.slide video,
+.slide canvas {
+  max-width: 100%;
+}
+
+/* Speaker notes never render on the stage. */
+.slide .notes {
+  display: none !important;
+}
+
+/* --- Builds (step-by-step reveals) ----------------------------------- */
+.slide .step {
+  opacity: 0;
+  transform: var(--step-from, translateY(16px));
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+
+.slide .step.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+.slide .step.is-dimmed {
+  opacity: 0.35;
+}
+
+/* --- Window chrome (outside the stage) ------------------------------- */
+.dl-progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--dl-progress, 0));
+  background: var(--c-accent);
+  z-index: 50;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+.dl-hud {
+  position: fixed;
+  right: 20px;
+  bottom: 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font: 500 13px/1 ui-sans-serif, system-ui, sans-serif;
+  color: #fff;
+  z-index: 60;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dl-hud.is-visible,
+.dl-hud:hover,
+.dl-hud:focus-within {
+  opacity: 1;
+}
+
+.dl-hud button,
+.dl-hud .dl-count {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 20, 20, 0.72);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dl-hud button:hover {
+  background: rgba(20, 20, 20, 0.92);
+}
+
+.dl-hud button:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.dl-hud .dl-count {
+  cursor: default;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Blackout (B) */
+.dl-blackout::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 40;
+}
+
+/* --- Overview (O) ------------------------------------------------------ */
+.dl-overview .deck-viewport {
+  overflow-y: auto;
+}
+
+.dl-overview .deck-stage {
+  overflow: visible;
+  background: transparent;
+}
+
+.dl-overview .slide {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: none;
+  outline: 6px solid transparent;
+  outline-offset: 10px;
+}
+
+.dl-overview .slide:hover {
+  outline-color: rgba(255, 255, 255, 0.35);
+}
+
+.dl-overview .slide.is-active {
+  outline-color: var(--c-accent);
+}
+
+.dl-overview .slide .step,
+.dl-static .slide .step {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Help overlay (?) ------------------------------------------------- */
+.dl-help {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  font: 15px/1.5 ui-sans-serif, system-ui, sans-serif;
+  color: #f2f2f2;
+}
+
+.dl-help.is-open {
+  display: grid;
+}
+
+.dl-help .dl-help-card {
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 28px 32px;
+  min-width: 360px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.dl-help h2 {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.dl-help dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  margin: 0;
+}
+
+.dl-help dt {
+  font-family: ui-monospace, monospace;
+  color: #bbb;
+}
+
+.dl-help dd {
+  margin: 0;
+}
+
+.dl-help .dl-credit {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #2a2a2a;
+  font-size: 13px;
+  color: #999;
+}
+
+.dl-help .dl-credit a {
+  color: #fff;
+}
+
+/* --- Grid overlay (G): 12 columns + 8px baseline ----------------------- */
+.dl-grid-on .slide.is-active::before {
+  content: "";
+  position: absolute;
+  inset: var(--m-top) var(--m-x) var(--m-bottom);
+  z-index: 999;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(255, 0, 80, 0.12) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(
+      to right,
+      rgba(0, 160, 255, 0.1) 0 calc((100% - 11 * var(--gutter)) / 12),
+      transparent calc((100% - 11 * var(--gutter)) / 12) calc((100% - 11 * var(--gutter)) / 12 + var(--gutter))
+    );
+}
+
+/* --- Edit mode (E) --------------------------------------------------- */
+.dl-editing .slide [contenteditable="true"] {
+  outline: 1px dashed color-mix(in srgb, var(--c-accent) 70%, transparent);
+  outline-offset: 6px;
+  cursor: text;
+}
+
+.dl-editing .slide [contenteditable="true"]:focus {
+  outline-style: solid;
+}
+
+.dl-toast {
+  position: fixed;
+  left: 50%;
+  top: 18px;
+  transform: translate(-50%, -12px);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.9);
+  color: #fff;
+  font: 500 13px/1 ui-sans-serif, system-ui, sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 110;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.dl-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* --- Embedded (presenter previews) ------------------------------------ */
+.dl-embed .dl-hud,
+.dl-embed .dl-progress {
+  display: none;
+}
+
+/* --- Print: one 1920×1080 page per slide, final build state ---------- */
+@page {
+  size: 1920px 1080px;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: 1920px;
+    height: auto;
+    overflow: visible;
+    background: none;
+  }
+
+  .deck-viewport {
+    position: static;
+    overflow: visible;
+  }
+
+  .deck-stage {
+    position: static;
+    width: 1920px;
+    height: auto;
+    transform: none !important;
+    overflow: visible;
+  }
+
+  .slide {
+    position: relative;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transition: none !important;
+    break-after: page;
+    page-break-after: always;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .slide:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .slide *,
+  .slide *::before,
+  .slide *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .slide .step {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .dl-hud,
+  .dl-progress,
+  .dl-help,
+  .dl-toast {
+    display: none !important;
+  }
+}
+
+/* --- Reduced motion: keep fades, drop movement ------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .slide *,
+  .slide *::before,
+  .slide *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .slide .step,
+  .slide .reveal {
+    transform: none !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.2s !important;
+  }
+}
+
+/* --- View Transitions: slide changes + Magic Move morphs -------------- */
+::view-transition-group(*) {
+  animation-duration: var(--vt-duration);
+  animation-timing-function: var(--ease-in-out);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: calc(var(--vt-duration) * 0.8);
+}
+
+
+
+/* =====================================================================
+   DECKLUME · BASE
+   Typography, shared components and the entrance choreography.
+   ===================================================================== */
+
+/* --- Slide frame: content lives inside the margins ------------------- */
+.slide {
+  display: grid;
+  padding: var(--m-top) var(--m-x) var(--m-bottom);
+  font-family: var(--f-body);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-body);
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  font-feature-settings: "kern", "liga", "calt";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  hanging-punctuation: first allow-end last;
+}
+
+.slide :where(h1, h2, h3, h4, p, ul, ol, figure, blockquote, table, pre) {
+  margin: 0;
+}
+
+/* --- Headings ---------------------------------------------------------- */
+.slide :where(h1, h2, h3, h4, .display, .statement) {
+  font-family: var(--f-display);
+  font-weight: var(--fw-heading);
+  font-style: var(--display-style);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tr-heading);
+  text-wrap: balance;
+  color: var(--c-ink);
+}
+
+.slide h1 { font-size: var(--fs-h1); line-height: var(--lh-display); letter-spacing: var(--tr-display); }
+.slide h2 { font-size: var(--fs-h2); }
+.slide h3 { font-size: var(--fs-lead); line-height: 1.15; }
+.slide h4 { font-size: var(--fs-body); font-family: var(--f-body); font-weight: var(--fw-strong); letter-spacing: 0; }
+
+.slide .display {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+}
+
+/* Emphasis inside headings is the theme's signature move. */
+.slide :where(h1, h2, h3, .display, .statement) em {
+  font-style: var(--em-style, italic);
+  color: var(--em-color, var(--c-accent));
+}
+
+/* --- Running text ------------------------------------------------------ */
+.slide p,
+.slide li {
+  text-wrap: pretty;
+}
+
+/* Line length applies to running text only, never to labels or rules. */
+.slide :is(p:not([class]), .lead, .muted) {
+  max-width: var(--measure);
+}
+
+.slide .lead {
+  font-size: var(--fs-lead);
+  line-height: 1.3;
+  color: var(--c-ink-2);
+  text-wrap: pretty;
+}
+
+.slide .eyebrow,
+.slide .kicker {
+  font-family: var(--f-eyebrow, var(--f-body));
+  font-size: var(--fs-small);
+  font-weight: var(--fw-strong);
+  letter-spacing: var(--tr-caps);
+  text-transform: var(--caps-transform);
+  color: var(--c-eyebrow, var(--c-accent));
+  line-height: 1.2;
+}
+
+.slide .caption,
+.slide figcaption,
+.slide .source {
+  font-size: var(--fs-small);
+  line-height: 1.35;
+  color: var(--c-ink-3);
+}
+
+.slide .source {
+  font-size: var(--fs-micro);
+}
+
+.slide strong {
+  font-weight: var(--fw-strong);
+  color: var(--c-ink);
+}
+
+.slide a {
+  color: inherit;
+  text-decoration-color: var(--c-accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.slide mark {
+  background: linear-gradient(transparent 58%, color-mix(in srgb, var(--c-accent) 32%, transparent) 58%);
+  color: inherit;
+  padding: 0 0.08em;
+}
+
+.slide .num,
+.slide table,
+.slide .value,
+.slide .big-number {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.slide code,
+.slide kbd,
+.slide .mono {
+  font-family: var(--f-mono);
+  font-size: 0.86em;
+}
+
+.slide :not(pre) > code {
+  padding: 0.08em 0.32em;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--c-ink) 8%, transparent);
+}
+
+.slide .muted { color: var(--c-ink-2); }
+.slide .accent { color: var(--c-accent); }
+
+/* --- Lists ------------------------------------------------------------- */
+.slide ul.points,
+.slide ol.points {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-4);
+  counter-reset: point;
+}
+
+.slide .points > li {
+  position: relative;
+  padding-left: 1.4em;
+  max-width: 34ch;
+}
+
+.slide ul.points > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.5em;
+  height: var(--rule);
+  background: var(--c-accent);
+}
+
+.slide ol.points > li {
+  counter-increment: point;
+  padding-left: 2.2em;
+}
+
+.slide ol.points > li::before {
+  content: counter(point, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  font-family: var(--f-mono);
+  font-size: 0.7em;
+  color: var(--c-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.slide .points > li > strong:first-child {
+  display: block;
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-heading);
+  font-size: var(--fs-lead);
+  line-height: 1.15;
+  margin-bottom: var(--sp-1);
+}
+
+/* --- Rules + structural pieces ---------------------------------------- */
+.slide hr,
+.slide .rule {
+  border: 0;
+  height: var(--rule);
+  background: var(--c-line);
+  margin: 0;
+}
+
+.slide .stack { display: grid; gap: var(--sp-3); align-content: start; }
+.slide .stack-lg { display: grid; gap: var(--sp-5); align-content: start; }
+
+.slide > header,
+.slide .slide-head {
+  display: grid;
+  gap: var(--sp-2);
+  align-content: start;
+}
+
+/* --- Media --------------------------------------------------------------- */
+.slide .media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-media, var(--radius));
+  background: var(--c-surface);
+}
+
+.slide .media > img,
+.slide .media > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide .duotone > img {
+  filter: grayscale(1) contrast(1.1);
+  mix-blend-mode: multiply;
+}
+
+.slide .duotone {
+  background: var(--c-accent);
+}
+
+/* --- Folio: deck name + page number in the bottom margin --------------- */
+.slide::after {
+  content: var(--deck-name, "") "\2003" counter(slide, decimal-leading-zero);
+  position: absolute;
+  left: var(--m-x);
+  right: var(--m-x);
+  bottom: calc(var(--m-bottom) / 2 - 12px);
+  font-family: var(--f-folio, var(--f-mono));
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--c-ink-3);
+  text-align: var(--folio-align, right);
+  pointer-events: none;
+}
+
+.slide:where(.l-title, .l-section, .l-bleed, .l-statement, .l-closing, .no-folio)::after {
+  content: none;
+}
+
+.deck-stage.no-folio .slide::after {
+  content: none;
+}
+
+/* --- Entrance choreography ------------------------------------------------
+   deck.js tags key blocks with .dl-enter and an index (--i). The animation
+   runs once when the slide becomes active. At rest everything is visible,
+   so print, QA and no-JS all see the final state. */
+@keyframes dl-enter {
+  from {
+    opacity: 0;
+    transform: var(--enter-from);
+  }
+}
+
+@keyframes dl-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.slide.is-entering .dl-enter {
+  animation: dl-enter var(--dur-3) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger) + 80ms);
+}
+
+.slide.is-entering .dl-enter.dl-fade {
+  animation-name: dl-fade;
+}
+
+/* --- Code ---------------------------------------------------------------- */
+.slide pre.code {
+  font-family: var(--f-mono);
+  font-size: 26px;
+  line-height: 1.55;
+  padding: var(--sp-5);
+  border-radius: var(--radius-lg);
+  background: var(--c-code-bg, #15161a);
+  color: var(--c-code-ink, #e8e6e1);
+  overflow: hidden;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.slide pre.code code {
+  font-size: inherit;
+  background: none;
+  padding: 0;
+}
+
+.slide pre.code mark {
+  display: inline-block;
+  width: calc(100% + 2 * var(--sp-5));
+  margin: 0 calc(-1 * var(--sp-5));
+  padding: 0 var(--sp-5);
+  background: color-mix(in srgb, var(--c-accent) 22%, transparent);
+  color: inherit;
+}
+
+.slide .tok-k { color: var(--tok-k, #ff9b7a); }
+.slide .tok-s { color: var(--tok-s, #b7d98b); }
+.slide .tok-n { color: var(--tok-n, #f2c66d); }
+.slide .tok-f { color: var(--tok-f, #8cc4ff); }
+.slide .tok-c { color: var(--tok-c, #9d9d9d); font-style: italic; }
+
+/* --- Math (native MathML) ---------------------------------------------- */
+.slide math {
+  font-family: var(--f-math, "STIX Two Math", "Cambria Math", math);
+  font-size: 1.1em;
+}
+
+.slide math[display="block"] {
+  font-size: var(--fs-h3);
+  margin: var(--sp-4) 0;
+}
+
+
+/* =====================================================================
+   DECKLUME · LAYOUTS
+   One class per slide archetype (.l-*). Markup contracts and content
+   limits live in references/layouts.md. Themes restyle, never relayout.
+   ===================================================================== */
+
+/* --- l-title ------------------------------------------------------------ */
+.l-title {
+  grid-template-rows: auto 1fr auto auto;
+  align-items: end;
+  gap: var(--sp-4);
+}
+
+.l-title > .eyebrow {
+  align-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--sp-6);
+}
+.l-title > :is(h1, .display) { max-width: 15ch; }
+.l-title > .lead { max-width: 36ch; }
+
+.l-title > .byline {
+  display: flex;
+  gap: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: var(--rule) solid var(--c-line);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+}
+
+/* --- l-section ----------------------------------------------------------- */
+.l-section {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-content: end;
+  row-gap: var(--sp-4);
+}
+
+.l-section > .kicker {
+  grid-column: 1 / -1;
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-size: var(--fs-mega);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  text-transform: none;
+  font-weight: var(--fw-display);
+  color: var(--c-accent);
+}
+
+.l-section > :is(h2, .display) {
+  grid-column: 1 / span 9;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+}
+
+.l-section > .lead { grid-column: 1 / span 7; }
+
+/* --- l-statement: one sentence, set large ------------------------------ */
+.l-statement {
+  align-content: center;
+  gap: var(--sp-5);
+}
+
+.l-statement .statement {
+  font-size: var(--fs-h1);
+  line-height: 1.02;
+  letter-spacing: var(--tr-display);
+  max-width: 18ch;
+}
+
+.l-statement .statement.is-long {
+  font-size: var(--fs-h2);
+  max-width: 26ch;
+}
+
+/* --- l-quote ------------------------------------------------------------- */
+.l-quote {
+  align-content: center;
+}
+
+.l-quote blockquote {
+  position: relative;
+  display: grid;
+  gap: var(--sp-5);
+  max-width: 1440px;
+}
+
+/* The mark sits above the quote, never in the margin, so it is safe at
+   any margin width. */
+.l-quote blockquote::before {
+  content: "\201C";
+  display: block;
+  height: 0.42em;
+  margin-left: -0.06em;
+  font-family: var(--f-display);
+  font-size: 240px;
+  line-height: 0.9;
+  color: var(--c-accent);
+  opacity: var(--quote-mark-opacity, 0.9);
+}
+
+.l-quote blockquote > p {
+  font-family: var(--f-display);
+  font-style: var(--quote-style, var(--display-style));
+  font-size: var(--fs-h2);
+  line-height: 1.12;
+  letter-spacing: var(--tr-heading);
+  text-wrap: balance;
+  max-width: 28ch;
+  color: var(--c-ink);
+}
+
+.l-quote blockquote footer {
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+}
+
+.l-quote cite {
+  font-style: normal;
+  font-weight: var(--fw-strong);
+  color: var(--c-ink);
+}
+
+/* --- l-list: heading left, points right -------------------------------- */
+.l-list {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-items: start;
+}
+
+.l-list > header { grid-column: 1 / span 5; }
+.l-list > :is(ul, ol, .points, .body) { grid-column: 7 / -1; align-self: center; }
+
+.l-list.is-stacked > header { grid-column: 1 / -1; margin-bottom: var(--sp-6); }
+.l-list.is-stacked { align-content: start; }
+.l-list.is-stacked > :is(ul, ol, .points, .body) {
+  grid-column: 1 / -1;
+  align-self: start;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--sp-7);
+}
+
+/* --- l-cards: 2–4 equal cards -------------------------------------------- */
+.l-cards {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.l-cards .cards {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gutter);
+  align-items: stretch;
+  align-self: end;
+}
+
+.slide .card {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-3);
+  min-height: 320px;
+  padding: var(--card-pad, var(--sp-5));
+  background: var(--card-bg, var(--c-surface));
+  border: var(--card-border, 0);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  color: var(--c-ink-2);
+}
+
+.slide .card > .card-index {
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  color: var(--c-accent);
+}
+
+.slide .card > h3 {
+  font-size: var(--fs-lead);
+  color: var(--c-ink);
+}
+
+.slide .card > .card-foot {
+  margin-top: auto;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--c-line);
+}
+
+.slide .card.is-highlight {
+  background: var(--c-accent);
+  color: color-mix(in srgb, var(--c-accent-ink) 82%, transparent);
+}
+
+.slide .card.is-highlight :is(h3, strong, .card-index) {
+  color: var(--c-accent-ink);
+}
+
+/* --- l-split: media on one side, text on the other -------------------- */
+.l-split {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-items: center;
+}
+
+.l-split > .media {
+  grid-column: 1 / span 6;
+  grid-row: 1;
+  align-self: stretch;
+  margin: calc(-1 * var(--m-top)) 0 calc(-1 * var(--m-bottom)) calc(-1 * var(--m-x));
+  border-radius: 0;
+}
+
+.l-split > .body {
+  grid-column: 8 / -1;
+  grid-row: 1;
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.l-split.is-reverse > .media {
+  grid-column: 7 / -1;
+  margin: calc(-1 * var(--m-top)) calc(-1 * var(--m-x)) calc(-1 * var(--m-bottom)) 0;
+}
+
+.l-split.is-reverse > .body { grid-column: 1 / span 5; }
+
+/* Inset variant: media keeps margins and a radius. */
+.l-split.is-inset > .media {
+  margin: 0;
+  border-radius: var(--radius-lg);
+  aspect-ratio: 4 / 3;
+  align-self: center;
+}
+
+/* --- l-bleed: full-bleed image, text over a scrim ---------------------- */
+.l-bleed {
+  align-content: end;
+  color: #fff;
+}
+
+.l-bleed > .media,
+.l-bleed > .bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  z-index: 0;
+}
+
+.l-bleed > .media > img,
+.l-bleed > img.bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.l-bleed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.l-bleed > :not(.media, .bg) {
+  position: relative;
+  z-index: 2;
+}
+
+.l-bleed :is(h1, h2, h3, p, .lead, .caption) {
+  color: #fff;
+}
+
+.l-bleed .eyebrow { color: #fff; opacity: 0.85; }
+.l-bleed > :is(h1, h2) { max-width: 18ch; }
+
+/* --- l-compare: two columns, optional highlight ------------------------- */
+.l-compare {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.l-compare .columns {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--sp-6);
+  align-items: stretch;
+}
+
+.l-compare .vs {
+  align-self: center;
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: var(--fs-lead);
+  color: var(--c-ink-3);
+}
+
+.l-compare .col {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--rule) solid var(--c-line);
+}
+
+.l-compare .col.is-highlight { border-top-color: var(--c-accent); }
+.l-compare .col > h3 { font-size: var(--fs-h3); }
+.l-compare .col .points { gap: var(--sp-3); font-size: var(--fs-body); }
+
+/* --- l-timeline: horizontal, 3–6 stops ---------------------------------- */
+.l-timeline {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-7);
+}
+
+.l-timeline .timeline {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gutter);
+  align-self: center;
+  position: relative;
+}
+
+.l-timeline .timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 82px;
+  height: var(--rule);
+  background: var(--c-line);
+}
+
+.l-timeline .timeline > li {
+  display: grid;
+  grid-template-rows: 64px 36px auto auto;
+  gap: var(--sp-2);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+  position: relative;
+}
+
+.l-timeline .when {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-size: var(--fs-h3);
+  line-height: 1;
+  color: var(--c-ink);
+  align-self: end;
+}
+
+.l-timeline .timeline > li::before {
+  content: "";
+  grid-row: 2;
+  width: 22px;
+  height: 22px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: var(--rule) solid var(--c-ink-3);
+}
+
+.l-timeline .timeline > li.is-current::before {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+}
+
+.l-timeline .timeline > li > h3 { font-size: var(--fs-body); font-family: var(--f-body); font-weight: var(--fw-strong); font-style: normal; letter-spacing: 0; }
+
+/* --- l-steps: numbered process, 3–5 steps ------------------------------- */
+.l-steps {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-7);
+}
+
+.l-steps .steps {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gutter);
+  counter-reset: step;
+  align-self: end;
+}
+
+.l-steps .steps > li {
+  counter-increment: step;
+  display: grid;
+  align-content: start;
+  gap: var(--sp-3);
+  padding-top: var(--sp-4);
+  border-top: var(--rule) solid var(--c-ink);
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  color: var(--c-ink-2);
+}
+
+.l-steps .steps > li::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-size: var(--fs-h2);
+  line-height: 1;
+  color: var(--c-accent);
+}
+
+.l-steps .steps > li > h3 { color: var(--c-ink); }
+
+/* --- l-kpi: one big number ---------------------------------------------- */
+.l-kpi {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-content: center;
+  row-gap: var(--sp-3);
+}
+
+.l-kpi > * { grid-column: 1 / -1; }
+
+.l-kpi .big-number {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-display);
+  font-size: var(--fs-mega);
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+  color: var(--c-ink);
+}
+
+.l-kpi .big-number .unit {
+  font-size: 0.4em;
+  letter-spacing: 0;
+  color: var(--c-accent);
+  margin-left: 0.06em;
+}
+
+.l-kpi > .lead { grid-column: 1 / span 8; color: var(--c-ink); }
+.l-kpi > .source { margin-top: var(--sp-5); }
+
+/* --- l-stats: 2–4 numbers side by side ------------------------------------ */
+.l-stats {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.l-stats .stats {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gutter);
+  align-self: center;
+}
+
+.l-stats .stat {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-2);
+  padding-top: var(--sp-4);
+  border-top: var(--rule) solid var(--c-line);
+}
+
+.l-stats .stat .value {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-display);
+  font-size: 128px;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--c-ink);
+}
+
+.l-stats .stat .label {
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+  max-width: 22ch;
+}
+
+.l-stats .stat.is-highlight { border-top-color: var(--c-accent); }
+.l-stats .stat.is-highlight .value { color: var(--c-accent); }
+
+/* --- l-chart: chart left, takeaway right --------------------------------- */
+.l-chart {
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--gutter);
+  row-gap: var(--sp-6);
+}
+
+.l-chart > header { grid-column: 1 / -1; }
+.l-chart > .chart { grid-column: 1 / span 8; min-height: 0; }
+.l-chart > .takeaway {
+  grid-column: 10 / -1;
+  align-self: center;
+  display: grid;
+  gap: var(--sp-3);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+}
+.l-chart > .takeaway > :first-child { font-size: var(--fs-lead); line-height: 1.25; color: var(--c-ink); font-family: var(--f-display); font-style: var(--display-style); }
+.l-chart.is-wide > .chart { grid-column: 1 / -1; }
+
+/* --- l-table --------------------------------------------------------------- */
+.l-table {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+  align-content: start;
+}
+
+.slide table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+  line-height: 1.35;
+}
+
+.slide table.data th {
+  text-align: left;
+  font-weight: var(--fw-strong);
+  font-size: var(--fs-small);
+  color: var(--c-ink-3);
+  letter-spacing: 0.02em;
+  padding: 0 var(--sp-3) var(--sp-2) 0;
+  border-bottom: var(--rule) solid var(--c-ink);
+}
+
+.slide table.data td {
+  padding: var(--sp-2) var(--sp-3) var(--sp-2) 0;
+  border-bottom: 1px solid var(--c-line);
+  color: var(--c-ink-2);
+  vertical-align: top;
+}
+
+.slide table.data td:first-child { color: var(--c-ink); font-weight: var(--fw-strong); }
+.slide table.data :is(th, td).n { text-align: right; }
+.slide table.data tr.is-highlight td { color: var(--c-ink); background: color-mix(in srgb, var(--c-accent) 12%, transparent); }
+.slide table.data tr.is-highlight td:first-child { box-shadow: inset 4px 0 0 var(--c-accent); padding-left: var(--sp-3); }
+
+/* --- l-code ----------------------------------------------------------------- */
+.l-code {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-items: center;
+}
+
+.l-code > header { grid-column: 1 / span 4; align-self: center; }
+.l-code > pre.code { grid-column: 5 / -1; }
+.l-code.is-stacked { grid-template-rows: auto 1fr; row-gap: var(--sp-5); align-items: start; }
+.l-code.is-stacked > header,
+.l-code.is-stacked > pre.code { grid-column: 1 / -1; }
+
+/* --- l-diagram: simple left-to-right flow ------------------------------- */
+.l-diagram {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.slide .flow {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--sp-7);
+  align-items: center;
+  align-self: center;
+}
+
+.slide .flow > .node {
+  position: relative;
+  display: grid;
+  gap: var(--sp-1);
+  padding: var(--sp-4);
+  border: var(--rule) solid var(--c-ink);
+  border-radius: var(--radius-lg);
+  background: var(--c-bg);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+  text-align: center;
+}
+
+.slide .flow > .node > strong {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-heading);
+  font-size: var(--fs-lead);
+  line-height: 1.15;
+}
+
+.slide .flow > .node.is-highlight {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: color-mix(in srgb, var(--c-accent-ink) 85%, transparent);
+}
+
+.slide .flow > .node.is-highlight strong { color: var(--c-accent-ink); }
+
+/* Connector arrows between nodes. */
+.slide .flow > .node + .node::before {
+  content: "";
+  position: absolute;
+  right: calc(100% + var(--rule));
+  top: 50%;
+  width: calc(var(--sp-7) - 2 * var(--rule));
+  height: var(--rule);
+  background: var(--c-ink-3);
+}
+
+.slide .flow > .node + .node::after {
+  content: "";
+  position: absolute;
+  right: calc(100% + var(--rule));
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-top: var(--rule) solid var(--c-ink-3);
+  border-right: var(--rule) solid var(--c-ink-3);
+  transform: translate(0, -50%) translateY(1px) rotate(45deg);
+}
+
+/* --- l-people: 2–4 people ------------------------------------------------- */
+.l-people {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.l-people .people {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gutter);
+  align-self: center;
+}
+
+.l-people .person {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.l-people .person > :is(img, .avatar) {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-avatar, var(--radius-lg));
+  background: var(--c-surface);
+}
+
+.l-people .avatar {
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-size: var(--fs-h1);
+  color: var(--c-accent);
+}
+
+.l-people figcaption {
+  display: grid;
+  gap: 2px;
+}
+
+.l-people figcaption strong {
+  font-size: var(--fs-body);
+}
+
+/* --- l-agenda ---------------------------------------------------------- */
+.l-agenda {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-items: center;
+}
+
+.l-agenda > header { grid-column: 1 / span 4; align-self: start; }
+
+.l-agenda .agenda {
+  grid-column: 6 / -1;
+  list-style: none;
+  padding: 0;
+  counter-reset: agenda;
+}
+
+.l-agenda .agenda > li {
+  counter-increment: agenda;
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--c-line);
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-size: var(--fs-lead);
+  line-height: 1.2;
+  color: var(--c-ink-3);
+}
+
+.l-agenda .agenda > li::before {
+  content: counter(agenda, decimal-leading-zero);
+  font-family: var(--f-mono);
+  font-style: normal;
+  font-size: var(--fs-small);
+  color: var(--c-ink-3);
+}
+
+.l-agenda .agenda > li .time {
+  font-family: var(--f-mono);
+  font-style: normal;
+  font-size: var(--fs-small);
+}
+
+.l-agenda .agenda > li.is-current { color: var(--c-ink); }
+.l-agenda .agenda > li.is-current::before { color: var(--c-accent); }
+
+/* --- l-define: a term and its meaning (teaching) ----------------------- */
+.l-define {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-content: center;
+  row-gap: var(--sp-4);
+}
+
+.l-define > * { grid-column: 1 / span 10; }
+
+.l-define .term {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-size: var(--fs-display);
+  line-height: 0.95;
+  letter-spacing: var(--tr-display);
+  color: var(--c-ink);
+}
+
+.l-define .pron {
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  color: var(--c-ink-3);
+}
+
+.l-define .meaning {
+  font-size: var(--fs-lead);
+  line-height: 1.3;
+  max-width: 36ch;
+  padding-left: var(--sp-4);
+  border-left: var(--rule) solid var(--c-accent);
+}
+
+.l-define .example {
+  grid-column: 1 / span 8;
+  color: var(--c-ink-2);
+  font-style: italic;
+}
+
+/* --- l-gallery: 2–4 images with captions --------------------------------- */
+.l-gallery {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-5);
+}
+
+.l-gallery .gallery {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gutter);
+  min-height: 0;
+}
+
+.l-gallery .gallery > figure {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--sp-2);
+  min-height: 0;
+}
+
+.l-gallery .gallery > figure > :is(img, .media) {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+/* --- l-closing ------------------------------------------------------------ */
+.l-closing {
+  grid-template-rows: 1fr auto;
+  gap: var(--sp-6);
+}
+
+.l-closing > :is(h1, h2, .display) {
+  align-self: end;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+  max-width: 14ch;
+}
+
+.l-closing .contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-7);
+  padding-top: var(--sp-4);
+  border-top: var(--rule) solid var(--c-line);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+  list-style: none;
+  margin: 0;
+}
+
+.l-closing .contact strong {
+  display: block;
+  color: var(--c-ink-3);
+  font-weight: var(--fw-body);
+  font-size: var(--fs-small);
+  letter-spacing: var(--tr-caps);
+  text-transform: var(--caps-transform);
+}
+
+/* --- Free-form escape hatch ---------------------------------------------- */
+.l-free {
+  display: block;
+}
+
+
+/* =====================================================================
+   DECKLUME · CHART STYLES
+   Pairs with charts.js. Colours come from theme tokens; bars grow,
+   lines draw and arcs sweep when the slide enters.
+   ===================================================================== */
+.slide .chart {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--sp-2);
+  min-height: 0;
+  align-items: end;
+}
+
+.slide .chart > svg {
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
+  overflow: visible;
+}
+
+.slide .chart text {
+  font-family: var(--f-body);
+  fill: var(--c-ink-2);
+}
+
+.slide .chart .dl-lab { font-size: 24px; }
+.slide .chart .dl-val { font-size: 26px; font-weight: 600; fill: var(--c-ink); font-variant-numeric: tabular-nums; }
+.slide .chart .is-hl { fill: var(--c-accent); font-weight: 600; }
+.slide .chart .dl-donut-val { font-family: var(--f-display); font-size: 96px; fill: var(--c-ink); }
+.slide .chart .dl-axis { stroke: var(--c-ink); stroke-width: 2; }
+.slide .chart .dl-grid { stroke: var(--c-line); stroke-width: 1; stroke-dasharray: 4 6; }
+.slide .chart .dl-bar { rx: 3; }
+
+.slide .chart .dl-key {
+  display: flex;
+  gap: var(--sp-4);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+}
+
+.slide .chart .dl-key i {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  margin-right: 10px;
+  vertical-align: -2px;
+}
+
+/* --- Entry animation (only while the slide is entering) ----------------- */
+@keyframes dl-grow-y { from { transform: scaleY(0); } }
+@keyframes dl-grow-x { from { transform: scaleX(0); } }
+@keyframes dl-draw { from { stroke-dashoffset: 1; } }
+@keyframes dl-pop { from { opacity: 0; transform: scale(0.4); } }
+@keyframes dl-sweep { from { stroke-dasharray: 0 1; } }
+
+.slide .chart .dl-bar { transform-box: fill-box; transform-origin: 50% 100%; }
+.slide .chart .dl-hbar { transform-origin: 0 50%; }
+.slide .chart .dl-dot { transform-box: fill-box; transform-origin: center; }
+.slide .chart .dl-line { stroke-dasharray: 1; }
+
+.slide.is-entering .chart .dl-bar { animation: dl-grow-y var(--dur-4) var(--ease-out) both; animation-delay: calc(var(--d) + 200ms); }
+.slide.is-entering .chart .dl-hbar { animation-name: dl-grow-x; }
+.slide.is-entering .chart .dl-val { animation: dl-fade var(--dur-2) ease both; animation-delay: calc(var(--d) + 600ms); }
+.slide.is-entering .chart .dl-line { animation: dl-draw 1.3s var(--ease-in-out) both; animation-delay: calc(var(--d) + 200ms); }
+.slide.is-entering .chart .dl-dot { animation: dl-pop var(--dur-2) var(--ease-spring) both; animation-delay: calc(var(--d) + 400ms); }
+.slide.is-entering .chart .dl-arc { animation: dl-sweep var(--dur-4) var(--ease-out) both; animation-delay: calc(var(--d) + 200ms); }
+
+
+/* === THEME: Grid === */
+/* =====================================================================
+   THEME · GRID
+   Swiss International Style. Archivo at heavy weights and semi-expanded
+   width, flush-left rag-right, hairlines on the grid, one cobalt signal.
+   ===================================================================== */
+:root {
+  --c-stage: #0e0e0e;
+  --c-bg: #f5f4f0;
+  --c-surface: #e8e6e0;
+  --c-ink: #0e0e0e;
+  --c-ink-2: #3a3a3a;
+  --c-ink-3: #5e5e5e;
+  --c-line: rgba(14, 14, 14, 0.2);
+  --c-accent: #1e3bd8;
+  --c-accent-ink: #ffffff;
+  --c-accent-2: #0e0e0e;
+  --c-bar: #c4c2bb;
+  --c-chart-1: #0e0e0e;
+  --c-chart-2: #1e3bd8;
+  --c-chart-3: #8a8880;
+  --c-chart-4: #c4c2bb;
+
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --fw-display: 760;
+  --fw-heading: 700;
+  --fw-body: 400;
+  --fw-strong: 650;
+  --lh-display: 0.88;
+  --lh-heading: 1;
+  --tr-display: -0.045em;
+  --tr-heading: -0.03em;
+  --tr-caps: 0.06em;
+  --caps-transform: none;
+  --em-style: normal;
+  --em-color: var(--c-accent);
+
+  --fs-h2: 88px;
+  --fs-h1: 132px;
+  --fs-display: 200px;
+  --fs-mega: 340px;
+
+  --m-x: 96px;
+  --m-top: 96px;
+  --m-bottom: 112px;
+  --radius: 0;
+  --radius-lg: 0;
+  --rule: 3px;
+
+  --dur-2: 220ms;
+  --dur-3: 460ms;
+  --stagger: 45ms;
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --enter-from: translateY(12px);
+  --vt-duration: 420ms;
+}
+
+.slide :where(h1, h2, h3, .display, .statement, .term, .big-number, .value, .kicker) {
+  font-stretch: 112%;
+}
+
+/* Eyebrows are small bold labels, not tracked caps. */
+.slide .eyebrow,
+.slide .kicker {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  color: var(--c-ink);
+}
+
+.slide .eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 12px;
+  background: var(--c-accent);
+  vertical-align: -1px;
+}
+
+/* Every content slide carries a top hairline across the full grid. */
+.slide:not(.l-bleed, .l-split, .l-section)::before {
+  content: "";
+  position: absolute;
+  left: var(--m-x);
+  right: var(--m-x);
+  top: calc(var(--m-top) - 32px);
+  height: 1px;
+  background: var(--c-ink);
+}
+
+.l-title > :is(h1, .display) {
+  font-size: 220px;
+  max-width: 12ch;
+}
+
+.l-title > .byline {
+  border-top-width: 1px;
+  border-top-color: var(--c-ink);
+  font-family: var(--f-mono);
+}
+
+/* Section slides flip to full cobalt. */
+.slide.l-section {
+  --c-bg: #1e3bd8; /* literal: --c-accent is redefined below */
+  --c-ink: #ffffff;
+  --c-ink-2: rgba(255, 255, 255, 0.86);
+  --c-accent: #ffffff;
+  --em-color: #c7d0ff;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+
+.l-section > .kicker {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: var(--fs-mega);
+  letter-spacing: -0.06em;
+}
+
+.slide .card {
+  --card-bg: transparent;
+  --card-pad: var(--sp-4) 0 0;
+  border-top: var(--rule) solid var(--c-ink);
+  border-radius: 0;
+}
+
+.slide .card > h3 { font-weight: 700; }
+
+.slide .card.is-highlight {
+  --card-pad: var(--sp-4);
+  background: var(--c-accent);
+}
+
+.l-statement .statement {
+  font-size: 150px;
+  line-height: 0.92;
+  max-width: 14ch;
+}
+
+.l-quote blockquote::before {
+  font-family: var(--f-display);
+  font-weight: 800;
+  color: var(--c-accent);
+}
+
+.l-quote blockquote > p {
+  font-weight: 650;
+  font-size: 80px;
+  line-height: 1.02;
+}
+
+.l-steps .steps > li { border-top-width: var(--rule); }
+.l-steps .steps > li::before { font-weight: 800; color: var(--c-ink); }
+.l-steps .steps > li:last-child::before { color: var(--c-accent); }
+
+.slide .flow > .node {
+  border-radius: 0;
+  border-width: var(--rule);
+}
+
+.slide pre.code { border-radius: 0; --c-code-bg: #0e0e0e; }
+
+.l-agenda .agenda > li { font-weight: 650; font-stretch: 112%; letter-spacing: -0.02em; }
+
+/* Title eyebrows are flex rows; pull the square back next to its label. */
+.l-title > .eyebrow::before { margin-right: calc(12px - var(--sp-6)); align-self: center; }
+
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+<main class="deck-stage" style="--deck-name: &quot;How Sleep Shapes Memory&quot;" aria-label="How Sleep Shapes Memory">
+<section class="is-active slide l-title">
+  <p class="eyebrow"><span>Cognitive Science 101</span><span>Lecture 7</span></p>
+  <h1 data-morph="title">How sleep <em>shapes</em> memory</h1>
+  <p class="lead">What the sleeping brain does with everything you learned today.</p>
+  <footer class="byline"><span>Department of Psychology</span><span>Autumn term</span></footer>
+  <aside class="notes"><p>Open with a show of hands: who pulled an all-nighter before an exam this year?</p></aside>
+</section>
+
+<section class="slide l-agenda">
+  <header>
+    <p class="eyebrow">Today</p>
+    <h2>Four questions, twenty minutes</h2>
+  </header>
+  <ol class="agenda">
+    <li class="is-current">Why do we forget? <span class="time">4 min</span></li>
+    <li>What happens while we sleep? <span class="time">6 min</span></li>
+    <li>What is the evidence? <span class="time">6 min</span></li>
+    <li>What should students do? <span class="time">4 min</span></li>
+  </ol>
+</section>
+
+<section class="slide l-section">
+  <p class="kicker">01</p>
+  <h2>Why do we <em>forget?</em></h2>
+  <p class="lead">Memories start fragile. Most of what we learn fades unless something stabilises it.</p>
+</section>
+
+<section class="slide l-define">
+  <p class="term">Consolidation</p>
+  <p class="pron">/kənˌsɒlɪˈdeɪʃən/ · noun</p>
+  <p class="meaning">The process that turns a fragile new memory into a stable, long-term one — largely while we sleep.</p>
+  <p class="example">“Without consolidation, a lecture is a story you heard once.”</p>
+</section>
+
+<section class="slide l-quote">
+  <blockquote>
+    <p>Sleep after learning protects memories from being overwritten by the rest of the day.</p>
+    <footer><cite>Jenkins &amp; Dallenbach</cite>, summarising their 1924 finding</footer>
+  </blockquote>
+</section>
+
+<section class="slide l-section">
+  <p class="kicker">02</p>
+  <h2>What happens while we <em>sleep?</em></h2>
+</section>
+
+<section class="slide l-steps">
+  <header>
+    <p class="eyebrow">One sleep cycle · about 90 minutes</p>
+    <h2>The night runs in repeating cycles</h2>
+  </header>
+  <ol class="steps">
+    <li><h3>N1 · Drifting</h3><p>Light sleep, a few minutes long. Easy to wake from.</p></li>
+    <li><h3>N2 · Spindles</h3><p>Bursts of brain activity called sleep spindles help store new skills and facts.</p></li>
+    <li><h3>N3 · Deep sleep</h3><p>Slow waves dominate. The hippocampus replays the day’s experiences.</p></li>
+    <li><h3>REM · Dreaming</h3><p>Vivid dreams. Linked to emotional memory and connecting ideas.</p></li>
+  </ol>
+</section>
+
+<section class="slide l-chart">
+  <header>
+    <p class="eyebrow">A typical adult night</p>
+    <h2>Half the night is stage N2</h2>
+  </header>
+  <figure class="chart" data-type="donut" data-labels="N1,N2,N3 deep,REM" data-series="Share:5,50,20,25" data-highlight="1" aria-label="Approximate share of the night spent in each sleep stage"></figure>
+  <div class="takeaway">
+    <p>Deep sleep comes early; REM grows longer toward morning.</p>
+    <p>Cutting the last two hours costs you mostly REM.</p>
+    <p class="source">Approximate textbook proportions for healthy adults.</p>
+  </div>
+</section>
+
+<section class="slide l-diagram">
+  <header>
+    <p class="eyebrow">The two-stage model</p>
+    <h2>From fast learner to long-term store</h2>
+  </header>
+  <div class="flow">
+    <div class="node"><strong>Experience</strong>Lecture, practice, reading</div>
+    <div class="node"><strong>Hippocampus</strong>Fast, temporary encoding</div>
+    <div class="node is-highlight"><strong>Sleep replay</strong>Patterns reactivated in N3</div>
+    <div class="node"><strong>Neocortex</strong>Slow, durable storage</div>
+  </div>
+</section>
+
+<section class="slide l-split">
+  <figure class="media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDE0MDAiIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjE0MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMxZDIyMzAiLz48cGF0aCBkPSJNMzEzLDY1IFEyOTQuNSw2OC4wIDI0OCwxNDUiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMzEzLDY1IFEzMDguNSwyMDguNSAyMjQsMzMwIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTMxMyw2NSBRMjMxLjUsMjQ1LjAgOTAsMzY1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwMjcsMTY0IFE5ODkuMCwxNTAuMCA5NzksMTk2IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwMjcsMTY0IFE5NzcuMCwyMzUuMCA5OTUsMjgyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwMjcsMTY0IFE5MTguNSwyNzUuNSA3NzYsMzExIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwMzQsNTkwIFExMDE1LjAsNjA4LjUgMTA0Miw2MzUiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTAzNCw1OTAgUTEwNzkuNSw1NjcuMCAxMDgxLDYxMiIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMDM0LDU5MCBRMTA5NS41LDU4My4wIDEwOTcsNjI0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTI0Myw0ODUgUTI0NS4wLDQ4Mi41IDI4NSw0NDAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjQzLDQ4NSBRMzA2LjUsNTIwLjUgMzQ0LDU1MCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0yNDMsNDg1IFEyMjkuNSw0MDUuNSAyMjQsMzMwIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwNDIsNjM1IFExMDUzLjUsNjE2LjUgMTA4MSw2MTIiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTA0Miw2MzUgUTEwNDkuMCw2MDIuNSAxMDM0LDU5MCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMDQyLDYzNSBRMTA2Ny41LDY1MC41IDEwOTcsNjI0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwOTcsNjI0IFExMTIwLjAsNjI4LjAgMTA4MSw2MTIiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTA5Nyw2MjQgUTEwODAuMCw1ODEuMCAxMTEzLDU3NiIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMDk3LDYyNCBRMTA0OS41LDU5OC41IDEwNDIsNjM1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTk5MSw5OTQgUTEwMjAuMCwxMDAxLjAgMTA3Nyw5NjAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNOTkxLDk5NCBRMTAwMC4wLDk2Mi4wIDk2Myw4NzAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNOTkxLDk5NCBRMTAwMS4wLDkzNy41IDEwMzUsODQ3IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTk5NSwyODIgUTk4OS4wLDI1Ni4wIDk3OSwxOTYiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNOTk1LDI4MiBRMTAyNS4wLDIwMC4wIDEwMjcsMTY0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTk5NSwyODIgUTkxNS41LDI4MC41IDc3NiwzMTEiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNDQ4LDY3OCBRNDI5LjAsNzEyLjAgNDI4LDgwNCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik00NDgsNjc4IFEzNzguMCw2MTcuMCAzNDQsNTUwIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTQ0OCw2NzggUTUzNC4wLDcxMS4wIDU1OCw4MDIiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjE1LDEwMDggUTE5NC4wLDkxNi4wIDE3Myw4NDQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjE1LDEwMDggUTEzOC4wLDEwMjAuMCA0NywxMDQ2IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTIxNSwxMDA4IFEyMzUuNSwxMTA0LjAgMTkyLDEyMzAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNzUsNjMzIFEzMS41LDY0NS4wIDY0LDYzMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik03NSw2MzMgUTExNS41LDYzNS41IDEzOCw2MTQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNzUsNjMzIFE4Ni4wLDY1NC41IDQzLDcwNCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik05NzksMTk2IFExMDExLjAsMTc0LjAgMTAyNywxNjQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNOTc5LDE5NiBROTkwLjAsMjA2LjAgOTk1LDI4MiIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik05NzksMTk2IFE5MDAuNSwyNDguNSA3NzYsMzExIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwNzcsOTYwIFExMDY3LjAsOTgzLjAgOTkxLDk5NCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMDc3LDk2MCBRMTAzMi4wLDkyNy41IDEwMzUsODQ3IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwNzcsOTYwIFExMDQ3LjAsOTU1LjAgOTYzLDg3MCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik01OTAsODMyIFE1NjEuMCw3ODguMCA1NTgsODAyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTU5MCw4MzIgUTU4MS4wLDg3My41IDU4NCw5MzMiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNTkwLDgzMiBRNjcwLjAsODU0LjUgNzMyLDg1NSIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik00NjksNDcxIFE0MjMuNSw1MjUuNSAzNDQsNTUwIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTQ2OSw0NzEgUTM3Ni4wLDQxNy41IDI4NSw0NDAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNDY5LDQ3MSBRNDM0LjUsNTM4LjUgNDQ4LDY3OCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xOTIsMTIzMCBRMjE3LjUsMTEzOS4wIDIxNSwxMDA4IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTE5MiwxMjMwIFExNTQuNSwxMTYwLjAgNDcsMTA0NiIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xOTIsMTIzMCBRMzEyLjUsMTExMy41IDUxMywxMDU5IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTIyNCwzMzAgUTI2NC41LDQxMi4wIDI4NSw0NDAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjI0LDMzMCBRMTc2LjAsMzY0LjUgOTAsMzY1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTIyNCwzMzAgUTIyNC41LDM4MC41IDI0Myw0ODUiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTExMyw1NzYgUTEwODUuMCw1NzMuMCAxMDgxLDYxMiIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMTEzLDU3NiBRMTA4NC4wLDYyNi4wIDEwOTcsNjI0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTExMTMsNTc2IFExMDQ2LjUsNjAxLjAgMTAzNCw1OTAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNzc2LDMxMSBRNjg3LjAsMzQ5LjUgNjU4LDMyOCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik03NzYsMzExIFE4NTAuNSwyNTYuNSA5OTUsMjgyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTc3NiwzMTEgUTg1My41LDI0Mi41IDk3OSwxOTYiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTA4MSw2MTIgUTExMjEuMCw1ODIuMCAxMDk3LDYyNCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMDgxLDYxMiBRMTA1OS41LDU5OS41IDEwNDIsNjM1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwODEsNjEyIFExMTM3LjAsNTg2LjAgMTExMyw1NzYiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjcwLDc4NyBRMzA1LjUsNzY3LjUgMjg3LDcxOCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0yNzAsNzg3IFEyMDcuMCw3NTQuNSAxOTYsNzc4IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTI3MCw3ODcgUTE5MC41LDgxMy41IDE3Myw4NDQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNTEzLDEwNTkgUTU3NS41LDEwMzAuMCA1ODQsOTMzIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTUxMywxMDU5IFE1MzUuNSw5NTQuNSA1OTAsODMyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTUxMywxMDU5IFE1MjguNSw5MTguNSA1NTgsODAyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwMzUsODQ3IFExMDM1LjAsODE4LjUgOTYzLDg3MCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMDM1LDg0NyBRMTAxNy4wLDkzMS41IDEwNzcsOTYwIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwMzUsODQ3IFExMDExLjAsOTM4LjUgOTkxLDk5NCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik05MCwzNjUgUTE1Mi4wLDM0Ny41IDIyNCwzMzAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNOTAsMzY1IFExNTcuNSw0NDUuMCAyNDMsNDg1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTkwLDM2NSBRMjE0LjUsMzkyLjUgMjg1LDQ0MCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik00NywxMDQ2IFExNjEuMCwxMDE4LjAgMjE1LDEwMDgiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNDcsMTA0NiBRODIuNSwxMTUwLjAgMTkyLDEyMzAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNDcsMTA0NiBRMTA5LjAsOTEyLjAgMTczLDg0NCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik05NjMsODcwIFE5NjEuMCw4NDIuNSAxMDM1LDg0NyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik05NjMsODcwIFExMDAwLjAsOTQ1LjAgOTkxLDk5NCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik05NjMsODcwIFE4OTcuNSw3OTkuMCA4OTIsNzQ0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTY1OCwzMjggUTcwNi4wLDMzMy41IDc3NiwzMTEiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNjU4LDMyOCBRNTcwLjUsMzg4LjUgNDY5LDQ3MSIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik02NTgsMzI4IFE4NDkuNSwyNjkuMCA5OTUsMjgyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTg5Miw3NDQgUTg1NC4wLDcyOC41IDgxMCw2ODciIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNODkyLDc0NCBROTEwLjAsNjgzLjUgOTE2LDYwMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik04OTIsNzQ0IFE5MTIuNSw3NjcuMCA5NjMsODcwIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTgxMCw2ODcgUTg0OC4wLDczOS41IDg5Miw3NDQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNODEwLDY4NyBRODMxLjAsNjMxLjAgOTE2LDYwMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik04MTAsNjg3IFE3OTQuMCw3NTYuMCA3MzIsODU1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTI4Nyw3MTggUTI3Ny41LDczNi41IDI3MCw3ODciIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjg3LDcxOCBRMjMwLjUsNzY3LjAgMTk2LDc3OCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0yODcsNzE4IFEzNDUuNSw3NTQuMCA0MjgsODA0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTQzLDcwNCBRNTAuNSw2NDEuNSA2NCw2MzMiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNDMsNzA0IFE5OC4wLDY5MS41IDc1LDYzMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik00Myw3MDQgUTEyOC41LDY0Mi4wIDEzOCw2MTQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNzMyLDg1NSBRNjQ5LjAsODY1LjUgNTkwLDgzMiIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik03MzIsODU1IFE2NzEuMCw4NjEuMCA1ODQsOTMzIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTczMiw4NTUgUTY4MS4wLDgwNi41IDU1OCw4MDIiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjg1LDQ0MCBRMjc0LjAsNDI4LjUgMjQzLDQ4NSIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0yODUsNDQwIFEzMDEuNSw0NTguMCAzNDQsNTUwIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTI4NSw0NDAgUTI5MC41LDM2My4wIDIyNCwzMzAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNjQsNjMzIFE4Mi41LDU5OS4wIDc1LDYzMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik02NCw2MzMgUTIwLjUsNjUxLjUgNDMsNzA0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTY0LDYzMyBRMTExLjAsNjQwLjUgMTM4LDYxNCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik01NTgsODAyIFE1NzQuMCw3OTEuMCA1OTAsODMyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTU1OCw4MDIgUTQ2My4wLDc4NC4wIDQyOCw4MDQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNTU4LDgwMiBRNTczLjAsODUxLjUgNTg0LDkzMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xNzMsODQ0IFExNjcuNSw4MzguMCAxOTYsNzc4IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTE3Myw4NDQgUTI0MC41LDc3OS41IDI3MCw3ODciIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTczLDg0NCBRMTkzLjAsOTM0LjAgMjE1LDEwMDgiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNODM5LDEyNDYgUTczOC41LDEyOTUuMCA2MjQsMTM0MCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik04MzksMTI0NiBROTMxLjAsMTEwMS4wIDk5MSw5OTQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNODM5LDEyNDYgUTkzMS4wLDEwNjMuMCAxMDc3LDk2MCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xOTYsNzc4IFExNTQuNSw4MDYuMCAxNzMsODQ0IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTE5Niw3NzggUTIwMy4wLDc4Ni41IDI3MCw3ODciIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTk2LDc3OCBRMjU0LjUsNzIzLjAgMjg3LDcxOCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik05MTYsNjAzIFExMDA2LjAsNTgyLjUgMTAzNCw1OTAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNOTE2LDYwMyBROTg3LjAsNjI0LjAgMTA0Miw2MzUiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNOTE2LDYwMyBRODYyLjAsNjYwLjAgODEwLDY4NyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMzgsNjE0IFE3Ny41LDU4OS41IDc1LDYzMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMzgsNjE0IFExMjEuMCw2MDguNSA2NCw2MzMiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTM4LDYxNCBROTcuNSw2ODguMCA0Myw3MDQiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjQ4LDE0NSBRMjk3LjUsODkuMCAzMTMsNjUiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMjQ4LDE0NSBRMjM3LjAsMjQzLjUgMjI0LDMzMCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0yNDgsMTQ1IFExODkuMCwyMTguMCA5MCwzNjUiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNjI0LDEzNDAgUTc3MS41LDEzMDUuMCA4MzksMTI0NiIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik02MjQsMTM0MCBRNTU5LjUsMTIzOS41IDUxMywxMDU5IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTYyNCwxMzQwIFE2MTUuMCwxMTAxLjUgNTg0LDkzMyIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0zNDQsNTUwIFEzMDEuNSw0ODEuNSAyNDMsNDg1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTM0NCw1NTAgUTMzMy41LDQ2My4wIDI4NSw0NDAiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMzQ0LDU1MCBRMzczLjUsNTAyLjUgNDY5LDQ3MSIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik01ODQsOTMzIFE1NzEuMCw4NTAuNSA1OTAsODMyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTU4NCw5MzMgUTYwOC4wLDg3MC41IDU1OCw4MDIiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNTg0LDkzMyBRNTU0LjUsOTkwLjAgNTEzLDEwNTkiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNMTA4Niw2ODYgUTEwOTMuNSw2OTMuMCAxMDk3LDYyNCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik0xMDg2LDY4NiBRMTAyOS4wLDY1My41IDEwNDIsNjM1IiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTEwODYsNjg2IFExMDgzLjUsNjQ0LjAgMTA4MSw2MTIiIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48cGF0aCBkPSJNNDI4LDgwNCBRNDM2LjAsNzAxLjAgNDQ4LDY3OCIgc3Ryb2tlPSIjOGFhMGM4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii41NSIvPjxwYXRoIGQ9Ik00MjgsODA0IFE1MjkuMCw3NzEuMCA1NTgsODAyIiBzdHJva2U9IiM4YWEwYzgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjU1Ii8+PHBhdGggZD0iTTQyOCw4MDQgUTMxMi4wLDc4NC41IDI3MCw3ODciIHN0cm9rZT0iIzhhYTBjOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuNTUiLz48Y2lyY2xlIGN4PSIzMTMiIGN5PSI2NSIgcj0iNSIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjEwMjciIGN5PSIxNjQiIHI9IjEyIiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iMTAzNCIgY3k9IjU5MCIgcj0iMTIiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIyNDMiIGN5PSI0ODUiIHI9IjEyIiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iMTA0MiIgY3k9IjYzNSIgcj0iOSIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjEwOTciIGN5PSI2MjQiIHI9IjEyIiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iOTkxIiBjeT0iOTk0IiByPSIxMiIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9Ijk5NSIgY3k9IjI4MiIgcj0iNyIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjQ0OCIgY3k9IjY3OCIgcj0iMTIiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIyMTUiIGN5PSIxMDA4IiByPSI3IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI2MzMiIHI9IjUiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSI5NzkiIGN5PSIxOTYiIHI9IjkiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIxMDc3IiBjeT0iOTYwIiByPSI3IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iNTkwIiBjeT0iODMyIiByPSI3IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iNDY5IiBjeT0iNDcxIiByPSI5IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iMTkyIiBjeT0iMTIzMCIgcj0iOSIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjIyNCIgY3k9IjMzMCIgcj0iMTIiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIxMTEzIiBjeT0iNTc2IiByPSI5IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iNzc2IiBjeT0iMzExIiByPSI1IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iMTA4MSIgY3k9IjYxMiIgcj0iNyIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjI3MCIgY3k9Ijc4NyIgcj0iMTIiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSI1MTMiIGN5PSIxMDU5IiByPSI3IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iMTAzNSIgY3k9Ijg0NyIgcj0iNyIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjkwIiBjeT0iMzY1IiByPSIxMiIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjQ3IiBjeT0iMTA0NiIgcj0iNSIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9Ijk2MyIgY3k9Ijg3MCIgcj0iNSIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjY1OCIgY3k9IjMyOCIgcj0iMTIiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSI4OTIiIGN5PSI3NDQiIHI9IjkiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSI4MTAiIGN5PSI2ODciIHI9IjciIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIyODciIGN5PSI3MTgiIHI9IjEyIiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iNDMiIGN5PSI3MDQiIHI9IjUiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSI3MzIiIGN5PSI4NTUiIHI9IjUiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIyODUiIGN5PSI0NDAiIHI9IjkiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSI2NCIgY3k9IjYzMyIgcj0iNSIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjU1OCIgY3k9IjgwMiIgcj0iNyIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjE3MyIgY3k9Ijg0NCIgcj0iNSIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjgzOSIgY3k9IjEyNDYiIHI9IjEyIiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iMTk2IiBjeT0iNzc4IiByPSIxMiIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjkxNiIgY3k9IjYwMyIgcj0iMTIiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIxMzgiIGN5PSI2MTQiIHI9IjciIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIyNDgiIGN5PSIxNDUiIHI9IjciIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSI2MjQiIGN5PSIxMzQwIiByPSI3IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iMzQ0IiBjeT0iNTUwIiByPSIxMiIgZmlsbD0iI2U4YzM3YSIvPjxjaXJjbGUgY3g9IjU4NCIgY3k9IjkzMyIgcj0iMTIiIGZpbGw9IiNlOGMzN2EiLz48Y2lyY2xlIGN4PSIxMDg2IiBjeT0iNjg2IiByPSI3IiBmaWxsPSIjZThjMzdhIi8+PGNpcmNsZSBjeD0iNDI4IiBjeT0iODA0IiByPSI1IiBmaWxsPSIjZThjMzdhIi8+PC9zdmc+" alt="Abstract network of connected neurons"></figure>
+  <div class="body">
+    <p class="eyebrow">Replay</p>
+    <h2>The brain rehearses the day at high speed</h2>
+    <p class="muted">In 1994, Wilson and McNaughton recorded rats’ place cells. The cells that fired while the rats ran a maze fired again, in the same order, during their sleep afterwards.</p>
+  </div>
+</section>
+
+<section class="slide l-section">
+  <p class="kicker">03</p>
+  <h2>What is the <em>evidence?</em></h2>
+</section>
+
+<section class="slide l-timeline">
+  <header>
+    <p class="eyebrow">A century of findings</p>
+    <h2>How the idea took shape</h2>
+  </header>
+  <ol class="timeline">
+    <li><span class="when num">1885</span><h3>Forgetting curve</h3><p>Ebbinghaus measures how fast memories fade.</p></li>
+    <li><span class="when num">1924</span><h3>Sleep protects</h3><p>Jenkins &amp; Dallenbach: less forgetting after sleep.</p></li>
+    <li><span class="when num">1953</span><h3>REM discovered</h3><p>Aserinsky &amp; Kleitman identify REM sleep.</p></li>
+    <li class="is-current"><span class="when num">1994</span><h3>Replay</h3><p>Place cells re-fire during sleep.</p></li>
+    <li><span class="when num">2002</span><h3>Skills improve</h3><p>Motor skills sharpen after a night’s sleep.</p></li>
+  </ol>
+</section>
+
+<section class="slide l-compare">
+  <header>
+    <p class="eyebrow">Same material, different night</p>
+    <h2>All-nighter vs. a full night</h2>
+  </header>
+  <div class="columns">
+    <div class="col">
+      <h3>Pulling an all-nighter</h3>
+      <ul class="points">
+        <li>More hours with the material</li>
+        <li>Little deep sleep or REM to consolidate it</li>
+        <li>Tired brain at exam time</li>
+      </ul>
+    </div>
+    <span class="vs">vs</span>
+    <div class="col is-highlight">
+      <h3>Studying, then sleeping</h3>
+      <ul class="points">
+        <li>Fewer hours of study</li>
+        <li>Full cycles of replay overnight</li>
+        <li>Rested and able to recall</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide l-kpi">
+  <p class="eyebrow">Short on sleep</p>
+  <p class="big-number num" data-morph="one-in-three">1 in 3</p>
+  <p class="lead">US adults regularly sleep less than the recommended seven hours.</p>
+  <p class="source">Source: US Centers for Disease Control and Prevention.</p>
+</section>
+
+<section class="slide l-stats">
+  <header>
+    <p class="eyebrow">The numbers to remember</p>
+    <h2>Sleep by the numbers</h2>
+  </header>
+  <div class="stats">
+    <div class="stat is-highlight"><p class="value num">7+</p><p class="label">hours recommended for adults each night</p></div>
+    <div class="stat"><p class="value num">~90</p><p class="label">minutes in one full sleep cycle</p></div>
+    <div class="stat"><p class="value num">4–6</p><p class="label">cycles in a healthy night</p></div>
+    <div class="stat"><p class="value num" data-morph="one-in-three">1 in 3</p><p class="label">adults who fall short</p></div>
+  </div>
+</section>
+
+<section class="slide l-table">
+  <header>
+    <p class="eyebrow">Stage by stage</p>
+    <h2>What each stage contributes</h2>
+  </header>
+  <table class="data">
+    <thead><tr><th>Stage</th><th>Brain activity</th><th>Linked to</th><th class="n">Share of night</th></tr></thead>
+    <tbody>
+      <tr><td>N1</td><td>Slowing alpha to theta waves</td><td>Falling asleep</td><td class="n">~5%</td></tr>
+      <tr class="is-highlight"><td>N2</td><td>Sleep spindles, K-complexes</td><td>Skills and facts</td><td class="n">~50%</td></tr>
+      <tr><td>N3</td><td>Slow, large delta waves</td><td>Replay, fact memory</td><td class="n">~20%</td></tr>
+      <tr><td>REM</td><td>Fast, wake-like activity</td><td>Emotion, linking ideas</td><td class="n">~25%</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="slide l-section">
+  <p class="kicker">04</p>
+  <h2>What should <em>students</em> do?</h2>
+</section>
+
+<section class="slide l-list" data-dim>
+  <header>
+    <p class="eyebrow">Practical advice</p>
+    <h2>Study with sleep, not against it</h2>
+  </header>
+  <ol class="points">
+    <li class="step"><strong>Study, then sleep.</strong> Review hard material in the evening, then let the night consolidate it.</li>
+    <li class="step"><strong>Spread it out.</strong> Several sessions with sleep in between beat one long cram.</li>
+    <li class="step"><strong>Protect the morning.</strong> The last hours of sleep carry most of your REM.</li>
+  </ol>
+  <aside class="notes"><p>Each point appears on its own click. Earlier points dim so the room follows along.</p></aside>
+</section>
+
+<section class="slide l-cards">
+  <header>
+    <p class="eyebrow">Try this week</p>
+    <h2>Three small experiments</h2>
+  </header>
+  <div class="cards">
+    <article class="card"><span class="card-index">01</span><h3>Evening review</h3><p>Spend 15 minutes re-reading today’s notes before bed.</p></article>
+    <article class="card is-highlight"><span class="card-index">02</span><h3>Fixed wake time</h3><p>Get up at the same time every day, weekends included.</p></article>
+    <article class="card"><span class="card-index">03</span><h3>Test yourself</h3><p>Next morning, write down what you remember without notes.</p></article>
+  </div>
+</section>
+
+<section class="slide l-code">
+  <header>
+    <p class="eyebrow">For the programmers</p>
+    <h2>Spacing your reviews</h2>
+    <p class="muted">A tiny scheduler: each review doubles the gap.</p>
+  </header>
+  <pre class="code"><code><span class="tok-k">def</span> <span class="tok-f">review_days</span>(first=<span class="tok-n">1</span>, reviews=<span class="tok-n">5</span>):
+    <span class="tok-c"># sleep happens between every review</span>
+    day, gap = <span class="tok-n">0</span>, first
+<mark>    <span class="tok-k">for</span> _ <span class="tok-k">in</span> <span class="tok-f">range</span>(reviews):</mark>
+        day += gap
+        <span class="tok-k">yield</span> day
+        gap *= <span class="tok-n">2</span>
+
+<span class="tok-f">print</span>(<span class="tok-f">list</span>(review_days()))  <span class="tok-c"># [1, 3, 7, 15, 31]</span></code></pre>
+</section>
+
+<section class="slide l-statement">
+  <h2 class="statement">The best study session ends with <em>going to bed.</em></h2>
+</section>
+
+<section class="slide l-gallery">
+  <header>
+    <p class="eyebrow">Further reading</p>
+    <h2>Three places to go deeper</h2>
+  </header>
+  <div class="gallery">
+    <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTEwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTdkZmNmIi8+PHBhdGggZD0iTTAsMTEwMCBMMCwxNjUgTDAsOTkgTDQwLDEwMSBMODAsMTA4IEwxMjAsMTE5IEwxNjAsMTM0IEwyMDAsMTUyIEwyNDAsMTcwIEwyODAsMTg4IEwzMjAsMjA0IEwzNjAsMjE3IEw0MDAsMjI2IEw0NDAsMjMxIEw0ODAsMjMwIEw1MjAsMjI0IEw1NjAsMjE0IEw2MDAsMTk5IEw2NDAsMTgyIEw2ODAsMTY0IEw3MjAsMTQ2IEw3NjAsMTI5IEw4MDAsMTE1IEw4NDAsMTA1IEw4ODAsMTAwIEw5MjAsOTkgTDkwMCwxMTAwIFoiIGZpbGw9IiNjOWI3OWEiIG9wYWNpdHk9IjAuNTUiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDI2MyBMMCwzOTIgTDQwLDM4MCBMODAsMzU5IEwxMjAsMzMwIEwxNjAsMjk2IEwyMDAsMjYwIEwyNDAsMjI0IEwyODAsMTkwIEwzMjAsMTYzIEwzNjAsMTQzIEw0MDAsMTMyIEw0NDAsMTMyIEw0ODAsMTQyIEw1MjAsMTYxIEw1NjAsMTg4IEw2MDAsMjIxIEw2NDAsMjU4IEw2ODAsMjk0IEw3MjAsMzI4IEw3NjAsMzU4IEw4MDAsMzc5IEw4NDAsMzkyIEw4ODAsMzk0IEw5MjAsMzg3IEw5MDAsMTEwMCBaIiBmaWxsPSIjYTg5MzdhIiBvcGFjaXR5PSIwLjYwIi8+PHBhdGggZD0iTTAsMTEwMCBMMCwzNjEgTDAsNTU3IEw0MCw1NDQgTDgwLDUxNiBMMTIwLDQ3NiBMMTYwLDQyOCBMMjAwLDM3MyBMMjQwLDMxOCBMMjgwLDI2NyBMMzIwLDIyMiBMMzYwLDE4OCBMNDAwLDE2OCBMNDQwLDE2MyBMNDgwLDE3MyBMNTIwLDE5OCBMNTYwLDIzNSBMNjAwLDI4MiBMNjQwLDMzNiBMNjgwLDM5MSBMNzIwLDQ0NCBMNzYwLDQ5MCBMODAwLDUyNiBMODQwLDU1MCBMODgwLDU1OSBMOTIwLDU1MiBMOTAwLDExMDAgWiIgZmlsbD0iIzhhNzU2MCIgb3BhY2l0eT0iMC42NSIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsNDU4IEwwLDUyNCBMNDAsNTIxIEw4MCw1MTMgTDEyMCw1MDEgTDE2MCw0ODUgTDIwMCw0NjcgTDI0MCw0NDkgTDI4MCw0MzEgTDMyMCw0MTYgTDM2MCw0MDMgTDQwMCwzOTUgTDQ0MCwzOTIgTDQ4MCwzOTQgTDUyMCw0MDIgTDU2MCw0MTMgTDYwMCw0MjggTDY0MCw0NDUgTDY4MCw0NjQgTDcyMCw0ODIgTDc2MCw0OTggTDgwMCw1MTEgTDg0MCw1MjAgTDg4MCw1MjQgTDkyMCw1MjMgTDkwMCwxMTAwIFoiIGZpbGw9IiNkOGM5YWUiIG9wYWNpdHk9IjAuNzAiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDU1NiBMMCw2ODggTDQwLDY4NSBMODAsNjcxIEwxMjAsNjQ5IEwxNjAsNjE5IEwyMDAsNTg1IEwyNDAsNTQ4IEwyODAsNTEyIEwzMjAsNDc5IEwzNjAsNDUyIEw0MDAsNDM0IEw0NDAsNDI1IEw0ODAsNDI2IEw1MjAsNDM3IEw1NjAsNDU4IEw2MDAsNDg2IEw2NDAsNTIwIEw2ODAsNTU2IEw3MjAsNTkzIEw3NjAsNjI2IEw4MDAsNjU1IEw4NDAsNjc1IEw4ODAsNjg2IEw5MjAsNjg3IEw5MDAsMTEwMCBaIiBmaWxsPSIjYzliNzlhIiBvcGFjaXR5PSIwLjU1Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCw2NTQgTDAsODUyIEw0MCw4NDUgTDgwLDgyMyBMMTIwLDc4NyBMMTYwLDc0MiBMMjAwLDY4OSBMMjQwLDYzNCBMMjgwLDU4MCBMMzIwLDUzMiBMMzYwLDQ5NCBMNDAwLDQ2OCBMNDQwLDQ1NiBMNDgwLDQ2MCBMNTIwLDQ3OSBMNTYwLDUxMiBMNjAwLDU1NSBMNjQwLDYwNyBMNjgwLDY2MiBMNzIwLDcxNiBMNzYwLDc2NSBMODAwLDgwNiBMODQwLDgzNSBMODgwLDg1MCBMOTIwLDg1MCBMOTAwLDExMDAgWiIgZmlsbD0iI2E4OTM3YSIgb3BhY2l0eT0iMC42MCIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsNzUyIEwwLDc4NCBMNDAsNzY2IEw4MCw3NDggTDEyMCw3MzAgTDE2MCw3MTQgTDIwMCw3MDAgTDI0MCw2OTEgTDI4MCw2ODYgTDMyMCw2ODcgTDM2MCw2OTIgTDQwMCw3MDIgTDQ0MCw3MTYgTDQ4MCw3MzMgTDUyMCw3NTEgTDU2MCw3NjkgTDYwMCw3ODYgTDY0MCw4MDEgTDY4MCw4MTEgTDcyMCw4MTcgTDc2MCw4MTcgTDgwMCw4MTMgTDg0MCw4MDQgTDg4MCw3OTAgTDkyMCw3NzQgTDkwMCwxMTAwIFoiIGZpbGw9IiM4YTc1NjAiIG9wYWNpdHk9IjAuNjUiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDg0OSBMMCw5NjggTDQwLDk3OSBMODAsOTgxIEwxMjAsOTcyIEwxNjAsOTUzIEwyMDAsOTI3IEwyNDAsODk0IEwyODAsODU4IEwzMjAsODIyIEwzNjAsNzg3IEw0MDAsNzU3IEw0NDAsNzM1IEw0ODAsNzIxIEw1MjAsNzE4IEw1NjAsNzI0IEw2MDAsNzQxIEw2NDAsNzY2IEw2ODAsNzk3IEw3MjAsODMyIEw3NjAsODY5IEw4MDAsOTA1IEw4NDAsOTM2IEw4ODAsOTYwIEw5MjAsOTc2IEw5MDAsMTEwMCBaIiBmaWxsPSIjZDhjOWFlIiBvcGFjaXR5PSIwLjcwIi8+PHBhdGggZD0iTTAsMTEwMCBMMCw5NDcgTDAsMTE0MyBMNDAsMTE0NCBMODAsMTEyOSBMMTIwLDExMDEgTDE2MCwxMDYwIEwyMDAsMTAxMSBMMjQwLDk1NyBMMjgwLDkwMiBMMzIwLDg1MCBMMzYwLDgwNiBMNDAwLDc3MyBMNDQwLDc1NCBMNDgwLDc1MCBMNTIwLDc2MSBMNTYwLDc4NiBMNjAwLDgyNCBMNjQwLDg3MiBMNjgwLDkyNSBMNzIwLDk4MSBMNzYwLDEwMzMgTDgwMCwxMDc5IEw4NDAsMTExNSBMODgwLDExMzcgTDkyMCwxMTQ1IEw5MDAsMTEwMCBaIiBmaWxsPSIjYzliNzlhIiBvcGFjaXR5PSIwLjU1Ii8+PC9zdmc+" alt="Abstract warm wave pattern"><figcaption>Matthew Walker, <em>Why We Sleep</em> (2017)</figcaption></figure>
+    <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTEwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZDllMmRjIi8+PHBhdGggZD0iTTAsMTEwMCBMMCwxNjUgTDAsMjMxIEw0MCwyMjYgTDgwLDIxNiBMMTIwLDIwMyBMMTYwLDE4NyBMMjAwLDE2OSBMMjQwLDE1MCBMMjgwLDEzMyBMMzIwLDExOCBMMzYwLDEwNyBMNDAwLDEwMSBMNDQwLDk5IEw0ODAsMTAzIEw1MjAsMTExIEw1NjAsMTI0IEw2MDAsMTQwIEw2NDAsMTU3IEw2ODAsMTc2IEw3MjAsMTkzIEw3NjAsMjA5IEw4MDAsMjIxIEw4NDAsMjI4IEw4ODAsMjMxIEw5MjAsMjI5IEw5MDAsMTEwMCBaIiBmaWxsPSIjOWRiNWE4IiBvcGFjaXR5PSIwLjU1Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCwyNjMgTDAsMTY1IEw0MCwxOTMgTDgwLDIyNyBMMTIwLDI2MyBMMTYwLDMwMCBMMjAwLDMzMyBMMjQwLDM2MSBMMjgwLDM4MiBMMzIwLDM5MyBMMzYwLDM5NCBMNDAwLDM4NSBMNDQwLDM2NiBMNDgwLDMzOSBMNTIwLDMwNyBMNTYwLDI3MSBMNjAwLDIzNCBMNjQwLDE5OSBMNjgwLDE3MCBMNzIwLDE0OCBMNzYwLDEzNCBMODAwLDEzMSBMODQwLDEzOCBMODgwLDE1NSBMOTIwLDE4MCBMOTAwLDExMDAgWiIgZmlsbD0iIzdmOWM4YyIgb3BhY2l0eT0iMC42MCIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsMzYxIEwwLDU0MCBMNDAsNTU2IEw4MCw1NTcgTDEyMCw1NDMgTDE2MCw1MTUgTDIwMCw0NzQgTDI0MCw0MjUgTDI4MCwzNzEgTDMyMCwzMTYgTDM2MCwyNjQgTDQwMCwyMjAgTDQ0MCwxODcgTDQ4MCwxNjcgTDUyMCwxNjMgTDU2MCwxNzQgTDYwMCwxOTkgTDY0MCwyMzcgTDY4MCwyODUgTDcyMCwzMzggTDc2MCwzOTMgTDgwMCw0NDYgTDg0MCw0OTIgTDg4MCw1MjggTDkyMCw1NTEgTDkwMCwxMTAwIFoiIGZpbGw9IiM1ZjdmNzAiIG9wYWNpdHk9IjAuNjUiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDQ1OCBMMCw0ODMgTDQwLDQ5OSBMODAsNTEyIEwxMjAsNTIxIEwxNjAsNTI0IEwyMDAsNTIzIEwyNDAsNTE2IEwyODAsNTA1IEwzMjAsNDkxIEwzNjAsNDc0IEw0MDAsNDU1IEw0NDAsNDM3IEw0ODAsNDIxIEw1MjAsNDA3IEw1NjAsMzk4IEw2MDAsMzkzIEw2NDAsMzkzIEw2ODAsMzk5IEw3MjAsNDA5IEw3NjAsNDIyIEw4MDAsNDM5IEw4NDAsNDU3IEw4ODAsNDc2IEw5MjAsNDkzIEw5MDAsMTEwMCBaIiBmaWxsPSIjYjljY2MwIiBvcGFjaXR5PSIwLjcwIi8+PHBhdGggZD0iTTAsMTEwMCBMMCw1NTYgTDAsNjg4IEw0MCw2ODUgTDgwLDY3MiBMMTIwLDY1MCBMMTYwLDYyMSBMMjAwLDU4NiBMMjQwLDU1MCBMMjgwLDUxNCBMMzIwLDQ4MSBMMzYwLDQ1NCBMNDAwLDQzNSBMNDQwLDQyNSBMNDgwLDQyNiBMNTIwLDQzNyBMNTYwLDQ1NyBMNjAwLDQ4NSBMNjQwLDUxOCBMNjgwLDU1NCBMNzIwLDU5MSBMNzYwLDYyNSBMODAwLDY1MyBMODQwLDY3NCBMODgwLDY4NiBMOTIwLDY4OCBMOTAwLDExMDAgWiIgZmlsbD0iIzlkYjVhOCIgb3BhY2l0eT0iMC41NSIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsNjU0IEwwLDg1MSBMNDAsODQ5IEw4MCw4MzEgTDEyMCw3OTkgTDE2MCw3NTcgTDIwMCw3MDYgTDI0MCw2NTEgTDI4MCw1OTYgTDMyMCw1NDYgTDM2MCw1MDUgTDQwMCw0NzQgTDQ0MCw0NTggTDQ4MCw0NTcgTDUyMCw0NzIgTDU2MCw1MDAgTDYwMCw1NDEgTDY0MCw1OTAgTDY4MCw2NDQgTDcyMCw3MDAgTDc2MCw3NTEgTDgwMCw3OTUgTDg0MCw4MjggTDg4MCw4NDcgTDkyMCw4NTIgTDkwMCwxMTAwIFoiIGZpbGw9IiM3ZjljOGMiIG9wYWNpdHk9IjAuNjAiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDc1MiBMMCw3NTEgTDQwLDczMiBMODAsNzE2IEwxMjAsNzAyIEwxNjAsNjkyIEwyMDAsNjg2IEwyNDAsNjg2IEwyODAsNjkxIEwzMjAsNzAxIEwzNjAsNzE0IEw0MDAsNzMxIEw0NDAsNzQ5IEw0ODAsNzY3IEw1MjAsNzg0IEw1NjAsNzk5IEw2MDAsODEwIEw2NDAsODE2IEw2ODAsODE4IEw3MjAsODE0IEw3NjAsODA1IEw4MDAsNzkyIEw4NDAsNzc3IEw4ODAsNzU5IEw5MjAsNzQwIEw5MDAsMTEwMCBaIiBmaWxsPSIjNWY3ZjcwIiBvcGFjaXR5PSIwLjY1Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCw4NDkgTDAsNzU5IEw0MCw3MzYgTDgwLDcyMiBMMTIwLDcxNyBMMTYwLDcyNCBMMjAwLDczOSBMMjQwLDc2NCBMMjgwLDc5NSBMMzIwLDgzMCBMMzYwLDg2NyBMNDAwLDkwMyBMNDQwLDkzNCBMNDgwLDk1OSBMNTIwLDk3NSBMNTYwLDk4MSBMNjAwLDk3OCBMNjQwLDk2NCBMNjgwLDk0MSBMNzIwLDkxMSBMNzYwLDg3NyBMODAwLDg0MCBMODQwLDgwNCBMODgwLDc3MSBMOTIwLDc0NSBMOTAwLDExMDAgWiIgZmlsbD0iI2I5Y2NjMCIgb3BhY2l0eT0iMC43MCIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsOTQ3IEwwLDEwNjAgTDQwLDExMDAgTDgwLDExMjkgTDEyMCwxMTQ0IEwxNjAsMTE0MyBMMjAwLDExMjcgTDI0MCwxMDk3IEwyODAsMTA1NSBMMzIwLDEwMDUgTDM2MCw5NTEgTDQwMCw4OTYgTDQ0MCw4NDUgTDQ4MCw4MDIgTDUyMCw3NzEgTDU2MCw3NTMgTDYwMCw3NTAgTDY0MCw3NjMgTDY4MCw3OTAgTDcyMCw4MjkgTDc2MCw4NzcgTDgwMCw5MzEgTDg0MCw5ODcgTDg4MCwxMDM5IEw5MjAsMTA4NCBMOTAwLDExMDAgWiIgZmlsbD0iIzlkYjVhOCIgb3BhY2l0eT0iMC41NSIvPjwvc3ZnPg==" alt="Abstract green wave pattern"><figcaption>Rasch &amp; Born, “About Sleep’s Role in Memory” (2013)</figcaption></figure>
+    <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTEwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTlkY2Q2Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCwxNjUgTDAsMTg4IEw0MCwxNzAgTDgwLDE1MiBMMTIwLDEzNCBMMTYwLDExOSBMMjAwLDEwOCBMMjQwLDEwMSBMMjgwLDk5IEwzMjAsMTAyIEwzNjAsMTEwIEw0MDAsMTIyIEw0NDAsMTM4IEw0ODAsMTU2IEw1MjAsMTc0IEw1NjAsMTkyIEw2MDAsMjA4IEw2NDAsMjIwIEw2ODAsMjI4IEw3MjAsMjMxIEw3NjAsMjI5IEw4MDAsMjIyIEw4NDAsMjExIEw4ODAsMTk2IEw5MjAsMTc4IEw5MDAsMTEwMCBaIiBmaWxsPSIjZDFhOTlhIiBvcGFjaXR5PSIwLjU1Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCwyNjMgTDAsMjkyIEw0MCwzMjYgTDgwLDM1NiBMMTIwLDM3OCBMMTYwLDM5MSBMMjAwLDM5NSBMMjQwLDM4OCBMMjgwLDM3MSBMMzIwLDM0NiBMMzYwLDMxNCBMNDAwLDI3OSBMNDQwLDI0MiBMNDgwLDIwNiBMNTIwLDE3NiBMNTYwLDE1MiBMNjAwLDEzNiBMNjQwLDEzMSBMNjgwLDEzNiBMNzIwLDE1MCBMNzYwLDE3NCBMODAwLDIwNCBMODQwLDIzOSBMODgwLDI3NiBMOTIwLDMxMiBMOTAwLDExMDAgWiIgZmlsbD0iI2I4OGE3YSIgb3BhY2l0eT0iMC42MCIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsMzYxIEwwLDM2NiBMNDAsNDIwIEw4MCw0NzAgTDEyMCw1MTIgTDE2MCw1NDEgTDIwMCw1NTcgTDI0MCw1NTcgTDI4MCw1NDIgTDMyMCw1MTIgTDM2MCw0NzEgTDQwMCw0MjIgTDQ0MCwzNjcgTDQ4MCwzMTIgTDUyMCwyNjEgTDU2MCwyMTggTDYwMCwxODUgTDY0MCwxNjcgTDY4MCwxNjMgTDcyMCwxNzUgTDc2MCwyMDEgTDgwMCwyNDAgTDg0MCwyODggTDg4MCwzNDIgTDkyMCwzOTcgTDkwMCwxMTAwIFoiIGZpbGw9IiM5YzZlNWYiIG9wYWNpdHk9IjAuNjUiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDQ1OCBMMCw0MDMgTDQwLDQxNiBMODAsNDMxIEwxMjAsNDQ5IEwxNjAsNDY3IEwyMDAsNDg1IEwyNDAsNTAxIEwyODAsNTEzIEwzMjAsNTIxIEwzNjAsNTI0IEw0MDAsNTIyIEw0NDAsNTE2IEw0ODAsNTA0IEw1MjAsNDg5IEw1NjAsNDcyIEw2MDAsNDU0IEw2NDAsNDM2IEw2ODAsNDE5IEw3MjAsNDA2IEw3NjAsMzk3IEw4MDAsMzkzIEw4NDAsMzkzIEw4ODAsMzk5IEw5MjAsNDEwIEw5MDAsMTEwMCBaIiBmaWxsPSIjZTJjMmI2IiBvcGFjaXR5PSIwLjcwIi8+PHBhdGggZD0iTTAsMTEwMCBMMCw1NTYgTDAsNjg2IEw0MCw2ODggTDgwLDY3OSBMMTIwLDY2MSBMMTYwLDYzNCBMMjAwLDYwMiBMMjQwLDU2NiBMMjgwLDUyOSBMMzIwLDQ5NSBMMzYwLDQ2NSBMNDAwLDQ0MiBMNDQwLDQyOCBMNDgwLDQyNCBMNTIwLDQzMSBMNTYwLDQ0NyBMNjAwLDQ3MSBMNjQwLDUwMyBMNjgwLDUzOCBMNzIwLDU3NSBMNzYwLDYxMCBMODAwLDY0MiBMODQwLDY2NiBMODgwLDY4MiBMOTIwLDY4OCBMOTAwLDExMDAgWiIgZmlsbD0iI2QxYTk5YSIgb3BhY2l0eT0iMC41NSIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsNjU0IEwwLDc0MCBMNDAsNjg4IEw4MCw2MzMgTDEyMCw1NzkgTDE2MCw1MzEgTDIwMCw0OTMgTDI0MCw0NjcgTDI4MCw0NTYgTDMyMCw0NjEgTDM2MCw0ODAgTDQwMCw1MTMgTDQ0MCw1NTcgTDQ4MCw2MDggTDUyMCw2NjMgTDU2MCw3MTcgTDYwMCw3NjcgTDY0MCw4MDcgTDY4MCw4MzYgTDcyMCw4NTAgTDc2MCw4NDkgTDgwMCw4MzMgTDg0MCw4MDMgTDg4MCw3NjIgTDkyMCw3MTEgTDkwMCwxMTAwIFoiIGZpbGw9IiNiODhhN2EiIG9wYWNpdHk9IjAuNjAiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDc1MiBMMCw4MDMgTDQwLDc5MCBMODAsNzc0IEwxMjAsNzU2IEwxNjAsNzM3IEwyMDAsNzIwIEwyNDAsNzA1IEwyODAsNjk0IEwzMjAsNjg3IEwzNjAsNjg2IEw0MDAsNjg5IEw0NDAsNjk4IEw0ODAsNzEwIEw1MjAsNzI2IEw1NjAsNzQ0IEw2MDAsNzYyIEw2NDAsNzgwIEw2ODAsNzk1IEw3MjAsODA3IEw3NjAsODE1IEw4MDAsODE4IEw4NDAsODE1IEw4ODAsODA4IEw5MjAsNzk2IEw5MDAsMTEwMCBaIiBmaWxsPSIjOWM2ZTVmIiBvcGFjaXR5PSIwLjY1Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCw4NDkgTDAsNzM3IEw0MCw3NjAgTDgwLDc5MSBMMTIwLDgyNiBMMTYwLDg2MiBMMjAwLDg5OCBMMjQwLDkzMCBMMjgwLDk1NiBMMzIwLDk3MyBMMzYwLDk4MSBMNDAwLDk3OSBMNDQwLDk2NiBMNDgwLDk0NCBMNTIwLDkxNSBMNTYwLDg4MSBMNjAwLDg0NSBMNjQwLDgwOCBMNjgwLDc3NSBMNzIwLDc0OCBMNzYwLDcyOSBMODAwLDcxOSBMODQwLDcxOSBMODgwLDcyOSBMOTIwLDc0OSBMOTAwLDExMDAgWiIgZmlsbD0iI2UyYzJiNiIgb3BhY2l0eT0iMC43MCIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsOTQ3IEwwLDExNDIgTDQwLDExNDQgTDgwLDExMzEgTDEyMCwxMTAzIEwxNjAsMTA2MyBMMjAwLDEwMTQgTDI0MCw5NjAgTDI4MCw5MDUgTDMyMCw4NTMgTDM2MCw4MDkgTDQwMCw3NzUgTDQ0MCw3NTUgTDQ4MCw3NDkgTDUyMCw3NjAgTDU2MCw3ODQgTDYwMCw4MjIgTDY0MCw4NjkgTDY4MCw5MjIgTDcyMCw5NzggTDc2MCwxMDMxIEw4MDAsMTA3NyBMODQwLDExMTMgTDg4MCwxMTM3IEw5MjAsMTE0NSBMOTAwLDExMDAgWiIgZmlsbD0iI2QxYTk5YSIgb3BhY2l0eT0iMC41NSIvPjwvc3ZnPg==" alt="Abstract rose wave pattern"><figcaption>Stickgold, “Sleep-dependent memory consolidation” (2005)</figcaption></figure>
+  </div>
+</section>
+
+<section class="slide l-people">
+  <header>
+    <p class="eyebrow">Teaching team</p>
+    <h2>Questions? Find us here</h2>
+  </header>
+  <div class="people">
+    <figure class="person"><div class="avatar">A</div><figcaption><strong>Course lead</strong><span class="caption">Office hours Tue 2–4 pm</span></figcaption></figure>
+    <figure class="person"><div class="avatar">T</div><figcaption><strong>Teaching assistant</strong><span class="caption">Lab sessions Thu</span></figcaption></figure>
+    <figure class="person"><div class="avatar">S</div><figcaption><strong>Study support</strong><span class="caption">Drop-in, library level 2</span></figcaption></figure>
+  </div>
+</section>
+
+<section class="slide l-bleed">
+  <img class="bg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIwIDEwODAiIHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiPjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0iZyIgY3g9IjY4JSIgY3k9IjM0JSIgcj0iNDUlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM0YTVhOGMiIHN0b3Atb3BhY2l0eT0iLjU1Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTQxYTJlIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTQxYTJlIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDUwNjBhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNza3kpIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNnKSIvPjxjaXJjbGUgY3g9IjY2MyIgY3k9IjMwOCIgcj0iMiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42OSIvPjxjaXJjbGUgY3g9IjE0OCIgY3k9IjE5MiIgcj0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjY1Ii8+PGNpcmNsZSBjeD0iMTg2MyIgY3k9IjEwMzkiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzIiLz48Y2lyY2xlIGN4PSI4ODgiIGN5PSI4NTYiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDQiLz48Y2lyY2xlIGN4PSIxMTI4IiBjeT0iODY5IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjgwIi8+PGNpcmNsZSBjeD0iMjUzIiBjeT0iNDU3IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODciLz48Y2lyY2xlIGN4PSIxMTgxIiBjeT0iODEyIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg5Ii8+PGNpcmNsZSBjeD0iOTUiIGN5PSIyNzIiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41NSIvPjxjaXJjbGUgY3g9IjExMDciIGN5PSIyNDEiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC40OSIvPjxjaXJjbGUgY3g9IjE2NzEiIGN5PSIzNzAiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjUiLz48Y2lyY2xlIGN4PSIxMzA4IiBjeT0iMzg0IiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzYiLz48Y2lyY2xlIGN4PSIxNDU4IiBjeT0iMTI4IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzQiLz48Y2lyY2xlIGN4PSI0MjEiIGN5PSIxMDE2IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNTYiLz48Y2lyY2xlIGN4PSI2NDMiIGN5PSI5NTMiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44NSIvPjxjaXJjbGUgY3g9Ijc0MCIgY3k9IjYxMyIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC43OCIvPjxjaXJjbGUgY3g9IjE0MzEiIGN5PSI0OTkiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjQiLz48Y2lyY2xlIGN4PSIxMDc1IiBjeT0iMTAxMyIgcj0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc0Ii8+PGNpcmNsZSBjeD0iNTg5IiBjeT0iMTQ5IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjYxIi8+PGNpcmNsZSBjeD0iMzM3IiBjeT0iNzAwIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg2Ii8+PGNpcmNsZSBjeD0iODYzIiBjeT0iODAiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzYiLz48Y2lyY2xlIGN4PSIxMTczIiBjeT0iNjQyIiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzIiLz48Y2lyY2xlIGN4PSIxMjE3IiBjeT0iMTAxNyIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc4Ii8+PGNpcmNsZSBjeD0iMTQwIiBjeT0iMTkxIiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNTgiLz48Y2lyY2xlIGN4PSIxMzYwIiBjeT0iMTMzIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc0Ii8+PGNpcmNsZSBjeD0iNjM0IiBjeT0iOTEyIiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzMiLz48Y2lyY2xlIGN4PSIxODE2IiBjeT0iNzEwIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg2Ii8+PGNpcmNsZSBjeD0iNzI3IiBjeT0iMzQ0IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzciLz48Y2lyY2xlIGN4PSIxMjAiIGN5PSI0NDYiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4zOCIvPjxjaXJjbGUgY3g9IjUwNyIgY3k9IjgxNCIgcj0iMiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44NSIvPjxjaXJjbGUgY3g9IjEwMTYiIGN5PSIxNjUiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNTciLz48Y2lyY2xlIGN4PSIxMTI1IiBjeT0iNTY5IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc5Ii8+PGNpcmNsZSBjeD0iMTc2OSIgY3k9IjU3MCIgcj0iMiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44OSIvPjxjaXJjbGUgY3g9IjEzOTgiIGN5PSI3NzkiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzkiLz48Y2lyY2xlIGN4PSIzNjAiIGN5PSIzMDkiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzAiLz48Y2lyY2xlIGN4PSIyNCIgY3k9Ijk5MyIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjQxIi8+PGNpcmNsZSBjeD0iNTc3IiBjeT0iOCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41NSIvPjxjaXJjbGUgY3g9Ijc1NiIgY3k9IjY1MiIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC43MSIvPjxjaXJjbGUgY3g9IjEwNTUiIGN5PSIxMTAiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODQiLz48Y2lyY2xlIGN4PSIxNTk3IiBjeT0iODAzIiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjU0Ii8+PGNpcmNsZSBjeD0iMjEyIiBjeT0iOTg2IiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjM0Ii8+PGNpcmNsZSBjeD0iMTM3IiBjeT0iNDI3IiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjQwIi8+PGNpcmNsZSBjeD0iNjk2IiBjeT0iMTA3IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjMwIi8+PGNpcmNsZSBjeD0iMzA5IiBjeT0iMjA3IiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjciLz48Y2lyY2xlIGN4PSIxNDQiIGN5PSI0MjUiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41MyIvPjxjaXJjbGUgY3g9IjEyOTkiIGN5PSI1MTYiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42NiIvPjxjaXJjbGUgY3g9Ijk3MSIgY3k9IjI1MSIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44MSIvPjxjaXJjbGUgY3g9Ijk1NCIgY3k9Ijk4MyIgcj0iMiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC40OSIvPjxjaXJjbGUgY3g9IjI5NSIgY3k9IjIwOSIgcj0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc0Ii8+PGNpcmNsZSBjeD0iOTgwIiBjeT0iMzMwIiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzEiLz48Y2lyY2xlIGN4PSIxMDgxIiBjeT0iNzQwIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjcxIi8+PGNpcmNsZSBjeD0iMTg3MiIgY3k9IjU1IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDgiLz48Y2lyY2xlIGN4PSIxMzE2IiBjeT0iMTg2IiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjEiLz48Y2lyY2xlIGN4PSIxODYwIiBjeT0iMzQyIiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzYiLz48Y2lyY2xlIGN4PSIxMDkwIiBjeT0iMTAyOSIgcj0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjY4Ii8+PGNpcmNsZSBjeD0iMTI1NSIgY3k9IjM5OSIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC43OSIvPjxjaXJjbGUgY3g9IjE1MTUiIGN5PSI0NjQiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjEiLz48Y2lyY2xlIGN4PSI3MjgiIGN5PSI1OSIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC43NyIvPjxjaXJjbGUgY3g9Ijk2NyIgY3k9IjUzMCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC43MiIvPjxjaXJjbGUgY3g9IjcwNSIgY3k9IjkxNSIgcj0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg3Ii8+PGNpcmNsZSBjeD0iNzQ2IiBjeT0iMTY0IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjM2Ii8+PGNpcmNsZSBjeD0iOTYyIiBjeT0iNDAyIiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDIiLz48Y2lyY2xlIGN4PSIxMjc4IiBjeT0iMyIgcj0iMiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44NSIvPjxjaXJjbGUgY3g9IjcwNCIgY3k9IjE3MyIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44NSIvPjxjaXJjbGUgY3g9IjE2MDIiIGN5PSI0MDgiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODMiLz48Y2lyY2xlIGN4PSI4ODgiIGN5PSI2ODAiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzgiLz48Y2lyY2xlIGN4PSIxNDc4IiBjeT0iODEwIiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjU0Ii8+PGNpcmNsZSBjeD0iMTczIiBjeT0iMzI1IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjkwIi8+PGNpcmNsZSBjeD0iNTYiIGN5PSIzMDkiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44NCIvPjxjaXJjbGUgY3g9IjE2NTEiIGN5PSIyOTkiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44MCIvPjxjaXJjbGUgY3g9Ijk3MSIgY3k9IjcxNyIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42MyIvPjxjaXJjbGUgY3g9IjI2OCIgY3k9IjQzIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc4Ii8+PGNpcmNsZSBjeD0iMTQ4NyIgY3k9IjIxMCIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc1Ii8+PGNpcmNsZSBjeD0iMjg1IiBjeT0iODg4IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjgwIi8+PGNpcmNsZSBjeD0iNDMyIiBjeT0iNTciIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC40MyIvPjxjaXJjbGUgY3g9IjEwMjYiIGN5PSI0OTIiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41MCIvPjxjaXJjbGUgY3g9IjExMTQiIGN5PSI4NTgiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzQiLz48Y2lyY2xlIGN4PSIxNTE1IiBjeT0iNzI0IiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjcwIi8+PGNpcmNsZSBjeD0iMTY2OSIgY3k9IjEwNTgiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODAiLz48Y2lyY2xlIGN4PSIxNzk4IiBjeT0iMTAyNyIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42MiIvPjxjaXJjbGUgY3g9IjEwNzIiIGN5PSIxMDQ1IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjgyIi8+PGNpcmNsZSBjeD0iMTU5MCIgY3k9IjM3NSIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjMwIi8+PGNpcmNsZSBjeD0iMTYzNiIgY3k9IjMwNiIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4zOCIvPjxjaXJjbGUgY3g9IjEyNjciIGN5PSIyNDYiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4zNCIvPjxjaXJjbGUgY3g9IjEzOTciIGN5PSIxMDYxIiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjMiLz48Y2lyY2xlIGN4PSIxNjA2IiBjeT0iMjE3IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzMiLz48Y2lyY2xlIGN4PSIzOTEiIGN5PSI1NjciIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzYiLz48Y2lyY2xlIGN4PSIxMDM5IiBjeT0iOTI2IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzIiLz48Y2lyY2xlIGN4PSIxODMwIiBjeT0iMTI5IiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjUwIi8+PGNpcmNsZSBjeD0iMTAzNSIgY3k9IjEwNDgiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzIiLz48Y2lyY2xlIGN4PSI5MjYiIGN5PSIxMDQwIiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzgiLz48Y2lyY2xlIGN4PSIxMDM5IiBjeT0iNTA3IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODMiLz48Y2lyY2xlIGN4PSIxOTAwIiBjeT0iNTMxIiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODQiLz48Y2lyY2xlIGN4PSI0MTQiIGN5PSI5MTYiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNTUiLz48Y2lyY2xlIGN4PSI4MDMiIGN5PSI5MDUiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4zNCIvPjxjaXJjbGUgY3g9IjQ5MiIgY3k9Ijg3NyIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC40MyIvPjxjaXJjbGUgY3g9IjYyMCIgY3k9IjI1MCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44NiIvPjxjaXJjbGUgY3g9IjEzMTciIGN5PSI3NDkiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDUiLz48Y2lyY2xlIGN4PSIyODEiIGN5PSI5NTciIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzUiLz48Y2lyY2xlIGN4PSIxOTIiIGN5PSI4MTUiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDAiLz48Y2lyY2xlIGN4PSIxMzY3IiBjeT0iNDU4IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjcyIi8+PGNpcmNsZSBjeD0iMTA1NSIgY3k9IjgyNyIgcj0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjU1Ii8+PGNpcmNsZSBjeD0iNzMwIiBjeT0iNjUyIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjczIi8+PGNpcmNsZSBjeD0iMzkiIGN5PSI2OTIiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41OCIvPjxjaXJjbGUgY3g9IjE0NDAiIGN5PSIzNyIgcj0iMiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41MCIvPjxjaXJjbGUgY3g9IjEyNzciIGN5PSI2MDUiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44OCIvPjxjaXJjbGUgY3g9IjIzMSIgY3k9IjQ2OCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4zNSIvPjxjaXJjbGUgY3g9IjU1NiIgY3k9IjgxIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjQ2Ii8+PGNpcmNsZSBjeD0iMjY1IiBjeT0iODY0IiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNTQiLz48Y2lyY2xlIGN4PSIxMDk4IiBjeT0iMTA1NCIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjYwIi8+PGNpcmNsZSBjeD0iNjY5IiBjeT0iMTgzIiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzMiLz48Y2lyY2xlIGN4PSIxNDA5IiBjeT0iMzc1IiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg0Ii8+PGNpcmNsZSBjeD0iNTUwIiBjeT0iMzQiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzgiLz48Y2lyY2xlIGN4PSIxNzEiIGN5PSI0NTUiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDYiLz48Y2lyY2xlIGN4PSIyNDkiIGN5PSI5MjkiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNTAiLz48Y2lyY2xlIGN4PSIxMTMyIiBjeT0iODU1IiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjciLz48Y2lyY2xlIGN4PSI4OCIgY3k9IjEwNzkiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODYiLz48Y2lyY2xlIGN4PSIzMzAiIGN5PSI1MzYiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDEiLz48Y2lyY2xlIGN4PSIxOTA5IiBjeT0iNjM4IiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjIiLz48Y2lyY2xlIGN4PSI0MjEiIGN5PSI1OTMiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjAiLz48Y2lyY2xlIGN4PSIzNjQiIGN5PSI1NTQiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC43OCIvPjxjaXJjbGUgY3g9IjUxMiIgY3k9Ijc1IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjMxIi8+PGNpcmNsZSBjeD0iMTAzNSIgY3k9IjM4OCIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjU4Ii8+PGNpcmNsZSBjeD0iMTkxNCIgY3k9IjkxNSIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42OSIvPjxjaXJjbGUgY3g9IjEzMzEiIGN5PSI4ODUiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjMiLz48Y2lyY2xlIGN4PSIxODIwIiBjeT0iODA1IiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDgiLz48Y2lyY2xlIGN4PSI0NDAiIGN5PSI0NzAiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC40MiIvPjxjaXJjbGUgY3g9IjE4MDYiIGN5PSIyODYiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODkiLz48Y2lyY2xlIGN4PSIxMTEiIGN5PSIyNjUiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzQiLz48Y2lyY2xlIGN4PSIxNTE3IiBjeT0iNTIzIiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjQwIi8+PGNpcmNsZSBjeD0iMTczIiBjeT0iNzgwIiByPSIyLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzAiLz48Y2lyY2xlIGN4PSI1NzciIGN5PSI0OTYiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4zMyIvPjxjaXJjbGUgY3g9IjM3OSIgY3k9IjMyMiIgcj0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjU3Ii8+PGNpcmNsZSBjeD0iNTM5IiBjeT0iNzQ1IiByPSIxLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODgiLz48Y2lyY2xlIGN4PSIxMTIwIiBjeT0iNjYyIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjMyIi8+PGNpcmNsZSBjeD0iMTgwNyIgY3k9IjYzMyIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41MSIvPjxjaXJjbGUgY3g9IjIiIGN5PSI2ODYiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMzUiLz48Y2lyY2xlIGN4PSI1NzEiIGN5PSIxMDI5IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjQ1Ii8+PGNpcmNsZSBjeD0iMTU4OSIgY3k9IjEwIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjQ2Ii8+PGNpcmNsZSBjeD0iMTgzIiBjeT0iMjk0IiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjY1Ii8+PGNpcmNsZSBjeD0iODA2IiBjeT0iNDYiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC40OCIvPjxjaXJjbGUgY3g9IjQ3NiIgY3k9IjE3MyIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg3Ii8+PGNpcmNsZSBjeD0iMTc0NyIgY3k9IjMxNyIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjUzIi8+PGNpcmNsZSBjeD0iNjY3IiBjeT0iMTAxMiIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC40NyIvPjxjaXJjbGUgY3g9IjEyNjciIGN5PSIyOTYiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzkiLz48Y2lyY2xlIGN4PSIxNDY0IiBjeT0iMTA1MCIgcj0iMiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC43NCIvPjxjaXJjbGUgY3g9IjE2NjMiIGN5PSIxMDM1IiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg1Ii8+PGNpcmNsZSBjeD0iMTU0MSIgY3k9IjEwMzIiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44MCIvPjxjaXJjbGUgY3g9IjE2NDciIGN5PSIzMiIgcj0iMi41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjc4Ii8+PGNpcmNsZSBjeD0iMTQ1NiIgY3k9IjQ3MCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4zMiIvPjxjaXJjbGUgY3g9IjI3MiIgY3k9IjczOCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41MyIvPjxjaXJjbGUgY3g9IjkyNCIgY3k9IjEwMyIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42OCIvPjxjaXJjbGUgY3g9IjEzOTQiIGN5PSI1MDAiIHI9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNDYiLz48Y2lyY2xlIGN4PSI5MzUiIGN5PSIxNDMiIHI9IjIuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC44NCIvPjxjaXJjbGUgY3g9IjE4OCIgY3k9IjEwNzciIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzUiLz48Y2lyY2xlIGN4PSI5NzAiIGN5PSI1MTYiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuODEiLz48Y2lyY2xlIGN4PSI0ODAiIGN5PSI0MjAiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNzQiLz48Y2lyY2xlIGN4PSI5NDIiIGN5PSIxMDExIiByPSIyIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjM1Ii8+PGNpcmNsZSBjeD0iMTg2NCIgY3k9IjU4OCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42NyIvPjxjaXJjbGUgY3g9IjEzMTYiIGN5PSI0MDYiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNjYiLz48Y2lyY2xlIGN4PSI2NzkiIGN5PSI1MjAiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC42NyIvPjxjaXJjbGUgY3g9IjEzMDYiIGN5PSIzNjciIHI9IjEzMCIgZmlsbD0iI2YxZTZjOCIvPjxjaXJjbGUgY3g9IjEzNjAiIGN5PSIzMzUiIHI9IjExOSIgZmlsbD0iIzE0MWEyZSIgb3BhY2l0eT0iLjk2Ii8+PHBhdGggZD0iTTAsODg2IEM0ODAsNzk5IDk2MCw5NzIgMTkyMCw4NDIgTDE5MjAsMTA4MCBMMCwxMDgwIFoiIGZpbGw9IiMwNTA2MGEiLz48L3N2Zz4=" alt="">
+  <p class="eyebrow">Tonight’s homework</p>
+  <h2>Go to sleep. Your memory is doing the work.</h2>
+</section>
+
+<section class="slide l-closing">
+  <h2>Thank <em>you.</em></h2>
+  <ul class="contact">
+    <li><strong>Slides</strong>Course page → Week 7</li>
+    <li><strong>Reading</strong>Chapter 9, pp. 212–240</li>
+    <li><strong>Next week</strong>Attention and distraction</li>
+  </ul>
+</section>
+</main>
+</div>
+<script>
+/* =====================================================================
+   DECKLUME · RUNTIME
+   Scaling, navigation, builds, Magic-Move morphs (View Transitions),
+   overview, presenter window, inline editing and help. No dependencies.
+   ===================================================================== */
+(() => {
+  "use strict";
+
+  const W = 1920;
+  const H = 1080;
+  const params = new URLSearchParams(location.search);
+  const MODE = params.has("presenter") ? "presenter" : params.has("embed") ? "embed" : "deck";
+  const root = document.documentElement;
+
+  // Blocks that get the staggered entrance, in reading order.
+  const ENTER_SELECTOR = [
+    ":scope > :not(.notes, .media, .bg, [data-enter='none'])",
+    ":scope > header > *",
+    ".cards > *", ".stats > *", ".steps > *", ".timeline > *", ".people > *",
+    ".agenda > *", ".points > *", ".flow > *", ".gallery > *", ".columns > *",
+    ".contact > *", ".body > *", ".takeaway > *",
+  ].join(",");
+
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  class Deck {
+    constructor() {
+      this.viewport = document.querySelector(".deck-viewport");
+      this.stage = document.querySelector(".deck-stage");
+      this.slides = [...this.stage.querySelectorAll(":scope > .slide")];
+      this.index = 0;
+      this.stepIndex = 0; // number of steps currently shown on the active slide
+      this.overview = false;
+      this.editing = false;
+      this.presenterWin = null;
+      // Embedded copies (presenter previews, style previews) are driven only
+      // by their parent window, never by the shared channel.
+      this.channel = MODE !== "embed" && "BroadcastChannel" in window ? new BroadcastChannel("decklume:" + location.pathname) : null;
+
+      this.prepareSlides();
+      this.scale = this.scale.bind(this);
+      window.addEventListener("resize", this.scale);
+      this.scale();
+
+      if (MODE === "embed") root.classList.add("dl-embed");
+      if (MODE !== "embed") this.buildChrome();
+      this.bindInput();
+      this.bindMessages();
+
+      const start = this.readHash();
+      this.go(start.index, { steps: start.steps, instant: true });
+      requestAnimationFrame(() => root.classList.add("dl-ready"));
+    }
+
+    /* --- Setup --------------------------------------------------------- */
+    prepareSlides() {
+      this.slides.forEach((slide, n) => {
+        slide.setAttribute("aria-roledescription", "slide");
+        slide.setAttribute("aria-label", `${n + 1} of ${this.slides.length}`);
+
+        // Steps: explicit .step elements, ordered by data-step then DOM order.
+        const steps = [...slide.querySelectorAll(".step")];
+        steps.forEach((el, i) => (el.dataset.dlOrder = el.dataset.step ?? i));
+        slide._steps = steps.sort((a, b) => Number(a.dataset.dlOrder) - Number(b.dataset.dlOrder));
+
+        // Entrance choreography.
+        if (slide.dataset.enter === "none") return;
+        let i = 0;
+        slide.querySelectorAll(ENTER_SELECTOR).forEach((el) => {
+          if (el.matches(".step, [data-morph], .notes, script, style") || el.closest("[data-morph]")) return;
+          if (el.classList.contains("dl-enter")) return;
+          // Containers whose children animate don't animate themselves.
+          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, header")) return;
+          el.classList.add("dl-enter");
+          el.style.setProperty("--i", String(Math.min(i++, 9)));
+        });
+      });
+    }
+
+    scale() {
+      if (this.overview) return this.layoutOverview();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const s = Math.min(vw / W, vh / H);
+      const x = (vw - W * s) / 2;
+      const y = (vh - H * s) / 2;
+      this.stage.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+    }
+
+    /* --- Navigation ------------------------------------------------------ */
+    next() {
+      const steps = this.slides[this.index]._steps;
+      if (this.stepIndex < steps.length) return this.setSteps(this.stepIndex + 1);
+      if (this.index < this.slides.length - 1) this.go(this.index + 1);
+    }
+
+    prev() {
+      if (this.stepIndex > 0) return this.setSteps(this.stepIndex - 1);
+      if (this.index > 0) this.go(this.index - 1, { steps: Infinity });
+    }
+
+    go(target, { steps = 0, instant = false } = {}) {
+      const n = Math.max(0, Math.min(target, this.slides.length - 1));
+      const from = this.slides[this.index];
+      const to = this.slides[n];
+      const changed = from !== to || instant;
+
+      const swap = () => {
+        this.slides.forEach((s) => s.classList.toggle("is-active", s === to));
+        this.index = n;
+        this.setSteps(steps === Infinity ? to._steps.length : steps, { silent: true });
+        if (changed) this.playEntrance(to);
+        this.afterChange();
+      };
+
+      const morphs = from !== to ? this.matchMorphs(from, to) : [];
+      const canVT = !instant && from !== to && document.startViewTransition && !reduceMotion && !this.overview;
+
+      if (canVT) {
+        this.nameMorphs(morphs, "from");
+        root.classList.add("dl-vt");
+        root.style.setProperty("--vt-dir", n > this.index ? "1" : "-1");
+        const vt = document.startViewTransition(() => {
+          this.clearMorphNames(morphs);
+          swap();
+          this.nameMorphs(morphs, "to");
+        });
+        vt.finished.finally(() => {
+          this.clearMorphNames(morphs);
+          root.classList.remove("dl-vt");
+        });
+      } else {
+        swap();
+      }
+    }
+
+    setSteps(count, { silent = false } = {}) {
+      const slide = this.slides[this.index];
+      const steps = slide._steps;
+      this.stepIndex = Math.max(0, Math.min(count, steps.length));
+      const dimPrev = slide.hasAttribute("data-dim");
+      steps.forEach((el, i) => {
+        el.classList.toggle("is-shown", i < this.stepIndex);
+        el.classList.toggle("is-dimmed", dimPrev && i < this.stepIndex - 1);
+      });
+      if (!silent) this.afterChange();
+    }
+
+    playEntrance(slide) {
+      if (reduceMotion || MODE === "embed") return;
+      slide.classList.remove("is-entering");
+      void slide.offsetWidth; // restart the animation
+      slide.classList.add("is-entering");
+      clearTimeout(slide._enterTimer);
+      slide._enterTimer = setTimeout(() => slide.classList.remove("is-entering"), 2600);
+    }
+
+    afterChange() {
+      const total = this.slides.length;
+      root.style.setProperty("--dl-progress", total > 1 ? String(this.index / (total - 1)) : "1");
+      if (this.countEl) this.countEl.textContent = `${this.index + 1} / ${total}`;
+      if (MODE === "deck") {
+        const hash = `#/${this.index + 1}`;
+        if (location.hash !== hash) history.replaceState(null, "", hash);
+      }
+      this.broadcast();
+      document.dispatchEvent(new CustomEvent("decklume:change", { detail: { index: this.index, step: this.stepIndex } }));
+    }
+
+    readHash() {
+      const m = location.hash.match(/^#\/(\d+)(?:\.(\d+))?/);
+      return m ? { index: Number(m[1]) - 1, steps: Number(m[2] || 0) } : { index: 0, steps: 0 };
+    }
+
+    /* --- Magic Move ---------------------------------------------------------
+       Elements sharing a data-morph value on consecutive slides glide from
+       one position to the other through a View Transition. */
+    matchMorphs(from, to) {
+      const pairs = [];
+      from.querySelectorAll("[data-morph]").forEach((a) => {
+        const key = a.dataset.morph;
+        const b = to.querySelector(`[data-morph="${CSS.escape(key)}"]`);
+        if (b) pairs.push({ key, from: a, to: b });
+      });
+      return pairs;
+    }
+
+    nameMorphs(pairs, side) {
+      pairs.forEach((p, i) => {
+        p[side].style.viewTransitionName = `dl-morph-${i}-${p.key.replace(/[^a-z0-9_-]/gi, "")}`;
+      });
+    }
+
+    clearMorphNames(pairs) {
+      pairs.forEach((p) => {
+        p.from.style.viewTransitionName = "";
+        p.to.style.viewTransitionName = "";
+      });
+    }
+
+    /* --- Overview (O) --------------------------------------------------- */
+    toggleOverview(force) {
+      this.overview = force ?? !this.overview;
+      root.classList.toggle("dl-overview", this.overview);
+      if (this.overview) {
+        this.layoutOverview();
+        this.slides[this.index].scrollIntoView({ block: "center" });
+      } else {
+        this.slides.forEach((s) => (s.style.transform = ""));
+        this.stage.style.height = "";
+        this.scale();
+      }
+    }
+
+    layoutOverview() {
+      const cols = window.innerWidth < 900 ? 2 : 4;
+      const gap = 120;
+      this.slides.forEach((s, i) => {
+        const c = i % cols;
+        const r = Math.floor(i / cols);
+        s.style.transform = `translate(${c * (W + gap)}px, ${r * (H + gap)}px)`;
+      });
+      const rows = Math.ceil(this.slides.length / cols);
+      const fullW = cols * W + (cols - 1) * gap;
+      const pad = 40;
+      const s = (window.innerWidth - pad * 2) / fullW;
+      this.stage.style.height = `${rows * (H + gap)}px`;
+      this.stage.style.transform = `translate(${pad}px, ${pad}px) scale(${s})`;
+    }
+
+    /* --- Chrome ------------------------------------------------------------- */
+    buildChrome() {
+      const progress = document.createElement("div");
+      progress.className = "dl-progress";
+      progress.setAttribute("aria-hidden", "true");
+
+      const hud = document.createElement("nav");
+      hud.className = "dl-hud";
+      hud.setAttribute("aria-label", "Slide controls");
+      hud.innerHTML = `
+        <button type="button" data-act="prev" aria-label="Previous slide">&#8592;</button>
+        <span class="dl-count" aria-live="polite"></span>
+        <button type="button" data-act="next" aria-label="Next slide">&#8594;</button>
+        <button type="button" data-act="overview" aria-label="Overview (O)">&#9638;</button>
+        <button type="button" data-act="presenter" aria-label="Presenter view (P)">P</button>
+        <button type="button" data-act="help" aria-label="Keyboard shortcuts (?)">?</button>`;
+      hud.addEventListener("click", (e) => {
+        const act = e.target.closest("button")?.dataset.act;
+        if (act) this.command(act);
+      });
+      this.countEl = hud.querySelector(".dl-count");
+
+      const help = document.createElement("div");
+      help.className = "dl-help";
+      help.setAttribute("role", "dialog");
+      help.setAttribute("aria-label", "Keyboard shortcuts");
+      help.innerHTML = `
+        <div class="dl-help-card">
+          <h2>Keyboard shortcuts</h2>
+          <dl>
+            <dt>→ Space</dt><dd>Next step / slide</dd>
+            <dt>←</dt><dd>Previous</dd>
+            <dt>Home End</dt><dd>First / last slide</dd>
+            <dt>12 ⏎</dt><dd>Jump to slide 12</dd>
+            <dt>O</dt><dd>Overview</dd>
+            <dt>P</dt><dd>Presenter window (notes, timer, next slide)</dd>
+            <dt>F</dt><dd>Fullscreen</dd>
+            <dt>B</dt><dd>Blackout</dd>
+            <dt>E</dt><dd>Edit text · ⌘/Ctrl+S saves</dd>
+            <dt>G</dt><dd>Grid overlay</dd>
+          </dl>
+          <p class="dl-credit">Made with <a href="https://github.com/GgauravJ05/decklume" target="_blank" rel="noopener">Decklume</a></p>
+        </div>`;
+      help.addEventListener("click", (e) => e.target === help && help.classList.remove("is-open"));
+
+      const toast = document.createElement("div");
+      toast.className = "dl-toast";
+      toast.setAttribute("role", "status");
+
+      document.body.append(progress, hud, help, toast);
+      this.hud = hud;
+      this.help = help;
+      this.toastEl = toast;
+
+      // Reveal the HUD briefly whenever the mouse moves.
+      let t;
+      window.addEventListener("mousemove", () => {
+        hud.classList.add("is-visible");
+        clearTimeout(t);
+        t = setTimeout(() => hud.classList.remove("is-visible"), 1800);
+      });
+    }
+
+    toast(msg) {
+      if (!this.toastEl) return;
+      this.toastEl.textContent = msg;
+      this.toastEl.classList.add("is-visible");
+      clearTimeout(this._toastT);
+      this._toastT = setTimeout(() => this.toastEl.classList.remove("is-visible"), 1800);
+    }
+
+    command(act) {
+      switch (act) {
+        case "next": return this.next();
+        case "prev": return this.prev();
+        case "first": return this.go(0);
+        case "last": return this.go(this.slides.length - 1);
+        case "overview": return this.toggleOverview();
+        case "presenter": return this.openPresenter();
+        case "help": return this.help?.classList.toggle("is-open");
+        case "fullscreen":
+          return document.fullscreenElement ? document.exitFullscreen() : root.requestFullscreen?.();
+        case "blackout": return root.classList.toggle("dl-blackout");
+        case "grid": return root.classList.toggle("dl-grid-on");
+        case "edit": return this.toggleEdit();
+        case "save": return this.save();
+      }
+    }
+
+    /* --- Input -------------------------------------------------------------- */
+    bindInput() {
+      if (MODE === "embed") return;
+      let typed = "";
+
+      document.addEventListener("keydown", (e) => {
+        const inText = e.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName);
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
+          e.preventDefault();
+          return this.command("save");
+        }
+        if (inText) {
+          if (e.key === "Escape") this.toggleEdit(false);
+          return;
+        }
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+        if (/^\d$/.test(e.key)) {
+          typed += e.key;
+          return;
+        }
+        if (e.key === "Enter" && typed) {
+          this.go(Number(typed) - 1);
+          if (this.overview) this.toggleOverview(false);
+          typed = "";
+          return;
+        }
+        typed = "";
+
+        const map = {
+          ArrowRight: "next", ArrowDown: "next", " ": "next", PageDown: "next", n: "next", l: "next",
+          ArrowLeft: "prev", ArrowUp: "prev", PageUp: "prev", Backspace: "prev", h: "prev",
+          Home: "first", End: "last",
+          o: "overview", O: "overview",
+          p: "presenter", P: "presenter", f: "fullscreen", F: "fullscreen", b: "blackout", B: "blackout", ".": "blackout",
+          e: "edit", E: "edit", g: "grid", G: "grid", "?": "help",
+        };
+        if (e.key === "Escape") {
+          if (this.help?.classList.contains("is-open")) return this.help.classList.remove("is-open");
+          if (this.overview) return this.toggleOverview(false);
+          if (this.editing) return this.toggleEdit(false);
+          return;
+        }
+        const act = map[e.key];
+        if (act) {
+          e.preventDefault();
+          if (this.overview && (act === "next" || act === "prev")) {
+            this.go(this.index + (act === "next" ? 1 : -1));
+            return;
+          }
+          this.command(act);
+        }
+      });
+
+      // Overview: click a slide to open it.
+      this.stage.addEventListener("click", (e) => {
+        if (!this.overview) return;
+        const slide = e.target.closest(".slide");
+        if (!slide) return;
+        this.go(this.slides.indexOf(slide), { instant: true });
+        this.toggleOverview(false);
+      });
+
+      // Wheel / trackpad, debounced so one gesture is one move.
+      let wheelLock = 0;
+      window.addEventListener("wheel", (e) => {
+        if (this.overview || this.editing) return;
+        const now = Date.now();
+        if (now < wheelLock || Math.abs(e.deltaY) < 24) return;
+        wheelLock = now + 650;
+        e.deltaY > 0 ? this.next() : this.prev();
+      }, { passive: true });
+
+      // Touch swipe.
+      let sx = 0, sy = 0;
+      window.addEventListener("touchstart", (e) => {
+        sx = e.touches[0].clientX;
+        sy = e.touches[0].clientY;
+      }, { passive: true });
+      window.addEventListener("touchend", (e) => {
+        if (this.overview || this.editing) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        const dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? this.next() : this.prev();
+      });
+
+      window.addEventListener("hashchange", () => {
+        const h = this.readHash();
+        if (h.index !== this.index) this.go(h.index, { steps: h.steps });
+      });
+    }
+
+    /* --- Presenter sync --------------------------------------------------- */
+    state() {
+      return { type: "decklume:state", index: this.index, step: this.stepIndex };
+    }
+
+    broadcast() {
+      if (this._fromRemote || MODE === "embed") return;
+      const msg = this.state();
+      try { this.presenterWin && !this.presenterWin.closed && this.presenterWin.postMessage(msg, "*"); } catch {}
+      try { MODE === "presenter" && window.opener && window.opener.postMessage(msg, "*"); } catch {}
+      try { this.channel && this.channel.postMessage(msg); } catch {}
+    }
+
+    receive(data) {
+      if (!data || data.type !== "decklume:state") return;
+      if (data.index === this.index && data.step === this.stepIndex) return;
+      this._fromRemote = true;
+      if (data.index !== this.index) this.go(data.index, { steps: data.step, instant: MODE === "embed" });
+      else this.setSteps(data.step);
+      this._fromRemote = false;
+    }
+
+    bindMessages() {
+      window.addEventListener("message", (e) => this.receive(e.data));
+      if (this.channel) this.channel.onmessage = (e) => this.receive(e.data);
+    }
+
+    openPresenter() {
+      const url = location.href.split("#")[0].split("?")[0] + "?presenter#/" + (this.index + 1);
+      this.presenterWin = window.open(url, "decklume-presenter", "width=1280,height=800");
+      if (!this.presenterWin) this.toast("Allow pop-ups to open the presenter window");
+    }
+
+    /* --- Inline editing (E) --------------------------------------------- */
+    toggleEdit(force) {
+      this.editing = force ?? !this.editing;
+      root.classList.toggle("dl-editing", this.editing);
+      const sel = "h1, h2, h3, h4, p, li, blockquote, figcaption, td, th, .value, .label, .when, .term, .meaning, cite";
+      this.stage.querySelectorAll(".slide").forEach((slide) => {
+        slide.querySelectorAll(sel).forEach((el) => {
+          // Only the innermost editable element, so nested markup stays intact.
+          if (this.editing && !el.querySelector(sel)) el.setAttribute("contenteditable", "true");
+          else el.removeAttribute("contenteditable");
+        });
+      });
+      this.toast(this.editing ? "Editing · ⌘/Ctrl+S to save · Esc to finish" : "Editing off");
+    }
+
+    /** Clean HTML source of the deck, without runtime state. */
+    serialize() {
+      return serialize();
+    }
+
+    async save() {
+      const was = this.editing;
+      if (was) this.toggleEdit(false);
+      const html = serialize();
+      if (was) this.toggleEdit(true);
+      const name = decodeURIComponent(location.pathname.split("/").pop() || "deck.html");
+      try {
+        if (window.showSaveFilePicker) {
+          const handle = await window.showSaveFilePicker({ suggestedName: name, types: [{ description: "HTML", accept: { "text/html": [".html"] } }] });
+          const w = await handle.createWritable();
+          await w.write(html);
+          await w.close();
+          return this.toast("Saved");
+        }
+      } catch (err) {
+        if (err && err.name === "AbortError") return;
+      }
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([html], { type: "text/html" }));
+      a.download = name;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      this.toast("Downloaded " + name);
+    }
+  }
+
+  /* Serialise the document back to clean source: strip runtime state. */
+  function serialize() {
+    const clone = document.documentElement.cloneNode(true);
+    clone.classList.remove("dl-ready", "dl-overview", "dl-editing", "dl-blackout", "dl-grid-on", "dl-vt", "dl-embed");
+    if (!clone.classList.length) clone.removeAttribute("class");
+    clone.style.removeProperty("--dl-progress");
+    clone.style.removeProperty("--vt-dir");
+    if (!clone.getAttribute("style")) clone.removeAttribute("style");
+    clone.querySelectorAll(".dl-progress, .dl-hud, .dl-help, .dl-toast, [data-dl-generated]").forEach((n) => n.remove());
+    const stage = clone.querySelector(".deck-stage");
+    if (stage) { stage.style.transform = ""; stage.style.height = ""; if (!stage.getAttribute("style")) stage.removeAttribute("style"); }
+    clone.querySelectorAll(".slide").forEach((s) => {
+      s.classList.remove("is-active", "is-entering");
+      s.removeAttribute("aria-roledescription");
+      s.removeAttribute("aria-label");
+      s.style.transform = "";
+      if (!s.getAttribute("style")) s.removeAttribute("style");
+    });
+    clone.querySelectorAll(".dl-enter").forEach((el) => {
+      el.classList.remove("dl-enter");
+      el.style.removeProperty("--i");
+      if (!el.getAttribute("style")) el.removeAttribute("style");
+      if (!el.classList.length) el.removeAttribute("class");
+    });
+    clone.querySelectorAll(".step").forEach((el) => { el.classList.remove("is-shown", "is-dimmed"); delete el.dataset.dlOrder; });
+    clone.querySelectorAll("[contenteditable]").forEach((el) => el.removeAttribute("contenteditable"));
+    clone.querySelectorAll("[data-morph]").forEach((el) => { el.style.viewTransitionName = ""; if (!el.getAttribute("style")) el.removeAttribute("style"); });
+    return "<!DOCTYPE html>\n" + clone.outerHTML + "\n";
+  }
+
+  /* =====================================================================
+     PRESENTER WINDOW
+     Current slide, next slide, notes, timer. Two embedded copies of the
+     deck are driven by postMessage, so it works from file:// too.
+     ===================================================================== */
+  function presenter() {
+    const slides = [...document.querySelectorAll(".deck-stage > .slide")];
+    const notes = slides.map((s) => s.querySelector(".notes")?.innerHTML.trim() || "");
+    const steps = slides.map((s) => s.querySelectorAll(".step").length);
+    const title = document.title;
+    const base = location.href.split("#")[0].split("?")[0];
+    const startHash = location.hash.match(/^#\/(\d+)/);
+    let index = startHash ? Number(startHash[1]) - 1 : 0;
+    let step = 0;
+    const startedAt = Date.now();
+    let paused = 0, pausedAt = 0;
+
+    document.body.innerHTML = `
+      <div class="pv">
+        <header class="pv-bar">
+          <span class="pv-title"></span>
+          <span class="pv-timer" title="Click to pause, double-click to reset">00:00</span>
+          <span class="pv-clock"></span>
+          <span class="pv-count"></span>
+        </header>
+        <section class="pv-current"><div class="pv-frame"><iframe title="Current slide"></iframe></div></section>
+        <aside class="pv-side">
+          <div class="pv-next-label">Next</div>
+          <div class="pv-next pv-frame"><iframe title="Next slide"></iframe></div>
+          <div class="pv-notes" aria-live="polite"></div>
+        </aside>
+      </div>`;
+    const style = document.createElement("style");
+    style.textContent = `
+      html,body{overflow:hidden;background:#0d0d0f;color:#eee;font:16px/1.55 ui-sans-serif,system-ui,sans-serif;margin:0;height:100%}
+      .pv{display:grid;grid-template-columns:1.7fr 1fr;grid-template-rows:auto 1fr;gap:16px;height:100%;padding:16px;box-sizing:border-box}
+      .pv-bar{grid-column:1/-1;display:flex;gap:24px;align-items:center;font-variant-numeric:tabular-nums}
+      .pv-title{flex:1;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .pv-timer{font-size:28px;font-weight:600;cursor:pointer;user-select:none}
+      .pv-timer.is-paused{color:#e8b04a}
+      .pv-clock,.pv-count{color:#999;font-size:18px}
+      .pv-frame{position:relative;aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden}
+      .pv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
+      .pv-current{display:grid;align-content:center;min-height:0}
+      .pv-side{display:grid;grid-template-rows:auto auto 1fr;gap:10px;min-height:0}
+      .pv-next-label{color:#999;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+      .pv-next{opacity:.85}
+      .pv-notes{overflow:auto;font-size:22px;line-height:1.5;padding:16px 4px;color:#f2f2f2}
+      .pv-notes:empty::before{content:"No notes for this slide.";color:#666}
+      .pv-notes p{margin:0 0 .8em}`;
+    document.head.append(style);
+    document.title = "Presenter · " + title;
+    document.querySelector(".pv-title").textContent = title;
+
+    const [cur, nxt] = document.querySelectorAll("iframe");
+    cur.src = `${base}?embed#/${index + 1}`;
+    nxt.src = `${base}?embed#/${Math.min(index + 2, slides.length)}`;
+
+    const post = (frame, msg) => { try { frame.contentWindow.postMessage(msg, "*"); } catch {} };
+    const render = (fromOpener = false) => {
+      post(cur, { type: "decklume:state", index, step });
+      // "Next" shows the next build step, or the next slide fully built.
+      if (step < steps[index]) post(nxt, { type: "decklume:state", index, step: step + 1 });
+      else post(nxt, { type: "decklume:state", index: Math.min(index + 1, slides.length - 1), step: index + 1 < slides.length ? steps[index + 1] : steps[index] });
+      document.querySelector(".pv-notes").innerHTML = notes[index];
+      document.querySelector(".pv-count").textContent = `${index + 1} / ${slides.length}`;
+      history.replaceState(null, "", `?presenter#/${index + 1}`);
+      if (!fromOpener) { try { window.opener && window.opener.postMessage({ type: "decklume:state", index, step }, "*"); } catch {} }
+    };
+    cur.addEventListener("load", () => render(true));
+    nxt.addEventListener("load", () => render(true));
+
+    const move = (dir) => {
+      if (dir > 0) {
+        if (step < steps[index]) step++;
+        else if (index < slides.length - 1) { index++; step = 0; }
+      } else {
+        if (step > 0) step--;
+        else if (index > 0) { index--; step = steps[index]; }
+      }
+      render();
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (["ArrowRight", "ArrowDown", " ", "PageDown", "n"].includes(e.key)) { e.preventDefault(); move(1); }
+      if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); move(-1); }
+      if (e.key === "Home") { index = 0; step = 0; render(); }
+      if (e.key === "End") { index = slides.length - 1; step = 0; render(); }
+    });
+    window.addEventListener("message", (e) => {
+      const d = e.data;
+      if (d && d.type === "decklume:state" && e.source === window.opener) { index = d.index; step = d.step; render(true); }
+    });
+
+    const timer = document.querySelector(".pv-timer");
+    timer.addEventListener("click", () => {
+      if (pausedAt) { paused += Date.now() - pausedAt; pausedAt = 0; } else pausedAt = Date.now();
+      timer.classList.toggle("is-paused", !!pausedAt);
+    });
+    let resetAt = startedAt;
+    timer.addEventListener("dblclick", () => { resetAt = Date.now(); paused = 0; pausedAt = 0; timer.classList.remove("is-paused"); });
+    const pad = (n) => String(n).padStart(2, "0");
+    setInterval(() => {
+      const ms = (pausedAt || Date.now()) - resetAt - paused;
+      const s = Math.max(0, Math.floor(ms / 1000));
+      timer.textContent = `${pad(Math.floor(s / 60))}:${pad(s % 60)}`;
+      document.querySelector(".pv-clock").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }, 500);
+  }
+
+  const boot = () => {
+    if (MODE === "presenter") return presenter();
+    window.decklume = new Deck();
+  };
+  document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
+})();
+
+
+/* =====================================================================
+   DECKLUME · CHARTS
+   Declarative SVG charts drawn from data attributes, coloured by theme
+   tokens, animated on slide entry. Types: bar, hbar, line, donut.
+
+   <figure class="chart" data-type="bar"
+           data-labels="2022,2023,2024,2025"
+           data-series="Revenue:12,19,31,48"
+           data-unit="M" data-highlight="3"></figure>
+
+   Several series: data-series="A:1,2,3; B:2,3,1".
+   ===================================================================== */
+(() => {
+  "use strict";
+  const NS = "http://www.w3.org/2000/svg";
+  const W = 1000;
+
+  const el = (tag, attrs = {}, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+    if (parent) parent.append(n);
+    return n;
+  };
+
+  const parse = (fig) => {
+    const labels = (fig.dataset.labels || "").split(",").map((s) => s.trim()).filter(Boolean);
+    const series = (fig.dataset.series || fig.dataset.values || "")
+      .split(";")
+      .map((chunk, i) => {
+        const [name, vals] = chunk.includes(":") ? chunk.split(":") : [`Series ${i + 1}`, chunk];
+        return { name: name.trim(), values: vals.split(",").map((v) => parseFloat(v)) };
+      })
+      .filter((s) => s.values.some((v) => !Number.isNaN(v)));
+    return { labels, series };
+  };
+
+  const niceMax = (max) => {
+    if (max <= 0) return 1;
+    const p = Math.pow(10, Math.floor(Math.log10(max)));
+    const n = max / p;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p;
+  };
+
+  const fmt = (v, unit = "", prefix = "") => {
+    const s = Math.abs(v) >= 1000 ? v.toLocaleString("en-US") : String(Math.round(v * 10) / 10);
+    return prefix + s + unit;
+  };
+
+  const colour = (i, highlight) => {
+    if (highlight) return "var(--c-accent)";
+    return ["var(--c-chart-1, var(--c-ink-2))", "var(--c-chart-2, var(--c-accent))", "var(--c-chart-3, var(--c-ink-3))", "var(--c-chart-4, var(--c-accent-2))"][i % 4];
+  };
+
+  function bar(fig, { labels, series }, horizontal) {
+    const H = horizontal ? Math.max(380, labels.length * 92) : 560;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+    const unit = fig.dataset.unit || "";
+    const prefix = fig.dataset.prefix || "";
+    const hl = fig.dataset.highlight !== undefined ? Number(fig.dataset.highlight) : -1;
+    const all = series.flatMap((s) => s.values);
+    const max = niceMax(Math.max(...all));
+    const multi = series.length > 1;
+
+    if (!horizontal) {
+      const padL = 20, padB = 64, padT = 56;
+      const plotH = H - padB - padT;
+      const band = (W - padL) / labels.length;
+      const barW = Math.min(120, (band * 0.62) / series.length);
+      el("line", { x1: padL, x2: W, y1: H - padB, y2: H - padB, class: "dl-axis" }, svg);
+      labels.forEach((lab, i) => {
+        const cx = padL + band * i + band / 2;
+        series.forEach((s, j) => {
+          const v = s.values[i] ?? 0;
+          const h = (v / max) * plotH;
+          const x = cx - (barW * series.length) / 2 + j * barW;
+          const isHl = !multi && (hl === i || (hl < 0 && false));
+          const r = el("rect", {
+            x: x + 3, y: H - padB - h, width: barW - 6, height: h,
+            fill: multi ? colour(j) : isHl ? "var(--c-accent)" : "var(--c-bar, var(--c-ink-2))",
+            class: "dl-bar", style: `--d:${i * 70 + j * 30}ms`,
+          }, svg);
+          r.append(Object.assign(document.createElementNS(NS, "title"), { textContent: `${lab}: ${fmt(v, unit, prefix)}` }));
+          if (!multi || series.length <= 2) {
+            el("text", { x: x + barW / 2, y: H - padB - h - 16, "text-anchor": "middle", class: `dl-val${isHl ? " is-hl" : ""}`, style: `--d:${i * 70 + 200}ms` }, svg).textContent = fmt(v, unit, prefix);
+          }
+        });
+        el("text", { x: cx, y: H - padB + 42, "text-anchor": "middle", class: `dl-lab${hl === i ? " is-hl" : ""}` }, svg).textContent = lab;
+      });
+    } else {
+      const padL = 260, rowH = (H - 20) / labels.length;
+      const barH = Math.min(52, rowH * 0.56);
+      labels.forEach((lab, i) => {
+        const v = series[0].values[i] ?? 0;
+        const y = 10 + rowH * i + (rowH - barH) / 2;
+        const w = (v / max) * (W - padL - 140);
+        const isHl = hl === i;
+        el("text", { x: padL - 24, y: y + barH / 2, "text-anchor": "end", "dominant-baseline": "central", class: `dl-lab${isHl ? " is-hl" : ""}` }, svg).textContent = lab;
+        el("rect", { x: padL, y, width: w, height: barH, fill: isHl ? "var(--c-accent)" : "var(--c-bar, var(--c-ink-2))", class: "dl-bar dl-hbar", style: `--d:${i * 70}ms` }, svg);
+        el("text", { x: padL + w + 16, y: y + barH / 2, "dominant-baseline": "central", class: `dl-val${isHl ? " is-hl" : ""}`, style: `--d:${i * 70 + 200}ms` }, svg).textContent = fmt(v, unit, prefix);
+      });
+    }
+    return svg;
+  }
+
+  function line(fig, { labels, series }) {
+    const H = 560, padL = 20, padR = 140, padB = 64, padT = 40;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+    const unit = fig.dataset.unit || "";
+    const prefix = fig.dataset.prefix || "";
+    const max = niceMax(Math.max(...series.flatMap((s) => s.values)));
+    const plotW = W - padL - padR, plotH = H - padB - padT;
+    const x = (i) => padL + (labels.length > 1 ? (plotW * i) / (labels.length - 1) : plotW / 2);
+    const y = (v) => padT + plotH - (v / max) * plotH;
+
+    [0.25, 0.5, 0.75, 1].forEach((f) => el("line", { x1: padL, x2: W - padR, y1: y(max * f), y2: y(max * f), class: "dl-grid" }, svg));
+    el("line", { x1: padL, x2: W - padR, y1: H - padB, y2: H - padB, class: "dl-axis" }, svg);
+    labels.forEach((lab, i) => (el("text", { x: x(i), y: H - padB + 42, "text-anchor": "middle", class: "dl-lab" }, svg).textContent = lab));
+
+    series.forEach((s, j) => {
+      const c = series.length === 1 || j === 0 ? "var(--c-accent)" : colour(j - 1);
+      const d = s.values.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+      el("path", { d, fill: "none", stroke: c, "stroke-width": j === 0 ? 6 : 4, "stroke-linecap": "round", "stroke-linejoin": "round", pathLength: 1, class: "dl-line", style: `--d:${j * 160}ms` }, svg);
+      const last = s.values.length - 1;
+      el("circle", { cx: x(last), cy: y(s.values[last]), r: 9, fill: c, class: "dl-dot", style: `--d:${900 + j * 160}ms` }, svg);
+      el("text", { x: x(last) + 22, y: y(s.values[last]), "dominant-baseline": "central", class: "dl-val is-hl", fill: c, style: `--d:${1000 + j * 160}ms` }, svg).textContent =
+        series.length > 1 ? s.name : fmt(s.values[last], unit, prefix);
+    });
+    return svg;
+  }
+
+  function donut(fig, { labels, series }) {
+    const S = 560;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${S}`, role: "img" });
+    const vals = series[0].values;
+    const total = vals.reduce((a, b) => a + b, 0) || 1;
+    const hl = fig.dataset.highlight !== undefined ? Number(fig.dataset.highlight) : 0;
+    const cx = S / 2, cy = S / 2, r = 210, sw = 74;
+    let acc = 0;
+    vals.forEach((v, i) => {
+      const frac = v / total;
+      const c = i === hl ? "var(--c-accent)" : `color-mix(in srgb, var(--c-ink) ${Math.max(12, 55 - i * 14)}%, transparent)`;
+      el("circle", {
+        cx, cy, r, fill: "none", stroke: c, "stroke-width": sw, pathLength: 1,
+        "stroke-dasharray": `${Math.max(0, frac - 0.004)} ${1 - frac + 0.004}`,
+        "stroke-dashoffset": String(-acc + 0.25), class: "dl-arc", style: `--d:${i * 120}ms`,
+        transform: `rotate(0 ${cx} ${cy})`,
+      }, svg);
+      acc += frac;
+    });
+    el("text", { x: cx, y: cy, "text-anchor": "middle", "dominant-baseline": "central", class: "dl-donut-val" }, svg).textContent =
+      fig.dataset.center || Math.round((vals[hl] / total) * 100) + "%";
+    labels.forEach((lab, i) => {
+      const ly = 120 + i * 76;
+      el("rect", { x: S + 60, y: ly - 14, width: 28, height: 28, rx: 4, fill: i === hl ? "var(--c-accent)" : `color-mix(in srgb, var(--c-ink) ${Math.max(12, 55 - i * 14)}%, transparent)` }, svg);
+      el("text", { x: S + 108, y: ly, "dominant-baseline": "central", class: `dl-lab${i === hl ? " is-hl" : ""}` }, svg).textContent = `${lab} · ${Math.round((vals[i] / total) * 100)}%`;
+    });
+    return svg;
+  }
+
+  function render(fig) {
+    if (fig.querySelector("svg[data-dl-generated]")) return;
+    const data = parse(fig);
+    if (!data.series.length) return;
+    if (!data.labels.length) data.labels = data.series[0].values.map((_, i) => String(i + 1));
+    const type = fig.dataset.type || "bar";
+    const svg = type === "line" ? line(fig, data) : type === "donut" ? donut(fig, data) : bar(fig, data, type === "hbar");
+    svg.setAttribute("data-dl-generated", "");
+    svg.setAttribute("aria-label", fig.getAttribute("aria-label") || fig.querySelector("figcaption")?.textContent || "Chart");
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    fig.prepend(svg);
+    if (data.series.length > 1 && type !== "line") {
+      const key = document.createElement("div");
+      key.className = "dl-key";
+      key.setAttribute("data-dl-generated", "");
+      key.innerHTML = data.series.map((s, j) => `<span><i style="background:${colour(j)}"></i>${s.name}</span>`).join("");
+      fig.append(key);
+    }
+  }
+
+  const boot = () => document.querySelectorAll(".slide .chart[data-type], .slide .chart[data-series], .slide .chart[data-values]").forEach(render);
+  document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
+})();
+
+</script>
+</body>
+</html>

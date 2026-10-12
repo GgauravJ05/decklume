@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decklume — AI Presentation Maker Skill for Claude Code | Beautiful HTML Slides</title>
+<meta name="description" content="Decklume is a free, open-source Claude Code skill that turns any topic, notes or PowerPoint into a stunning animated HTML presentation. 10 designer themes, Magic Move transitions, presenter view, PDF export and automated design QA. Made for students, teachers and founders.">
+<meta name="keywords" content="AI presentation maker, Claude Code skill, Claude skills, HTML slides, presentation generator, PowerPoint alternative, pitch deck, lecture slides, student presentation, Keynote alternative, slide deck generator">
+<link rel="canonical" href="https://ggauravj05.github.io/decklume/">
+<meta name="author" content="GgauravJ05">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0f0f10">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Decklume">
+<meta property="og:title" content="Decklume — beautiful, animated presentations from any topic">
+<meta property="og:description" content="A free Claude Code skill: story-first outlines, side-by-side style previews, 10 designer themes, Magic Move, presenter view, vector PDF and automated design QA.">
+<meta property="og:url" content="https://ggauravj05.github.io/decklume/">
+<meta property="og:image" content="https://ggauravj05.github.io/decklume/assets/og.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="Decklume: slides in several designer themes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Decklume — beautiful, animated presentations from any topic">
+<meta name="twitter:description" content="Free, open-source Claude Code skill. 10 designer themes, Magic Move, presenter view, PDF export, design QA.">
+<meta name="twitter:image" content="https://ggauravj05.github.io/decklume/assets/og.png">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230f0f10'/><rect x='12' y='18' width='40' height='26' rx='3' fill='none' stroke='%23e9b44c' stroke-width='4'/><circle cx='32' cy='52' r='4' fill='%23e9b44c'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Decklume",
+      "applicationCategory": "DesignApplication",
+      "applicationSubCategory": "Presentation software",
+      "operatingSystem": "macOS, Windows, Linux",
+      "description": "An open-source Claude Code skill that turns a topic, notes or a PowerPoint file into a designed, animated HTML presentation with presenter view, PDF export and automated design QA.",
+      "url": "https://ggauravj05.github.io/decklume/",
+      "downloadUrl": "https://github.com/GgauravJ05/decklume",
+      "softwareVersion": "0.1.0",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "GgauravJ05", "url": "https://github.com/GgauravJ05" },
+      "image": "https://ggauravj05.github.io/decklume/assets/og.png",
+      "featureList": [
+        "10 designer themes",
+        "22 slide layouts",
+        "Magic Move transitions",
+        "Presenter view with notes and timer",
+        "Vector PDF export",
+        "PowerPoint (.pptx) import",
+        "Automated design QA"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I make a presentation with Claude?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Install the Decklume skill in Claude Code, then ask for the presentation you need, for example: “Make a 15-minute lecture on photosynthesis.” Decklume outlines the story, shows your slides in three styles, builds the deck and checks it with automated design QA." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Decklume free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Decklume is free and open source under the MIT license. You need Claude Code to run the skill." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Decklume convert my PowerPoint?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Decklume reads .pptx files, including bullet levels, tables, images, speaker notes and native chart data, and redesigns them as an animated HTML deck." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I present offline and export to PDF?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Every deck is a single HTML file that runs in any browser. Press P for the presenter view with notes and a timer. Export a vector PDF with selectable text, or a PNG per slide, with one command." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Decklume good for students?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. It has themes for lectures (Campus), classrooms (Chalk), thesis defenses (Folio), case competitions (Atlas) and hackathons (Volt), plus layouts for definitions, timelines, formulas and charts." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+  :root {
+    --bg: #0f0f10; --bg-2: #17171a; --ink: #f3eee4; --ink-2: #c9c3b6; --ink-3: #9a958b;
+    --line: rgba(243, 238, 228, 0.12); --accent: #e9b44c;
+    --serif: "Fraunces", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 0.2em; }
+  img { max-width: 100%; display: block; }
+  .wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
+  .logo { font: 400 28px/1 var(--serif); letter-spacing: -0.02em; text-decoration: none; }
+  .logo em { color: var(--accent); }
+  nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; font-size: 15px; color: var(--ink-2); }
+  nav a { text-decoration: none; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: var(--accent); color: #17130a; font-weight: 600; text-decoration: none; }
+  .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+
+  header.hero { padding: 72px 0 40px; }
+  .eyebrow { font: 500 13px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  h1 { font: 300 clamp(48px, 8vw, 112px)/0.95 var(--serif); letter-spacing: -0.035em; margin: 18px 0 24px; max-width: 13ch; }
+  h1 em { color: var(--accent); font-weight: 300; }
+  .lede { font-size: clamp(19px, 2vw, 23px); color: var(--ink-2); max-width: 46ch; margin: 0 0 32px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+  .mosaic { margin: 56px 0 0; border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+
+  section { padding: 88px 0; border-top: 1px solid var(--line); }
+  h2 { font: 300 clamp(36px, 5vw, 60px)/1.02 var(--serif); letter-spacing: -0.025em; margin: 12px 0 20px; max-width: 18ch; }
+  h2 em { color: var(--accent); }
+  h3 { font: 500 23px/1.25 var(--serif); margin: 0 0 8px; }
+  .section-lede { color: var(--ink-2); max-width: 56ch; margin: 0 0 44px; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .features article { background: var(--bg); padding: 30px 28px; }
+  .features p { margin: 0; color: var(--ink-2); font-size: 16px; }
+  .features .k { font: 500 12px var(--mono); color: var(--accent); letter-spacing: 0.1em; display: block; margin-bottom: 14px; }
+
+  .steps { counter-reset: s; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; list-style: none; padding: 0; margin: 0; }
+  .steps li { counter-increment: s; border-top: 1px solid var(--ink-3); padding-top: 18px; color: var(--ink-2); font-size: 16px; }
+  .steps li::before { content: counter(s, decimal-leading-zero); display: block; font: 300 44px/1 var(--serif); color: var(--accent); margin-bottom: 14px; }
+  .steps strong { color: var(--ink); display: block; font-weight: 600; margin-bottom: 4px; }
+
+  .themes { display: grid; gap: 34px; }
+  .theme { display: grid; grid-template-columns: 260px 1fr; gap: 28px; align-items: center; }
+  .theme img { border-radius: 10px; box-shadow: 0 0 0 1px var(--line); }
+  .theme p { margin: 0 0 12px; color: var(--ink-2); font-size: 16px; }
+  .theme .tags { font: 12px var(--mono); color: var(--ink-3); }
+
+  pre { margin: 0; padding: 22px 24px; border-radius: 12px; background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line); font: 15px/1.7 var(--mono); color: var(--ink); overflow-x: auto; }
+  pre .c { color: var(--ink-3); }
+  .install { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .install h3 { font-size: 20px; margin-bottom: 12px; }
+
+  details { border-top: 1px solid var(--line); padding: 20px 0; }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font: 400 22px/1.3 var(--serif); list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; float: right; color: var(--accent); }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--ink-2); max-width: 70ch; margin: 12px 0 0; }
+
+  footer { padding: 48px 0 64px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 15px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+
+  @media (max-width: 900px) {
+    nav ul { display: none; }
+    .features, .install { grid-template-columns: minmax(0, 1fr); }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .theme { grid-template-columns: 1fr; gap: 14px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .mosaic img { animation: rise 1.1s cubic-bezier(.16,1,.3,1) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="logo" href="./">Deck<em>lume</em></a>
+    <ul>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#themes">Themes</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://github.com/GgauravJ05/decklume">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <p class="eyebrow">Free &amp; open-source Claude Code skill</p>
+    <h1>Presentations that look <em>designed,</em> not generated.</h1>
+    <p class="lede">Decklume turns any topic, notes or PowerPoint into a stunning, animated HTML deck. It writes the story first, shows your slides in three styles, then checks every slide with automated design QA.</p>
+    <div class="ctas">
+      <a class="btn" href="#install">Install in Claude Code →</a>
+      <a class="btn ghost" href="demos/folio.html">Open a live demo</a>
+      <a class="btn ghost" href="https://github.com/GgauravJ05/decklume">★ Star on GitHub</a>
+    </div>
+    <img class="mosaic" src="assets/hero.jpg" width="1920" height="466" alt="The same lecture title slide in ten Decklume themes: Folio, Nocturne, Grid, Campus, Atlas, Aurora, Volt, Ma, Bloom and Chalk">
+  </header>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <p class="eyebrow">Why Decklume</p>
+    <h2>Elegance from <em>constraints,</em> not adjectives.</h2>
+    <p class="section-lede">Instead of asking an AI to "make it beautiful", Decklume gives it a design system: a fixed 16:9 canvas, a type scale, a 12-column grid, 22 tested layouts and a QA gate that fails a deck on real defects.</p>
+    <div class="features">
+      <article><span class="k">STORY FIRST</span><h3>An outline you approve</h3><p>Every slide gets an assertion headline before any design happens, so the deck makes an argument.</p></article>
+      <article><span class="k">SHOW, DON'T ASK</span><h3>Your slides, three styles</h3><p>Pick a look by seeing your own title and content slides rendered side by side.</p></article>
+      <article><span class="k">MAGIC MOVE</span><h3>Keynote-style morphs</h3><p>Elements glide between slides with the View Transitions API. Builds reveal points one click at a time.</p></article>
+      <article><span class="k">DESIGN QA</span><h3>Checked like a designer would</h3><p>Overflow, overlap, contrast, type size, fonts and AI-slop patterns are caught automatically, with a contact sheet.</p></article>
+      <article><span class="k">PRESENT</span><h3>Presenter view built in</h3><p>Press P for notes, a timer and the next slide. Overview, blackout, jump-to-slide, edit text in the browser.</p></article>
+      <article><span class="k">SHARE</span><h3>One file, PDF, or a link</h3><p>A single HTML file that runs anywhere, a vector PDF with selectable text, PNGs, or a live URL.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>From a sentence to a <em>finished</em> deck.</h2>
+    <ol class="steps">
+      <li><strong>Brief</strong>Tell Claude the topic, audience and length, or hand it notes or a .pptx.</li>
+      <li><strong>Storyline</strong>Approve a slide-by-slide outline with a real claim on every slide.</li>
+      <li><strong>Style</strong>Choose from three directions rendered with your own content.</li>
+      <li><strong>Build &amp; QA</strong>The deck is built, rendered in a real browser, checked and fixed.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="themes">
+  <div class="wrap">
+    <p class="eyebrow">10 designer themes</p>
+    <h2>A theme for every <em>room.</em></h2>
+    <p class="section-lede">Each theme is complete across all 22 layouts and passes the same QA. Click any one to open the live demo lecture and use → to navigate.</p>
+    <div class="themes" id="theme-list">
+<!-- THEMES:START -->
+      <article class="theme">
+        <div>
+          <h3><a href="demos/folio.html">Folio</a></h3>
+          <p>Editorial serif on warm paper — a magazine feature you can present.</p>
+          <div class="tags">essays and keynotes · humanities lectures · strategy narratives</div>
+        </div>
+        <a href="demos/folio.html" aria-label="Open the Folio live demo">
+          <img src="assets/themes/folio.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Folio theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/nocturne.html">Nocturne</a></h3>
+          <p>Dark cinematic keynote — serif headlines glowing amber in a quiet room.</p>
+          <div class="tags">conference keynotes · product vision talks · storytelling</div>
+        </div>
+        <a href="demos/nocturne.html" aria-label="Open the Nocturne live demo">
+          <img src="assets/themes/nocturne.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Nocturne theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/grid.html">Grid</a></h3>
+          <p>Swiss International Style — bold grotesk, strict grid, one cobalt signal.</p>
+          <div class="tags">business reviews · design and architecture talks · startup pitches</div>
+        </div>
+        <a href="demos/grid.html" aria-label="Open the Grid live demo">
+          <img src="assets/themes/grid.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Grid theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/campus.html">Campus</a></h3>
+          <p>Academic and clear — a reading-first theme for lectures, seminars and theses.</p>
+          <div class="tags">university lectures · thesis defenses · research seminars</div>
+        </div>
+        <a href="demos/campus.html" aria-label="Open the Campus live demo">
+          <img src="assets/themes/campus.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Campus theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/atlas.html">Atlas</a></h3>
+          <p>Consulting-grade clarity — action titles, numbered exhibits, navy and gold.</p>
+          <div class="tags">case competitions · strategy and business reviews · board updates</div>
+        </div>
+        <a href="demos/atlas.html" aria-label="Open the Atlas live demo">
+          <img src="assets/themes/atlas.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Atlas theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/aurora.html">Aurora</a></h3>
+          <p>Product-launch glow — wide display type, glass panels and northern-light gradients.</p>
+          <div class="tags">product launches · startup demo days · AI and tech announcements</div>
+        </div>
+        <a href="demos/aurora.html" aria-label="Open the Aurora live demo">
+          <img src="assets/themes/aurora.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Aurora theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/volt.html">Volt</a></h3>
+          <p>Brutalist terminal energy — monospace grid, black field, acid-lime signal.</p>
+          <div class="tags">developer talks · hackathon demos · tech meetups</div>
+        </div>
+        <a href="demos/volt.html" aria-label="Open the Volt live demo">
+          <img src="assets/themes/volt.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Volt theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/ma.html">Ma</a></h3>
+          <p>Japanese minimalism — stillness, generous space and a single indigo note.</p>
+          <div class="tags">design and architecture talks · philosophy and humanities · mindful or wellbeing topics</div>
+        </div>
+        <a href="demos/ma.html" aria-label="Open the Ma live demo">
+          <img src="assets/themes/ma.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Ma theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/bloom.html">Bloom</a></h3>
+          <p>Warm and playful — rounded shapes, friendly serif and tomato-red energy.</p>
+          <div class="tags">workshops · school and club presentations · community events</div>
+        </div>
+        <a href="demos/bloom.html" aria-label="Open the Bloom live demo">
+          <img src="assets/themes/bloom.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Bloom theme: title, process and numbers">
+        </a>
+      </article>
+      <article class="theme">
+        <div>
+          <h3><a href="demos/chalk.html">Chalk</a></h3>
+          <p>A real classroom blackboard — handwritten headings, chalk-yellow highlights.</p>
+          <div class="tags">school lessons · tutoring and revision · maths and science explainers</div>
+        </div>
+        <a href="demos/chalk.html" aria-label="Open the Chalk live demo">
+          <img src="assets/themes/chalk.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the Chalk theme: title, process and numbers">
+        </a>
+      </article>
+<!-- THEMES:END -->
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <p class="eyebrow">Install</p>
+    <h2>Two commands in <em>Claude Code.</em></h2>
+    <div class="install">
+      <div>
+        <h3>As a plugin (recommended)</h3>
+<pre><span class="c"># run these one at a time inside Claude Code</span>
+/plugin marketplace add https://github.com/GgauravJ05/decklume
+/plugin install decklume@decklume</pre>
+      </div>
+      <div>
+        <h3>As a standalone skill</h3>
+<pre>git clone https://github.com/GgauravJ05/decklume.git
+cp -R decklume/skills/decklume ~/.claude/skills/</pre>
+      </div>
+    </div>
+    <p class="section-lede" style="margin-top:32px">Then just ask: <em>“Make a 15-minute lecture on photosynthesis for first-year students.”</em></p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <p class="eyebrow">FAQ</p>
+    <h2>Questions people <em>ask.</em></h2>
+    <details><summary>How do I make a presentation with Claude?</summary><p>Install the Decklume skill in Claude Code, then ask for the presentation you need, for example “Make a 15-minute lecture on photosynthesis.” Decklume outlines the story, shows your slides in three styles, builds the deck and checks it with automated design QA.</p></details>
+    <details><summary>Is Decklume free?</summary><p>Yes. Decklume is free and open source under the MIT license. You need Claude Code to run the skill.</p></details>
+    <details><summary>Can Decklume convert my PowerPoint?</summary><p>Yes. It reads .pptx files, including bullet levels, tables, images, speaker notes and native chart data, and redesigns them as an animated HTML deck.</p></details>
+    <details><summary>Can I present offline and export to PDF?</summary><p>Every deck is a single HTML file that runs in any browser. Press P for the presenter view with notes and a timer. Export a vector PDF with selectable text, or a PNG per slide, with one command.</p></details>
+    <details><summary>Is Decklume good for students?</summary><p>Yes. There are themes for lectures (Campus), classrooms (Chalk), thesis defenses (Folio), case competitions (Atlas) and hackathons (Volt), plus layouts for definitions, timelines, formulas and charts.</p></details>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <span>Decklume · MIT License · Inspired by <a href="https://github.com/zarazhangrui/frontend-slides">frontend-slides</a> by Zara Zhang</span>
+    <a href="https://github.com/GgauravJ05/decklume">github.com/GgauravJ05/decklume</a>
+  </footer>
+</div>
+
+</body>
+</html>
