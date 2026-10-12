@@ -324,6 +324,10 @@ body {
   display: none;
 }
 
+.dl-framed .dl-hud {
+  display: none;
+}
+
 /* --- Print: one 1920×1080 page per slide, final build state ---------- */
 @page {
   size: 1920px 1080px;

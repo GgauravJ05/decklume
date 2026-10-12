@@ -11,6 +11,10 @@
   const params = new URLSearchParams(location.search);
   const MODE = params.has("presenter") ? "presenter" : params.has("embed") ? "embed" : "deck";
   const root = document.documentElement;
+  // Inside an iframe (a website embedding a deck), the host page owns
+  // scrolling and controls: no wheel navigation, no HUD.
+  let FRAMED = false;
+  try { FRAMED = window.self !== window.top; } catch { FRAMED = true; }
 
   // Blocks that get the staggered entrance, in reading order.
   const ENTER_SELECTOR = [
@@ -44,6 +48,7 @@
 
       if (MODE === "embed") root.classList.add("dl-embed");
       if (MODE !== "embed") this.buildChrome();
+      if (FRAMED && MODE === "deck") root.classList.add("dl-framed");
       this.bindInput();
       this.bindMessages();
 
@@ -383,7 +388,7 @@
       // Wheel / trackpad, debounced so one gesture is one move.
       let wheelLock = 0;
       window.addEventListener("wheel", (e) => {
-        if (this.overview || this.editing) return;
+        if (this.overview || this.editing || FRAMED) return;
         const now = Date.now();
         if (now < wheelLock || Math.abs(e.deltaY) < 24) return;
         wheelLock = now + 650;
