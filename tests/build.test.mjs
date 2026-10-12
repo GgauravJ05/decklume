@@ -86,3 +86,16 @@ test("build rejects unknown themes and empty decks", () => {
   writeFileSync(src, deck("title: E", "<p>no slides</p>"));
   assert.throws(() => build(src), /No <section/);
 });
+
+test("CLI scripts run when invoked through a symlinked install path", async () => {
+  const { symlinkSync } = await import("node:fs");
+  const { execFileSync } = await import("node:child_process");
+  const { fileURLToPath } = await import("node:url");
+  const skill = join(fileURLToPath(new URL("..", import.meta.url)), "skills/decklume");
+  const link = join(tmp(), "linked-skill");
+  symlinkSync(skill, link, "dir");
+  const themes = execFileSync(process.execPath, [join(link, "scripts/build.mjs"), "--list-themes"], { encoding: "utf8" });
+  assert.ok(themes.trim().split("\n").length >= 10, "build.mjs printed the theme list");
+  const imp = execFileSync(process.execPath, [join(link, "scripts/extract-pptx.mjs"), join(skill, "../../tests/fixtures/sample.pptx"), tmp()], { encoding: "utf8" });
+  assert.match(imp, /Extracted 5 slides/);
+});

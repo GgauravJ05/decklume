@@ -12,7 +12,7 @@
    Usage:
      node extract-pptx.mjs talk.pptx [out-dir]
    ===================================================================== */
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, realpathSync } from "node:fs";
 import { inflateRawSync } from "node:zlib";
 import { join, basename, posix } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -248,7 +248,8 @@ const summary = (s) => {
   return parts.join(", ") || "empty";
 };
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+const real = (p) => { try { return realpathSync(p); } catch { return p; } };
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const [src, out = "."] = process.argv.slice(2);
   if (!src) {
     console.error("usage: node extract-pptx.mjs <talk.pptx> [out-dir]");

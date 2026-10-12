@@ -13,7 +13,7 @@
 
    Node ≥ 18, no dependencies.
    ===================================================================== */
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, watch, statSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, watch, statSync, realpathSync } from "node:fs";
 import { dirname, resolve, join, basename, extname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -244,7 +244,10 @@ function report(r) {
   r.warnings.forEach((w) => console.warn("  ⚠ " + w));
 }
 
-const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+// Compare real paths: symlinked install locations (e.g. /var → /private/var
+// on macOS) must still count as running this file directly.
+const real = (p) => { try { return realpathSync(p); } catch { return resolve(p); } };
+const isMain = Boolean(process.argv[1]) && real(process.argv[1]) === real(fileURLToPath(import.meta.url));
 if (isMain) {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
