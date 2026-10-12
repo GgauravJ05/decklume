@@ -75,7 +75,12 @@ export function serve(dir) {
       const { port } = server.address();
       ok({
         url: (rel) => `http://127.0.0.1:${port}/${rel.split(sep).map(encodeURIComponent).join("/")}`,
-        close: () => new Promise((r) => server.close(r)),
+        // Drop keep-alive sockets held by the browser, or close() waits on them.
+        close: () =>
+          new Promise((r) => {
+            server.closeAllConnections?.();
+            server.close(() => r());
+          }),
       });
     })
   );
