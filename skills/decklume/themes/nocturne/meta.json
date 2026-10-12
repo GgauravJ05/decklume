@@ -1,0 +1,14 @@
+{
+  "name": "Nocturne",
+  "tagline": "Dark cinematic keynote — serif headlines glowing amber in a quiet room.",
+  "mood": ["cinematic", "dramatic", "premium", "confident"],
+  "formality": "medium",
+  "density": "low",
+  "scheme": "dark",
+  "motion": "cinematic",
+  "best_for": ["conference keynotes", "product vision talks", "storytelling", "award or demo-day pitches"],
+  "avoid_for": ["printed handouts", "dense data reviews"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap",
+  "font_families": ["Instrument Serif", "Geist", "Geist Mono"],
+  "colors": { "bg": "#0C0D10", "ink": "#ECE8E1", "accent": "#E9B44C" }
+}

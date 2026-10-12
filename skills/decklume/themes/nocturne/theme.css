@@ -1,0 +1,130 @@
+/* =====================================================================
+   THEME · NOCTURNE
+   Near-black stage, warm off-white type, amber accent. Instrument Serif
+   headlines, Geist body. Slow, cinematic motion with a soft focus pull.
+   ===================================================================== */
+:root {
+  --c-stage: #000;
+  --c-bg: #0c0d10;
+  --c-surface: #15171c;
+  --c-ink: #ece8e1;
+  --c-ink-2: #b4afa5;
+  --c-ink-3: #8b867c;
+  --c-line: rgba(236, 232, 225, 0.14);
+  --c-accent: #e9b44c;
+  --c-accent-ink: #15110a;
+  --c-accent-2: #7fa7c9;
+  --c-bar: #4a4c52;
+  --c-chart-1: #8b867c;
+  --c-chart-2: #e9b44c;
+  --c-chart-3: #7fa7c9;
+  --c-chart-4: #c07a5a;
+  --c-code-bg: #07080a;
+
+  --f-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --f-body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, Menlo, monospace;
+
+  --fw-display: 400;
+  --fw-heading: 400;
+  --fw-body: 350;
+  --fw-strong: 550;
+  --lh-heading: 1.04;
+  --tr-display: -0.02em;
+  --tr-heading: -0.01em;
+  --tr-caps: 0.22em;
+  --fs-h2: 92px;
+  --fs-h1: 128px;
+  --fs-display: 196px;
+
+  --radius: 6px;
+  --radius-lg: 14px;
+  --rule: 1px;
+
+  --dur-2: 480ms;
+  --dur-3: 1100ms;
+  --stagger: 120ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --enter-from: translateY(18px) scale(0.985);
+  --vt-duration: 900ms;
+}
+
+/* A low warm glow keeps the black from feeling flat. */
+.slide {
+  background:
+    radial-gradient(1200px 700px at 78% 18%, rgba(233, 180, 76, 0.07), transparent 60%),
+    radial-gradient(900px 600px at 10% 100%, rgba(127, 167, 201, 0.05), transparent 60%),
+    var(--c-bg);
+}
+
+/* Cinematic entrance: rise out of soft focus. */
+@keyframes nocturne-enter {
+  from {
+    opacity: 0;
+    transform: var(--enter-from);
+    filter: blur(10px);
+  }
+}
+
+.slide.is-entering .dl-enter {
+  animation-name: nocturne-enter;
+}
+
+.slide :where(h1, h2, .display, .statement) em {
+  font-style: italic;
+}
+
+.slide .eyebrow,
+.slide .kicker {
+  font-weight: 500;
+}
+
+.l-title > :is(h1, .display) {
+  font-size: 200px;
+  line-height: 0.92;
+  padding-bottom: 0.12em; /* room for descenders above the lead */
+}
+
+.l-title > .byline {
+  border-top: 0;
+  padding-top: 0;
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  letter-spacing: 0.04em;
+}
+
+.l-section > .kicker {
+  font-size: 260px;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--c-accent);
+}
+
+.slide .card {
+  --card-bg: var(--c-surface);
+  border: 1px solid var(--c-line);
+}
+
+.slide .card.is-highlight {
+  background: linear-gradient(160deg, #f0c060, #d99a2b);
+}
+
+.l-statement .statement {
+  font-size: 136px;
+  line-height: 1;
+}
+
+.l-quote blockquote > p { font-size: 96px; line-height: 1.04; }
+
+.slide .flow > .node {
+  background: var(--c-surface);
+  border-color: var(--c-line);
+}
+
+.slide .flow > .node.is-highlight { border-color: var(--c-accent); }
+
+.l-stats .stat .value,
+.l-kpi .big-number { font-weight: 400; }
+
+.slide table.data th { border-bottom-color: var(--c-ink-3); }
+
+.l-timeline .timeline > li::before { background: var(--c-bg); }
