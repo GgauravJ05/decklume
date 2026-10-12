@@ -40,7 +40,7 @@ project).
 | The user has… | Mode | Start at |
 |---|---|---|
 | A topic, notes, an essay, a doc | **New deck** | Phase 1 |
-| A `.pptx` | **Convert** | Run `python3 SKILL_DIR/scripts/extract-pptx.py deck.pptx .decklume/import` (needs `pip install python-pptx`), read `extracted-slides.json`, then Phase 1 with that content. Native charts arrive as ready-made `decklume_attrs`. |
+| A `.pptx` | **Convert** | Run `node SKILL_DIR/scripts/extract-pptx.mjs deck.pptx .decklume/import`, read `extracted-slides.json`, then Phase 1 with that content. Native charts arrive as ready-made `decklume_attrs`. |
 | A PDF or Markdown deck | **Convert** | Read it, treat it as notes, Phase 1 |
 | An existing Decklume deck (`*.deck.html`) | **Edit** | Edit the source, rebuild, Phase 5 |
 | Any other HTML deck to improve | **Restyle** | Extract its content into a new source, then Phase 1 |
@@ -186,7 +186,7 @@ Then offer the next steps:
 
 - **PDF** (vector, selectable text): `node SKILL_DIR/scripts/export.mjs <name>.html`
 - **PNG per slide:** `node SKILL_DIR/scripts/export.mjs <name>.html --png`
-- **Live link:** `bash SKILL_DIR/scripts/deploy.sh <name>.html` (Vercel), or
+- **Live link:** `node SKILL_DIR/scripts/deploy.mjs <name>.html` (Vercel), or
   any static host (GitHub Pages, Netlify Drop).
 
 ## Editing later
