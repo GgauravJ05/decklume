@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100">
+  <defs>
+    <radialGradient id="g" cx="70%" cy="20%" r="80%"><stop offset="0" stop-color="#1d4a46"/><stop offset="1" stop-color="#07131a"/></radialGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#g)"/>
+  <g transform="translate(250 90)">
+    <rect width="400" height="820" rx="56" fill="#0b1b22" stroke="#2c4b52" stroke-width="6"/>
+    <rect x="28" y="70" width="344" height="40" rx="10" fill="#14313a"/>
+    <text x="48" y="98" font-family="Helvetica, Arial" font-size="22" font-weight="700" fill="#eaf6f4">Biology · Week 6</text>
+    <rect x="28" y="140" width="344" height="150" rx="18" fill="#5ef0c4"/>
+    <text x="52" y="190" font-family="Helvetica, Arial" font-size="24" font-weight="700" fill="#04130f">Quiz yourself</text>
+    <text x="52" y="226" font-family="Helvetica, Arial" font-size="18" fill="#04130f">What does the mitochondrion</text>
+    <text x="52" y="252" font-family="Helvetica, Arial" font-size="18" fill="#04130f">produce?</text>
+    <rect x="28" y="316" width="344" height="92" rx="18" fill="#14313a"/>
+    <text x="52" y="356" font-family="Helvetica, Arial" font-size="20" font-weight="700" fill="#eaf6f4">Cell respiration</text>
+    <text x="52" y="384" font-family="Helvetica, Arial" font-size="16" fill="#a9c3c2">12 cards · due today</text>
+    <rect x="28" y="428" width="344" height="92" rx="18" fill="#14313a"/>
+    <text x="52" y="468" font-family="Helvetica, Arial" font-size="20" font-weight="700" fill="#eaf6f4">Photosynthesis</text>
+    <text x="52" y="496" font-family="Helvetica, Arial" font-size="16" fill="#a9c3c2">8 cards · due tomorrow</text>
+    <rect x="28" y="540" width="344" height="92" rx="18" fill="#14313a"/>
+    <text x="52" y="580" font-family="Helvetica, Arial" font-size="20" font-weight="700" fill="#eaf6f4">Genetics basics</text>
+    <text x="52" y="608" font-family="Helvetica, Arial" font-size="16" fill="#a9c3c2">20 cards · in 3 days</text>
+    <rect x="120" y="742" width="160" height="10" rx="5" fill="#2c4b52"/>
+  </g>
+</svg>
