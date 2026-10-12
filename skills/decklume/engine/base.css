@@ -312,7 +312,7 @@
 .slide .tok-s { color: var(--tok-s, #b7d98b); }
 .slide .tok-n { color: var(--tok-n, #f2c66d); }
 .slide .tok-f { color: var(--tok-f, #8cc4ff); }
-.slide .tok-c { color: var(--tok-c, #8a8a8a); font-style: italic; }
+.slide .tok-c { color: var(--tok-c, #9d9d9d); font-style: italic; }
 
 /* --- Math (native MathML) ---------------------------------------------- */
 .slide math {
