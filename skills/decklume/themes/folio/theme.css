@@ -134,3 +134,9 @@
 }
 
 .slide .flow > .node { border-width: var(--rule); border-radius: 0; background: var(--c-bg); }
+
+/* The grain is a screen texture; in print it forces whole-page
+   rasterisation and balloons PDF size. */
+@media print {
+  .slide::before { content: none; }
+}
