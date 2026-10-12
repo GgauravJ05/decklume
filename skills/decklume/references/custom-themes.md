@@ -101,3 +101,6 @@ Given a logo or brand guide:
 - Hide screen-only textures in print (`@media print { … content: none }`) to
   keep PDFs small.
 - Run the preview and QA exactly as for built-in themes.
+- Decorative `.slide::before` textures must exclude bleed slides
+  (`.slide:not(.l-bleed)::before`). `l-bleed` uses `::before` for the scrim
+  that keeps text readable over photos.

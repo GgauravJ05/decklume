@@ -52,7 +52,7 @@
 }
 
 /* Paper grain, very faint. */
-.slide::before {
+.slide:not(.l-bleed)::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -138,5 +138,5 @@
 /* The grain is a screen texture; in print it forces whole-page
    rasterisation and balloons PDF size. */
 @media print {
-  .slide::before { content: none; }
+  .slide:not(.l-bleed)::before { content: none; }
 }

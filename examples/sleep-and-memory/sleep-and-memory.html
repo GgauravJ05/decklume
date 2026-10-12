@@ -848,7 +848,7 @@ body {
 .slide .tok-s { color: var(--tok-s, #b7d98b); }
 .slide .tok-n { color: var(--tok-n, #f2c66d); }
 .slide .tok-f { color: var(--tok-f, #8cc4ff); }
-.slide .tok-c { color: var(--tok-c, #8a8a8a); font-style: italic; }
+.slide .tok-c { color: var(--tok-c, #9d9d9d); font-style: italic; }
 
 /* --- Math (native MathML) ---------------------------------------------- */
 .slide math {
@@ -1809,7 +1809,7 @@ body {
 }
 
 /* Paper grain, very faint. */
-.slide::before {
+.slide:not(.l-bleed)::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1891,6 +1891,12 @@ body {
 }
 
 .slide .flow > .node { border-width: var(--rule); border-radius: 0; background: var(--c-bg); }
+
+/* The grain is a screen texture; in print it forces whole-page
+   rasterisation and balloons PDF size. */
+@media print {
+  .slide:not(.l-bleed)::before { content: none; }
+}
 
 </style>
 </head>
@@ -2199,7 +2205,9 @@ body {
       this.overview = false;
       this.editing = false;
       this.presenterWin = null;
-      this.channel = "BroadcastChannel" in window ? new BroadcastChannel("decklume:" + location.pathname) : null;
+      // Embedded copies (presenter previews, style previews) are driven only
+      // by their parent window, never by the shared channel.
+      this.channel = MODE !== "embed" && "BroadcastChannel" in window ? new BroadcastChannel("decklume:" + location.pathname) : null;
 
       this.prepareSlides();
       this.scale = this.scale.bind(this);
@@ -2579,7 +2587,7 @@ body {
     }
 
     broadcast() {
-      if (this._fromRemote) return;
+      if (this._fromRemote || MODE === "embed") return;
       const msg = this.state();
       try { this.presenterWin && !this.presenterWin.closed && this.presenterWin.postMessage(msg, "*"); } catch {}
       try { MODE === "presenter" && window.opener && window.opener.postMessage(msg, "*"); } catch {}
