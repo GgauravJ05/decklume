@@ -1,0 +1,14 @@
+{
+  "name": "Folio",
+  "tagline": "Editorial serif on warm paper — a magazine feature you can present.",
+  "mood": ["editorial", "thoughtful", "literary", "confident"],
+  "formality": "medium",
+  "density": "medium",
+  "scheme": "light",
+  "motion": "calm",
+  "best_for": ["essays and keynotes", "humanities lectures", "strategy narratives", "book talks", "thesis defenses"],
+  "avoid_for": ["dense engineering diagrams", "neon product launches"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap",
+  "font_families": ["Fraunces", "Instrument Sans", "JetBrains Mono"],
+  "colors": { "bg": "#F3EEE4", "ink": "#1C1A16", "accent": "#B83A22" }
+}
