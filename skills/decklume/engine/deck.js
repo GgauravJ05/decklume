@@ -82,14 +82,11 @@
       });
     }
 
+    /* The stage centres itself in CSS; we only supply the fit factor. */
     scale() {
       if (this.overview) return this.layoutOverview();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const s = Math.min(vw / W, vh / H);
-      const x = (vw - W * s) / 2;
-      const y = (vh - H * s) / 2;
-      this.stage.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+      const fit = Math.min(window.innerWidth / W, window.innerHeight / H);
+      this.stage.style.setProperty("--dl-scale", String(fit));
     }
 
     /* --- Navigation ------------------------------------------------------ */
@@ -213,6 +210,7 @@
       } else {
         this.slides.forEach((s) => (s.style.transform = ""));
         this.stage.style.height = "";
+        this.stage.style.transform = "";
         this.scale();
       }
     }
@@ -503,7 +501,7 @@
     if (!clone.getAttribute("style")) clone.removeAttribute("style");
     clone.querySelectorAll(".dl-progress, .dl-hud, .dl-help, .dl-toast, [data-dl-generated]").forEach((n) => n.remove());
     const stage = clone.querySelector(".deck-stage");
-    if (stage) { stage.style.transform = ""; stage.style.height = ""; if (!stage.getAttribute("style")) stage.removeAttribute("style"); }
+    if (stage) { stage.style.transform = ""; stage.style.height = ""; stage.style.removeProperty("--dl-scale"); if (!stage.getAttribute("style")) stage.removeAttribute("style"); }
     clone.querySelectorAll(".slide").forEach((s) => {
       s.classList.remove("is-active", "is-entering");
       s.removeAttribute("aria-roledescription");
