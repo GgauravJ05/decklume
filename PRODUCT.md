@@ -34,8 +34,8 @@ Decklume controls design with code rather than prompts: design tokens, 22 tested
 layouts and complete themes, plus an automated design QA gate that renders every
 slide in a real browser and fails the deck on overflow, overlap, contrast, type
 size and font defects. It outlines the story first and shows the user's own
-slides in three themes side by side before building. Built as a more rigorous
-alternative to frontend-slides (credited; parts adapted under MIT).
+slides in three themes side by side before building. An original project by
+GgauravJ05; it competes with other Claude slide skills such as frontend-slides.
 
 ## Operating Context
 
@@ -51,15 +51,14 @@ in Claude Code, or copy the skill folder. Decks are presented in a browser
   line, donut), presenter window (notes, timer, next slide), overview, in-browser
   editing, vector PDF and PNG export, PPTX import, Vercel deploy, design QA.
 - Requires Claude Code; Node 18+; Playwright auto-installs to a cache for QA,
-  previews and export; python-pptx for PowerPoint import.
+  previews and export. PowerPoint import is pure Node (no Python).
 - Output is HTML (not .pptx); PDF export covers file-based needs.
 - Repo is private until the user's planned launch; the site must work once public
   at https://ggauravj05.github.io/decklume/.
 
 ## Brand Commitments
 
-Name: Decklume. Author: GgauravJ05. Credit to frontend-slides by Zara Zhang
-must remain visible. Existing assets: `site/assets/og.png` social card,
+Name: Decklume. Author and copyright holder: GgauravJ05 (MIT). Existing assets: `site/assets/og.png` social card,
 `site/assets/hero.jpg`, theme strips in `site/assets/themes/`.
 
 ## Evidence on Hand
@@ -67,7 +66,7 @@ must remain visible. Existing assets: `site/assets/og.png` social card,
 - Real example: 25-slide lecture "How Sleep Shapes Memory"
   (`examples/sleep-and-memory/`), live in all 10 themes (`site/demos/`).
 - Measured: vector PDF of that deck is 0.8 MB with selectable text; PDF export
-  takes ~3 s; 17 automated tests; every theme passes QA on the showcase deck.
+  takes ~3 s; 24 automated tests; every theme passes QA on the showcase deck.
 - Absent and must not be fabricated: testimonials, user counts, star counts,
   download numbers, press, logos of organisations using it. A live GitHub star
   count may be shown only once the repo is public (fetched, never hardcoded).

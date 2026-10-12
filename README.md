@@ -44,10 +44,9 @@ and conference talks.
 - [Layouts](#layouts)
 - [Presenting](#presenting)
 - [Command-line tools](#command-line-tools)
-- [Decklume vs. frontend-slides](#decklume-vs-frontend-slides)
+- [Decklume vs. other slide skills](#decklume-vs-other-slide-skills)
 - [FAQ](#faq)
 - [Contributing](#contributing)
-- [Credits](#credits)
 
 ## What you get
 
@@ -92,7 +91,7 @@ Then use `/decklume`, or just ask Claude for a presentation.
 
 **Requirements:** Node.js 18+. Design QA, style previews and PDF export use
 Playwright, which installs itself once into `~/.cache/decklume` (never into your
-project). PowerPoint import needs `pip install python-pptx`.
+project). Everything else, including PowerPoint import, needs only Node.
 
 ### Other coding agents
 
@@ -203,16 +202,14 @@ node $S/preview.mjs sample.deck.html --themes folio,nocturne,grid --png
 node $S/qa.mjs talk.html                          # design QA + contact sheet
 node $S/export.mjs talk.html                      # vector PDF
 node $S/export.mjs talk.html --png --scale 2      # retina PNG per slide
-python3 $S/extract-pptx.py old.pptx out/          # PowerPoint → JSON + assets
-bash $S/deploy.sh talk.html                       # live link on Vercel
+node $S/extract-pptx.mjs old.pptx out/            # PowerPoint → JSON + assets (no Python)
+node $S/deploy.mjs talk.html                      # live link on Vercel
 ```
 
-## Decklume vs. frontend-slides
+## Decklume vs. other slide skills
 
-Decklume began as a study of the excellent
-[frontend-slides](https://github.com/zarazhangrui/frontend-slides) by Zara Zhang
-and adapts parts of it under the MIT license. The aim was to go further on
-consistency and verification:
+How Decklume compares with [frontend-slides](https://github.com/zarazhangrui/frontend-slides),
+another popular open-source Claude Code skill for HTML presentations:
 
 | | frontend-slides | Decklume |
 |---|---|---|
@@ -225,7 +222,7 @@ consistency and verification:
 | Verification | Screenshot advice | Automated QA gate + contact sheet, CI-tested |
 | Presenter mode | Notes via host | Presenter window with notes, timer and next slide |
 | PDF | Screenshot images (~20 MB for 18 slides) | Vector with selectable text (~0.8 MB for 25 slides) |
-| PowerPoint import | Text, images, notes | + bullet levels, tables, groups, native chart data |
+| PowerPoint import | Python script: text, images, notes | Pure Node: + bullet levels, tables, groups, native chart data |
 
 ## FAQ
 
@@ -265,13 +262,10 @@ npm run build:examples   # rebuild examples
 npm run build:site       # rebuild live demos and gallery images
 ```
 
-## Credits
+## Acknowledgements
 
-- [frontend-slides](https://github.com/zarazhangrui/frontend-slides) by Zara Zhang
-  (MIT): the fixed-stage idea, PowerPoint extraction and deploy flow that
-  Decklume builds on.
-- Typefaces from [Google Fonts](https://fonts.google.com) under the SIL Open Font License.
+Typefaces from [Google Fonts](https://fonts.google.com) under the SIL Open Font License.
 
 If Decklume helped you present something, **a ⭐ helps other students find it.**
 
-<sub>MIT © 2026 GgauravJ05 and contributors</sub>
+<sub>MIT © 2026 GgauravJ05</sub>

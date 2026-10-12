@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- Rewrote the stage: the canvas now centres itself in CSS and scales through a
+  single `--dl-scale` variable.
+- PowerPoint import is now pure Node (`extract-pptx.mjs`), reading the .pptx
+  zip and XML directly; Python and python-pptx are no longer required.
+- Publishing is now `deploy.mjs` (Node) with a `--dry` preview.
+
+### Added
+- Import tests with a committed PowerPoint fixture (nested groups, line and
+  horizontal-bar charts, XML entities).
+
 ## [0.1.0] — 2026-10-12
 
 ### Added

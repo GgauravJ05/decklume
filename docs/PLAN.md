@@ -1,4 +1,4 @@
-# Plan: a presentation skill that out-designs `frontend-slides`
+# Plan: Decklume, a presentation skill built for design quality
 
 Working name: **`atelier-slides`** (rename freely, it's only the folder and the `name:` field).
 
@@ -10,7 +10,7 @@ Working name: **`atelier-slides`** (rename freely, it's only the folder and the 
 |---|---|---|
 | `SKILL.md` (380 lines) | 6-phase workflow: detect mode, discovery questions, 3 style previews, generate, PPTX convert, deploy/PDF | Elegance is mostly *asked for in prose* ("avoid AI slop", "be distinctive"). It sets few hard constraints, so quality varies from run to run. |
 | `STYLE_PRESETS.md` + 34-template "bold pack" | Style recipes in Markdown (`design.md`, ~550 lines each) | Templates are written in `vw` units and the model must translate them to a 1920×1080 stage by hand, which is lossy. Only the title slide gets previewed, and every other slide type is improvised. |
-| `viewport-base.css` | Fixed 16:9 stage that scales to fit | Solid. Keep the idea. |
+| `viewport-base.css` | Fixed 16:9 stage that scales to fit | Solid baseline idea. |
 | `animation-patterns.md` (110 lines) | Fade/slide/blur reveals, gradient/noise backgrounds | Entrance animations only. No transitions between slides, no shared-element morph, no step-by-step builds, no timing system. |
 | `scripts/` | PPTX extraction, Vercel deploy, PDF via screenshots | The PDF is raster: big files with no selectable text. QA is "take screenshots" with no automated checks. |
 | `deck-stage.js` | Speaker notes via JSON, keyboard nav | No presenter window, timer, next-slide preview or overview grid. |
@@ -115,7 +115,7 @@ atelier-slides/
 │   ├── motion.md            # tokens, morph usage, builds
 │   └── archetypes.md        # content limits per archetype
 ├── engine/
-│   ├── stage.css            # fixed 16:9 stage (from viewport-base idea)
+│   ├── stage.css            # fixed 16:9 stage
 │   ├── tokens.css
 │   ├── archetypes/*.html
 │   ├── motion.js
@@ -127,8 +127,8 @@ atelier-slides/
 │   ├── build.mjs            # inline engine+theme+content → single HTML
 │   ├── qa.mjs
 │   ├── export-pdf.mjs
-│   ├── extract-pptx.py
-│   └── deploy.sh
+│   ├── extract-pptx.mjs
+│   └── deploy.mjs
 ├── evals/                   # benchmark briefs + results
 └── docs/PLAN.md
 ```
@@ -162,5 +162,5 @@ atelier-slides/
 
 - **Name:** keep `atelier-slides`?
 - **Build step:** use a Node `build.mjs` (recommended, more consistent) or keep it pure "model writes the whole HTML" like the original (zero dependencies, but more variance)?
-- **Reuse:** the original is MIT-licensed, so `viewport-base.css`, `extract-pptx.py` and `deploy.sh` can be adapted with attribution in `LICENSE`/README. Themes should be original, not ports of the bold pack.
+- **Originality:** every file is written for Decklume; no code is reused from other projects.
 - **Scope of v1:** M1–M3 + M5 + 4 themes is a credible first release. Morph transitions (M4) are the headline feature, so bring them forward if a demo is needed early.
