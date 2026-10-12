@@ -1,0 +1,109 @@
+/* =====================================================================
+   THEME · BLOOM
+   Cream paper, Young Serif headlines, Figtree body, tomato accent with
+   teal and butter friends. Rounded cards that sit slightly askew and a
+   springy entrance.
+   ===================================================================== */
+:root {
+  --c-stage: #22252b;
+  --c-bg: #fff4e8;
+  --c-surface: #ffe6cc;
+  --c-ink: #22252b;
+  --c-ink-2: #474a52;
+  --c-ink-3: #5f6169;
+  --c-line: rgba(34, 37, 43, 0.14);
+  --c-accent: #c2381b;
+  --c-accent-ink: #fffaf3;
+  --c-accent-2: #1f7f78;
+  --c-bar: #f2c9a1;
+  --c-chart-1: #1f7f78;
+  --c-chart-2: #c2381b;
+  --c-chart-3: #e8a93a;
+  --c-chart-4: #f2c9a1;
+  --c-code-bg: #22252b;
+
+  --f-display: "Young Serif", "Cooper Black", Georgia, serif;
+  --f-body: "Figtree", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --fw-display: 400;
+  --fw-heading: 400;
+  --fw-body: 450;
+  --fw-strong: 750;
+  --lh-heading: 1.06;
+  --tr-display: -0.02em;
+  --tr-heading: -0.01em;
+  --tr-caps: 0.1em;
+  --em-style: normal;
+
+  --radius: 14px;
+  --radius-lg: 32px;
+  --radius-media: 32px;
+  --rule: 3px;
+
+  --dur-3: 700ms;
+  --stagger: 80ms;
+  --ease-out: var(--ease-spring);
+  --enter-from: translateY(30px) scale(0.96);
+  --vt-duration: 620ms;
+}
+
+/* A soft blob in the corner of every slide. */
+.slide:not(.l-bleed)::before {
+  content: "";
+  position: absolute;
+  right: -160px;
+  top: -200px;
+  width: 620px;
+  height: 560px;
+  border-radius: 46% 54% 60% 40% / 52% 40% 60% 48%;
+  background: #ffd9ad;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.slide > * { position: relative; }
+
+.slide :where(h1, h2, h3, .display, .statement) em {
+  color: var(--c-accent);
+  text-decoration: underline wavy color-mix(in srgb, var(--c-accent) 55%, transparent) 4px;
+  text-underline-offset: 0.16em;
+  text-decoration-skip-ink: none;
+}
+
+.slide .eyebrow {
+  display: inline-block;
+  width: max-content;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: var(--c-ink);
+  color: #fff4e8;
+  letter-spacing: 0.06em;
+}
+
+.l-title > .eyebrow { display: flex; background: none; color: var(--c-accent); padding: 0; }
+
+.slide .card {
+  --card-bg: #ffffff;
+  border: 3px solid var(--c-ink);
+  box-shadow: 8px 8px 0 var(--c-ink);
+}
+
+.slide .cards > .card:nth-child(odd) { transform: rotate(-1.2deg); }
+.slide .cards > .card:nth-child(even) { transform: rotate(1deg); }
+
+.slide .card.is-highlight { background: var(--c-accent-2); color: #f2fbfa; }
+
+.l-section > .kicker { color: var(--c-accent-2); }
+
+.l-statement .statement { font-size: 120px; }
+
+.slide .flow > .node { border-width: 3px; border-radius: 24px; background: #fff; box-shadow: 6px 6px 0 var(--c-ink); }
+.slide .flow > .node.is-highlight { background: var(--c-accent); border-color: var(--c-ink); }
+
+.l-people .person > :is(img, .avatar) { border-radius: 50%; }
+.l-people .avatar { background: #ffe0bd; }
+
+@media print {
+  .slide .cards > .card { transform: none; }
+}

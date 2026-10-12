@@ -1,0 +1,14 @@
+{
+  "name": "Bloom",
+  "tagline": "Warm and playful — rounded shapes, friendly serif and tomato-red energy.",
+  "mood": ["playful", "warm", "friendly", "optimistic"],
+  "formality": "low",
+  "density": "medium",
+  "scheme": "light",
+  "motion": "playful",
+  "best_for": ["workshops", "school and club presentations", "community events", "onboarding", "creative briefs"],
+  "avoid_for": ["board meetings", "serious research defenses"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:ital,wght@0,400..800;1,400..800&family=JetBrains+Mono:wght@400&display=swap",
+  "font_families": ["Young Serif", "Figtree", "JetBrains Mono"],
+  "colors": { "bg": "#FFF4E8", "ink": "#22252B", "accent": "#C2381B" }
+}
