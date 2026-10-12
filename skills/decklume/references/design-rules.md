@@ -43,6 +43,9 @@ You choose *what* moves:
 - **Builds** (`class="step"`) are for argument order, not decoration.
 - **Magic Move** (`data-morph`) is for continuity between consecutive slides.
   Keep the morphing element's text identical on both slides.
+- **Transitions and entrance presets** (`data-transition`, `data-anim`) are
+  documented with recipes in [motion.md](motion.md). Choose by meaning and
+  keep to one deck default.
 - Charts animate themselves. Everything respects `prefers-reduced-motion`.
 
 ## Charts

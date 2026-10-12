@@ -133,7 +133,15 @@ theme: folio
 - **Builds:** add `class="step"` to elements revealed one press at a time;
   `data-dim` on the slide dims earlier steps.
 - **Magic Move:** give the same `data-morph="name"` to an element on two
-  consecutive slides. It glides between its positions.
+  consecutive slides, or set `data-transition="morph"` to pair matching
+  titles, numbers and images automatically.
+- **Motion:** set a deck `transition:` in front matter (fade, push, rise,
+  cover, zoom, wipe, iris, blur, flip, morph, none) and override it per slide
+  with `data-transition`. Use `data-anim` for element entrances (rise, wipe,
+  type, count, draw…), `data-anim` on `.step` for build effects (including
+  `highlight`), and `<pre class="code" data-lines="1-3|5">` for code
+  walkthroughs. Read [references/motion.md](references/motion.md); one deck
+  default plus a few deliberate overrides.
 - **Charts:** `<figure class="chart" data-type="bar|hbar|line|donut" data-labels="…" data-series="Name:1,2,3" data-highlight="2">`.
   Highlight the one data point the headline is about.
 - **Images:** relative paths only (`assets/photo.jpg`). Every `<img>` gets
@@ -203,4 +211,5 @@ newest version. Copy those text changes back into the source before rebuilding.
 | [references/storyline.md](references/storyline.md) | Phase 2: arcs, assertion headlines, pacing |
 | [references/layouts.md](references/layouts.md) | Phases 2–4: every layout's markup and content limits |
 | [references/design-rules.md](references/design-rules.md) | Phase 4: typography, colour, motion, charts, anti-slop |
+| [references/motion.md](references/motion.md) | Phase 4: transitions, entrances, builds, code walkthroughs, recipes |
 | [references/custom-themes.md](references/custom-themes.md) | Designing a wildcard, brand or mixed theme |

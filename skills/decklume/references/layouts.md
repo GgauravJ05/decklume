@@ -16,6 +16,9 @@ Shared pieces you can use inside most layouts:
 | `<mark>` | Highlighter on a key phrase in body text |
 | `class="step"` | Revealed one press at a time (`data-dim` on the slide dims earlier steps) |
 | `data-morph="key"` | Magic Move: glides to the element with the same key on the next slide |
+| `data-transition="push"` on a slide | How this slide arrives (see references/motion.md) |
+| `data-anim="count"` | Entrance effect for one element (rise, wipe, type, count, draw…) |
+| `<pre class="code" data-lines="1-3|5">` | Code walkthrough: one range focused per press |
 | `<aside class="notes">` | Speaker notes (presenter view only) |
 | `class="no-folio"` on a slide | Hide the page number / deck name footer |
 
