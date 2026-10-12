@@ -1,0 +1,20 @@
+{
+  "name": "decklume",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Decklume — a Claude Code skill that turns any topic, notes or PowerPoint into a stunning, animated HTML presentation.",
+  "type": "module",
+  "license": "MIT",
+  "author": "GgauravJ05",
+  "homepage": "https://ggauravj05.github.io/decklume/",
+  "repository": { "type": "git", "url": "git+https://github.com/GgauravJ05/decklume.git" },
+  "bugs": { "url": "https://github.com/GgauravJ05/decklume/issues" },
+  "keywords": ["claude-code", "claude-skill", "ai-presentation", "slides", "html-slides", "presentation-generator", "powerpoint", "keynote"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node skills/decklume/scripts/build.mjs",
+    "build:examples": "node scripts/build-examples.mjs",
+    "qa": "node skills/decklume/scripts/qa.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}
