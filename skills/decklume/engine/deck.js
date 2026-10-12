@@ -27,6 +27,11 @@
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Motion vocabulary (see references/motion.md).
+  const TRANSITIONS = new Set(["fade", "push", "rise", "cover", "zoom", "wipe", "iris", "blur", "flip", "morph", "none"]);
+  const SPATIAL = new Set(["push", "rise", "cover", "zoom", "wipe", "iris", "flip"]);
+  const AUTO_MORPH = "h1, h2, h3, .display, .statement, .big-number, .value, .term, .kicker, img, figure.media";
+
   class Deck {
     constructor() {
       this.viewport = document.querySelector(".deck-viewport");
@@ -63,6 +68,14 @@
         slide.setAttribute("aria-roledescription", "slide");
         slide.setAttribute("aria-label", `${n + 1} of ${this.slides.length}`);
 
+        // Code walkthrough: <pre data-lines="1-3|5|7-9"> focuses one range per press.
+        slide.querySelectorAll("pre[data-lines]").forEach((pre) => this.prepareCode(pre));
+
+        // SVG drawn on entrance: normalise every stroke to pathLength 1.
+        slide.querySelectorAll('[data-anim="draw"]').forEach((el) => {
+          el.querySelectorAll("path, line, polyline, polygon, circle, ellipse, rect").forEach((g) => g.setAttribute("pathLength", "1"));
+        });
+
         // Steps: explicit .step elements, ordered by data-step then DOM order.
         const steps = [...slide.querySelectorAll(".step")];
         steps.forEach((el, i) => (el.dataset.dlOrder = el.dataset.step ?? i));
@@ -79,6 +92,83 @@
           el.classList.add("dl-enter");
           el.style.setProperty("--i", String(Math.min(i++, 9)));
         });
+
+        // Named entrance presets override the default for that element.
+        slide.querySelectorAll("[data-anim]:not(.step)").forEach((el) => {
+          const type = el.dataset.anim.split(/\s+/)[0];
+          el.classList.add("dl-enter", "dl-a-" + type);
+          if (!el.style.getPropertyValue("--i")) el.style.setProperty("--i", String(Math.min(i++, 9)));
+          if (el.dataset.delay) el.style.setProperty("--a-delay", `${parseInt(el.dataset.delay, 10)}ms`);
+          if (el.dataset.duration) el.style.setProperty("--a-dur", `${parseInt(el.dataset.duration, 10)}ms`);
+          if (type === "type") el.style.setProperty("--chars", String(Math.max(1, el.textContent.trim().length)));
+        });
+      });
+    }
+
+    /* Wrap each code line and create one hidden step per range. */
+    prepareCode(pre) {
+      const code = pre.querySelector("code") || pre;
+      const lines = code.innerHTML.replace(/\n$/, "").split("\n");
+      code.innerHTML = lines.map((l) => `<span class="ln">${l}</span>`).join("\n");
+      pre._lines = [...code.querySelectorAll(":scope > .ln")];
+      pre._ranges = pre.dataset.lines.split("|").map((r) => {
+        const set = new Set();
+        r.split(",").forEach((part) => {
+          const [a, b] = part.trim().split("-").map(Number);
+          for (let k = a; k <= (b || a); k++) set.add(k - 1);
+        });
+        return set;
+      });
+      pre._steps = pre._ranges.map((_, k) => {
+        const marker = document.createElement("span");
+        marker.className = "step dl-codestep";
+        marker.dataset.dlGenerated = "";
+        marker.dataset.range = String(k);
+        if (pre.dataset.step) marker.dataset.step = String(Number(pre.dataset.step) + k / 100);
+        pre.after(marker);
+        return marker;
+      });
+    }
+
+    focusCode(slide) {
+      slide.querySelectorAll("pre[data-lines]").forEach((pre) => {
+        const shown = pre._steps.filter((m) => m.classList.contains("is-shown"));
+        const range = shown.length ? pre._ranges[shown.length - 1] : null;
+        pre.classList.toggle("has-focus", !!range);
+        pre._lines.forEach((ln, k) => ln.classList.toggle("is-focus", !!range && range.has(k)));
+      });
+    }
+
+    /* Count numbers up from zero, keeping prefixes, separators and decimals. */
+    countUp(slide) {
+      if (reduceMotion || root.classList.contains("dl-static")) return;
+      slide.querySelectorAll('[data-anim~="count"]').forEach((el) => {
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode()) && !/\d/.test(node.nodeValue));
+        if (!node) return;
+        const original = node._dlOriginal ?? node.nodeValue;
+        node._dlOriginal = original;
+        const m = original.match(/-?\d[\d,]*(\.\d+)?/);
+        if (!m) return;
+        const target = parseFloat(m[0].replace(/,/g, ""));
+        const decimals = m[1] ? m[1].length - 1 : 0;
+        const commas = m[0].includes(",");
+        const dur = parseInt(el.dataset.duration || "1400", 10);
+        const t0 = performance.now() + parseInt(el.dataset.delay || "200", 10);
+        const fmt = (v) => {
+          let out = v.toFixed(decimals);
+          if (commas) out = Number(out).toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+          return original.replace(m[0], out);
+        };
+        cancelAnimationFrame(el._dlRaf);
+        const tick = (now) => {
+          const p = Math.min(1, Math.max(0, (now - t0) / dur));
+          node.nodeValue = p >= 1 ? original : fmt(target * (1 - Math.pow(1 - p, 4)));
+          if (p < 1) el._dlRaf = requestAnimationFrame(tick);
+        };
+        node.nodeValue = fmt(0);
+        el._dlRaf = requestAnimationFrame(tick);
       });
     }
 
@@ -107,7 +197,16 @@
       const to = this.slides[n];
       const changed = from !== to || instant;
 
+      // Forward uses the incoming slide's transition; backward replays the
+      // outgoing slide's transition in reverse.
+      const forward = n > this.index;
+      const owner = forward ? to : from;
+      let type = owner.dataset.transition || this.stage.dataset.transition || "fade";
+      if (!TRANSITIONS.has(type)) type = "fade";
       const swap = () => {
+        // Spatial transitions move the slide as one piece: skip the default
+        // stagger (named data-anim presets still play).
+        to.classList.toggle("dl-quiet", !instant && from !== to && SPATIAL.has(type));
         this.slides.forEach((s) => s.classList.toggle("is-active", s === to));
         this.index = n;
         this.setSteps(steps === Infinity ? to._steps.length : steps, { silent: true });
@@ -115,13 +214,16 @@
         this.afterChange();
       };
 
-      const morphs = from !== to ? this.matchMorphs(from, to) : [];
-      const canVT = !instant && from !== to && document.startViewTransition && !reduceMotion && !this.overview;
+      const auto = type === "morph" || this.stage.hasAttribute("data-automorph");
+      const morphs = from !== to ? this.matchMorphs(from, to, auto) : [];
+      const canVT = !instant && from !== to && type !== "none" && document.startViewTransition && !reduceMotion && !this.overview;
 
       if (canVT) {
         this.nameMorphs(morphs, "from");
         root.classList.add("dl-vt");
-        root.style.setProperty("--vt-dir", n > this.index ? "1" : "-1");
+        root.dataset.vt = type === "morph" ? "fade" : type;
+        root.style.setProperty("--vt-dir", forward ? "1" : "-1");
+        root.dataset.vtDir = forward ? "fwd" : "back";
         const vt = document.startViewTransition(() => {
           this.clearMorphNames(morphs);
           swap();
@@ -130,6 +232,8 @@
         vt.finished.finally(() => {
           this.clearMorphNames(morphs);
           root.classList.remove("dl-vt");
+          delete root.dataset.vt;
+          delete root.dataset.vtDir;
         });
       } else {
         swap();
@@ -145,6 +249,7 @@
         el.classList.toggle("is-shown", i < this.stepIndex);
         el.classList.toggle("is-dimmed", dimPrev && i < this.stepIndex - 1);
       });
+      this.focusCode(slide);
       if (!silent) this.afterChange();
     }
 
@@ -153,6 +258,7 @@
       slide.classList.remove("is-entering");
       void slide.offsetWidth; // restart the animation
       slide.classList.add("is-entering");
+      this.countUp(slide);
       clearTimeout(slide._enterTimer);
       slide._enterTimer = setTimeout(() => slide.classList.remove("is-entering"), 2600);
     }
@@ -177,13 +283,30 @@
     /* --- Magic Move ---------------------------------------------------------
        Elements sharing a data-morph value on consecutive slides glide from
        one position to the other through a View Transition. */
-    matchMorphs(from, to) {
+    matchMorphs(from, to, auto = false) {
       const pairs = [];
       from.querySelectorAll("[data-morph]").forEach((a) => {
         const key = a.dataset.morph;
         const b = to.querySelector(`[data-morph="${CSS.escape(key)}"]`);
         if (b) pairs.push({ key, from: a, to: b });
       });
+      // Auto Magic Move: pair elements whose text (or image source) matches.
+      if (auto) {
+        const sig = (el) => (el.tagName === "IMG" ? "img:" + el.getAttribute("src") : el.matches("figure.media") ? "img:" + (el.querySelector("img")?.getAttribute("src") || "") : el.textContent.trim().replace(/\s+/g, " "));
+        const taken = new Set(pairs.flatMap((p) => [p.from, p.to]));
+        const pool = [...to.querySelectorAll(AUTO_MORPH)].filter((b) => !taken.has(b) && !b.closest(".notes"));
+        from.querySelectorAll(AUTO_MORPH).forEach((a, k) => {
+          if (taken.has(a) || a.closest(".notes")) return;
+          const s = sig(a);
+          if (!s || s.length > 140) return;
+          const b = pool.find((x) => !taken.has(x) && sig(x) === s);
+          if (b) {
+            taken.add(a);
+            taken.add(b);
+            pairs.push({ key: "auto" + k, from: a, to: b });
+          }
+        });
+      }
       return pairs;
     }
 
@@ -498,6 +621,8 @@
     if (!clone.classList.length) clone.removeAttribute("class");
     clone.style.removeProperty("--dl-progress");
     clone.style.removeProperty("--vt-dir");
+    delete clone.dataset.vt;
+    delete clone.dataset.vtDir;
     if (!clone.getAttribute("style")) clone.removeAttribute("style");
     clone.querySelectorAll(".dl-progress, .dl-hud, .dl-help, .dl-toast, [data-dl-generated]").forEach((n) => n.remove());
     const stage = clone.querySelector(".deck-stage");
@@ -516,6 +641,17 @@
       if (!el.classList.length) el.removeAttribute("class");
     });
     clone.querySelectorAll(".step").forEach((el) => { el.classList.remove("is-shown", "is-dimmed"); delete el.dataset.dlOrder; });
+    clone.querySelectorAll("pre[data-lines]").forEach((pre) => {
+      pre.classList.remove("has-focus");
+      if (!pre.classList.length) pre.removeAttribute("class");
+      pre.querySelectorAll("span.ln").forEach((ln) => ln.replaceWith(...ln.childNodes));
+    });
+    clone.querySelectorAll("[data-anim]").forEach((el) => {
+      [...el.classList].filter((c) => c.startsWith("dl-a-")).forEach((c) => el.classList.remove(c));
+      ["--a-delay", "--a-dur", "--chars"].forEach((v) => el.style.removeProperty(v));
+      if (!el.getAttribute("style")) el.removeAttribute("style");
+      if (!el.classList.length) el.removeAttribute("class");
+    });
     clone.querySelectorAll("[contenteditable]").forEach((el) => el.removeAttribute("contenteditable"));
     clone.querySelectorAll("[data-morph]").forEach((el) => { el.style.viewTransitionName = ""; if (!el.getAttribute("style")) el.removeAttribute("style"); });
     return "<!DOCTYPE html>\n" + clone.outerHTML + "\n";
