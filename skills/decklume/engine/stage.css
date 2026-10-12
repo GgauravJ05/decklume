@@ -408,3 +408,15 @@ body {
     animation-duration: 0.2s !important;
   }
 }
+
+/* --- View Transitions: slide changes + Magic Move morphs -------------- */
+::view-transition-group(*) {
+  animation-duration: var(--vt-duration);
+  animation-timing-function: var(--ease-in-out);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: calc(var(--vt-duration) * 0.8);
+}
+
