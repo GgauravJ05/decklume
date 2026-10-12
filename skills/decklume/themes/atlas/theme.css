@@ -1,0 +1,121 @@
+/* =====================================================================
+   THEME · ATLAS
+   Consulting clarity. Source Serif 4 action titles over a full-width
+   rule, Hanken Grotesk body, navy ink, a blue signal and a gold second.
+   Charts and tables are numbered as exhibits. Reading density.
+   ===================================================================== */
+:root {
+  --c-stage: #071a33;
+  --c-bg: #ffffff;
+  --c-surface: #f2f4f7;
+  --c-ink: #0b2545;
+  --c-ink-2: #34445c;
+  --c-ink-3: #56657b;
+  --c-line: rgba(11, 37, 69, 0.15);
+  --c-accent: #1d5fbf;
+  --c-accent-ink: #ffffff;
+  --c-accent-2: #b8860b;
+  --c-bar: #c5cfdc;
+  --c-chart-1: #0b2545;
+  --c-chart-2: #1d5fbf;
+  --c-chart-3: #d4a017;
+  --c-chart-4: #c5cfdc;
+  --c-code-bg: #0b2545;
+
+  --f-display: "Source Serif 4", "Georgia", serif;
+  --f-body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --fw-display: 600;
+  --fw-heading: 600;
+  --fw-body: 400;
+  --fw-strong: 700;
+  --lh-heading: 1.12;
+  --tr-display: -0.02em;
+  --tr-heading: -0.01em;
+  --tr-caps: 0.1em;
+  --em-style: normal;
+
+  --fs-body: 28px;
+  --fs-lead: 36px;
+  --fs-h3: 44px;
+  --fs-h2: 60px;
+  --fs-h1: 96px;
+  --fs-display: 132px;
+  --fs-mega: 240px;
+  --lh-body: 1.45;
+  --measure: 62ch;
+
+  --m-x: 104px;
+  --m-top: 96px;
+  --m-bottom: 104px;
+  --radius: 2px;
+  --radius-lg: 4px;
+  --rule: 2px;
+  --folio-align: left;
+
+  --dur-2: 240ms;
+  --dur-3: 480ms;
+  --stagger: 50ms;
+  --enter-from: translateY(10px);
+  --vt-duration: 420ms;
+}
+
+.deck-stage { counter-reset: slide exhibit; }
+
+/* Action title: headline sits on a full-width navy rule. */
+.slide:not(.l-title, .l-section, .l-bleed, .l-statement, .l-closing, .l-kpi, .l-quote, .l-define, .l-split) > header {
+  padding-bottom: var(--sp-3);
+  border-bottom: 3px solid var(--c-ink);
+  grid-column: 1 / -1;
+}
+
+/* Exhibits: charts and tables are numbered automatically. */
+.slide:is(.l-chart, .l-table) { counter-increment: slide exhibit; }
+.slide:is(.l-chart, .l-table) > header .eyebrow::before {
+  content: "Exhibit " counter(exhibit) " · ";
+  color: var(--c-ink-3);
+}
+
+
+.slide.l-title {
+  --c-bg: #0b2545;
+  --c-ink: #ffffff;
+  --c-ink-2: rgba(255, 255, 255, 0.82);
+  --c-line: rgba(255, 255, 255, 0.24);
+  --c-eyebrow: #e8b931;
+  --em-color: #e8b931;
+  background: var(--c-bg);
+}
+
+.l-title > :is(h1, .display) { font-size: 112px; max-width: 16ch; }
+
+.slide.l-section {
+  --c-bg: #f2f4f7;
+  background: var(--c-bg);
+}
+
+.l-section > .kicker { color: var(--c-accent); font-weight: 400; }
+
+.slide .card {
+  --card-bg: var(--c-surface);
+  border-top: 4px solid var(--c-ink);
+  border-radius: 0;
+}
+
+.slide .card.is-highlight { background: var(--c-ink); border-top-color: #e8b931; }
+
+.slide table.data th { border-bottom-color: var(--c-ink); color: var(--c-ink); }
+.slide table.data { font-size: 26px; }
+.slide table.data tr.is-highlight td { background: rgba(29, 95, 191, 0.08); }
+
+.l-chart > .takeaway {
+  padding: var(--sp-4);
+  background: var(--c-surface);
+  border-left: 4px solid var(--c-accent-2);
+}
+
+.slide .flow > .node { border-radius: 0; border: 2px solid var(--c-ink); }
+.slide .flow > .node.is-highlight { background: var(--c-ink); border-color: var(--c-ink); }
+
+.l-statement .statement { font-size: 92px; line-height: 1.1; max-width: 22ch; }
