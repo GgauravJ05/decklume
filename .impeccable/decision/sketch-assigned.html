@@ -1,0 +1,40 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Light Table sketch</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;800&family=Martian+Mono:wght@400;600&family=Reenie+Beanie&display=swap">
+<style>
+*{box-sizing:border-box}body{margin:0;width:1440px;height:900px;overflow:hidden;background:#16171A;color:#EDEBE6;font-family:"Schibsted Grotesk",sans-serif}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 48px;font:600 13px "Martian Mono",monospace;letter-spacing:.06em;color:#BDBAB2}
+nav b{font:800 22px "Schibsted Grotesk";letter-spacing:-.02em;color:#EDEBE6}
+.table{position:absolute;left:48px;right:48px;top:96px;height:600px;border-radius:14px;background:radial-gradient(120% 140% at 50% 40%,#FBFCF8 0,#F1F4EE 55%,#DCE1DA 100%);box-shadow:0 0 120px rgba(243,245,239,.18),inset 0 0 0 1px rgba(255,255,255,.6)}
+.table:before{content:"";position:absolute;inset:0;border-radius:14px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.035) 0 1px,transparent 1px 120px),repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 1px,transparent 1px 120px)}
+h1{position:absolute;left:64px;top:44px;margin:0;font:800 104px/0.9 "Schibsted Grotesk";letter-spacing:-.045em;color:#141416;max-width:820px}
+.sub{position:absolute;left:68px;top:300px;width:520px;font-size:22px;line-height:1.4;color:#3A3B3E}
+.mount{position:absolute;width:250px;height:250px;border-radius:12px;background:#E7E3DA;box-shadow:0 6px 14px rgba(0,0,0,.18),inset 0 0 0 1px rgba(0,0,0,.08);padding:34px 22px}
+.mount i{display:block;width:100%;height:118px;border-radius:2px;margin-top:20px}
+.mount span{position:absolute;left:22px;bottom:18px;font:600 11px "Martian Mono";color:#55534C}
+.m1{left:690px;top:70px;transform:rotate(-4deg)}.m1 i{background:linear-gradient(#F3EEE4 0 70%,#B83A22 70% 74%,#F3EEE4 74%)}
+.m2{left:960px;top:40px;transform:rotate(3deg)}.m2 i{background:#0C0D10;box-shadow:inset 0 -40px 0 #E9B44C}
+.m3{left:1110px;top:300px;transform:rotate(-2deg)}.m3 i{background:#1E3BD8}
+.m4{left:830px;top:320px;transform:rotate(5deg)}.m4 i{background:#1F2B26;box-shadow:inset 0 -30px 0 #F2D06B}
+.loupe{position:absolute;left:880px;top:300px;width:220px;height:220px;border-radius:50%;border:16px solid #1B1C1F;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+.install{position:absolute;left:64px;bottom:56px;display:flex;gap:16px;align-items:center}
+.install code{font:600 16px "Martian Mono";background:#fff;color:#141416;padding:18px 22px;border-radius:8px;box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.install a{font:800 18px "Schibsted Grotesk";background:#141416;color:#F3F5EF;padding:18px 26px;border-radius:999px}
+.grease{position:absolute;left:940px;top:24px;font:48px "Reenie Beanie";color:#D22F27;transform:rotate(-6deg)}
+.strip{position:absolute;left:48px;right:48px;bottom:40px;height:120px;display:flex;gap:14px}
+.strip div{flex:1;border-radius:8px;background:#2A2B2F;position:relative}
+.strip div:nth-child(3){outline:2px solid #F6B21B}
+</style></head><body>
+<nav><b>Decklume</b><span>DL-01 HOME · DL-02 THEMES · DL-03 HOW IT WORKS · DL-04 DOCS · GITHUB</span></nav>
+<div class="table">
+<h1>Slides that look designed, not generated.</h1>
+<p class="sub">A free Claude Code skill: story first, your slides in three looks, then a browser QA pass on every slide.</p>
+<div class="mount m1"><i></i><span>DL-07 · FOLIO</span></div>
+<div class="mount m2"><i></i><span>DL-12 · NOCTURNE</span></div>
+<div class="mount m4"><i></i><span>DL-31 · CHALK</span></div>
+<div class="mount m3"><i></i><span>DL-18 · GRID</span></div>
+<div class="loupe"></div>
+<div class="grease">this one ✓</div>
+<div class="install"><code>/plugin install decklume@decklume</code><a>Play the demo deck →</a></div>
+</div>
+<div class="strip"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</body></html>

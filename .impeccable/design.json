@@ -1,0 +1,496 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-12T16:00:47+00:00",
+  "title": "Design System: Decklume website",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Print Paper",
+        "canonical": "oklch(95.0% 0.010 87.5)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#26241f",
+          "#423f3a",
+          "#605d57",
+          "#807d77",
+          "#a19e98",
+          "#c7c4bd",
+          "#f1eee7"
+        ]
+      },
+      "paper-white": {
+        "role": "neutral",
+        "displayName": "Fresh Print",
+        "canonical": "oklch(97.9% 0.007 88.6)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#252420",
+          "#41403c",
+          "#5f5d59",
+          "#7f7d79",
+          "#a09e9a",
+          "#c6c4bf",
+          "#f0eee9"
+        ]
+      },
+      "paper-shade": {
+        "role": "neutral",
+        "displayName": "Paper Shade",
+        "canonical": "oklch(91.3% 0.014 88.7)",
+        "tonalRamp": [
+          "#0e0b05",
+          "#27241c",
+          "#433f37",
+          "#615d55",
+          "#817d74",
+          "#a29e95",
+          "#c8c4ba",
+          "#f2eee4"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Darkroom Ink",
+        "canonical": "oklch(15.9% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "oklch(35.0% 0.009 80.7)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#26241f",
+          "#423f3a",
+          "#605d58",
+          "#807d77",
+          "#a19e98",
+          "#c7c4bd",
+          "#f2eee8"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "oklch(46.2% 0.014 84.6)",
+        "tonalRamp": [
+          "#0e0b05",
+          "#27241d",
+          "#433f38",
+          "#615d55",
+          "#817d74",
+          "#a29e95",
+          "#c8c4ba",
+          "#f3eee4"
+        ]
+      },
+      "film": {
+        "role": "neutral",
+        "displayName": "Film",
+        "canonical": "oklch(15.9% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ]
+      },
+      "film-2": {
+        "role": "neutral",
+        "displayName": "Film 2",
+        "canonical": "oklch(22.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ]
+      },
+      "film-hole": {
+        "role": "neutral",
+        "displayName": "Sprocket",
+        "canonical": "oklch(34.5% 0.005 91.5)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#252421",
+          "#41403d",
+          "#5f5d5a",
+          "#7e7d7a",
+          "#9f9e9b",
+          "#c5c4c0",
+          "#f0eeea"
+        ]
+      },
+      "edge": {
+        "role": "neutral",
+        "displayName": "Edge Print",
+        "canonical": "oklch(77.1% 0.018 88.0)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#28241a",
+          "#443f35",
+          "#625d52",
+          "#827d72",
+          "#a39e92",
+          "#c9c4b7",
+          "#f3eee1"
+        ]
+      },
+      "film-text": {
+        "role": "neutral",
+        "displayName": "Film Text",
+        "canonical": "oklch(93.2% 0.013 86.8)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#27241d",
+          "#433f38",
+          "#615d56",
+          "#807d75",
+          "#a29e96",
+          "#c8c4bb",
+          "#f2eee5"
+        ]
+      },
+      "film-muted": {
+        "role": "neutral",
+        "displayName": "Film Muted",
+        "canonical": "oklch(63.5% 0.017 86.5)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#28241b",
+          "#443f36",
+          "#625d53",
+          "#827d72",
+          "#a39e93",
+          "#c9c4b8",
+          "#f3eee2"
+        ]
+      },
+      "red": {
+        "role": "secondary",
+        "displayName": "Grease-Pencil Red",
+        "canonical": "oklch(60.3% 0.212 28.8)",
+        "tonalRamp": [
+          "#420000",
+          "#690000",
+          "#8c0000",
+          "#b30000",
+          "#db392e",
+          "#ff6050",
+          "#ff8976",
+          "#ffb49f"
+        ]
+      },
+      "red-ink": {
+        "role": "secondary",
+        "displayName": "Red Ink",
+        "canonical": "oklch(50.1% 0.179 29.2)",
+        "tonalRamp": [
+          "#3b0000",
+          "#600000",
+          "#860000",
+          "#ac1d14",
+          "#d24638",
+          "#fa6b59",
+          "#ff927e",
+          "#ffbda7"
+        ]
+      },
+      "yellow": {
+        "role": "tertiary",
+        "displayName": "Grease-Pencil Yellow",
+        "canonical": "oklch(83.4% 0.158 89.0)",
+        "tonalRamp": [
+          "#230000",
+          "#411600",
+          "#613500",
+          "#815400",
+          "#a37500",
+          "#c69700",
+          "#edbd28",
+          "#ffe861"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(13, 13, 13, 0.14)"
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "rgba(13, 13, 13, 0.32)"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero headline, stacked lines."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Band, FAQ, install and closing headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Story steps, theme rows, prose h2."
+      },
+      "title-sm": {
+        "displayName": "Title Sm",
+        "purpose": "Audience links on film, definition terms, pager links."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "Decklume wordmark in masthead and colophon."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Hero and page-head intro paragraphs."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All running text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav, legends, act labels, table heads, counts."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Button labels."
+      },
+      "mono-command": {
+        "displayName": "Mono Command",
+        "purpose": "Copyable install commands and code."
+      },
+      "mono-edge": {
+        "displayName": "Mono Edge",
+        "purpose": "Frame edge codes and colophon rebate on film; uppercase only here."
+      },
+      "hand": {
+        "displayName": "Hand",
+        "purpose": "Grease-pencil notes, aria-hidden."
+      }
+    },
+    "shadows": [
+      {
+        "name": "print",
+        "value": "0 1px 2px rgba(13, 13, 13, 0.12), 0 18px 40px -18px rgba(13, 13, 13, 0.45)",
+        "purpose": "Contact sheets, viewer, story stage, QA bench, tilted strips, mobile menu."
+      },
+      {
+        "name": "enlargement",
+        "value": "0 2px 4px rgba(0, 0, 0, 0.3), 0 24px 48px -16px rgba(0, 0, 0, 0.6)",
+        "purpose": "The tilted paper print holding the live deck."
+      },
+      {
+        "name": "button-lift",
+        "value": "0 1px 0 rgba(255, 255, 255, 0.12) inset, 0 6px 16px -8px rgba(13, 13, 13, 0.6)",
+        "purpose": "Primary button at rest."
+      },
+      {
+        "name": "button-lift-hover",
+        "value": "0 10px 22px -10px rgba(13, 13, 13, 0.7)",
+        "purpose": "Primary button hover, with a 1px rise."
+      },
+      {
+        "name": "ring-ink",
+        "value": "inset 0 0 0 1.5px #0d0d0d",
+        "purpose": "Ghost button and current nav link outline."
+      },
+      {
+        "name": "loupe",
+        "value": "0 0 0 5px #0d0d0d, 0 12px 24px rgba(0, 0, 0, 0.35)",
+        "purpose": "QA inspector loupe."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Expo-out ease for every transform, draw and stage transition."
+      },
+      {
+        "name": "state",
+        "value": "0.2s",
+        "purpose": "Colour and background state changes on controls."
+      },
+      {
+        "name": "button",
+        "value": "0.25s",
+        "purpose": "Button rise and shadow."
+      },
+      {
+        "name": "frame-hover",
+        "value": "0.35s",
+        "purpose": "Frame scale 1.025 and brightness 1.04 on hover."
+      },
+      {
+        "name": "grease-draw",
+        "value": "0.7s-1.1s stroke-dashoffset 1 to 0",
+        "purpose": "Grease-pencil strokes drawn on when they enter."
+      },
+      {
+        "name": "stage",
+        "value": "0.6s-0.7s opacity, translateY(14px) scale(0.985), blur(6px)",
+        "purpose": "Story stage cross-fades."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "durations 0.01ms; stage blur and transform removed",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-split",
+        "value": "1100px"
+      },
+      {
+        "name": "nav-toggle",
+        "value": "900px"
+      },
+      {
+        "name": "phone",
+        "value": "560px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink pill with a small lift; the demo and main actions.",
+      "html": "<button class=\"ds-btn-primary\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 5.5v13l10.5-6.5z\"/></svg>Play the demo deck</button>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-btn-primary{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;border:0;cursor:pointer;font:700 16px/1 var(--text);letter-spacing:-0.01em;background:var(--ink);color:var(--paper);box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 6px 16px -8px rgba(13,13,13,.6);transition:transform .25s var(--ease),box-shadow .25s var(--ease)} .ds-btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 22px -10px rgba(13,13,13,.7)} .ds-btn-primary:active{transform:translateY(1px)} .ds-btn-primary:focus-visible{outline:3px solid var(--red);outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent pill with a 1.5px inset ink ring; secondary actions.",
+      "html": "<button class=\"ds-btn-ghost\">Browse themes</button>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-btn-ghost{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;border:0;cursor:pointer;font:700 16px/1 var(--text);letter-spacing:-0.01em;background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);transition:background-color .2s} .ds-btn-ghost:hover{background:var(--paper-shade)} .ds-btn-ghost:active{transform:translateY(1px)} .ds-btn-ghost:focus-visible{outline:3px solid var(--red);outline-offset:3px}"
+    },
+    {
+      "name": "Copyable Command",
+      "kind": "input",
+      "refersTo": "command",
+      "description": "Mono command field with attached copy button; the install call to action.",
+      "html": "<div class=\"ds-cmd\"><code>/plugin install decklume@decklume</code><button class=\"ds-cmd-copy\" type=\"button\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"8.5\" y=\"8.5\" width=\"11\" height=\"11\" rx=\"2\"/><path d=\"M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5\"/></svg>Copy</button></div>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-cmd{display:flex;align-items:stretch;background:var(--paper-white);border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;max-width:460px} .ds-cmd code{flex:1;padding:12px 14px;font:400 13px/1.5 var(--mono);color:var(--ink)} .ds-cmd-copy{display:inline-flex;align-items:center;gap:6px;padding:0 14px;border:0;border-left:1px solid var(--line-strong);background:transparent;color:var(--ink);font:600 13px/1 var(--text);cursor:pointer;transition:background-color .2s,color .2s} .ds-cmd-copy:hover{background:var(--paper-shade)} .ds-cmd-copy:active{background:var(--ink);color:var(--paper)} .ds-cmd-copy:focus-visible{outline:3px solid var(--red);outline-offset:3px}"
+    },
+    {
+      "name": "Masthead Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Wordmark and pill links; current page ringed, GitHub filled.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-wordmark\" href=\"#\">Decklume</a><ul><li><a href=\"#\" aria-current=\"page\">Themes</a></li><li><a href=\"#\">Students</a></li><li><a href=\"#\">Docs</a></li><li><a href=\"#\" class=\"ds-nav-gh\">GitHub</a></li></ul></nav>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-nav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 24px;background:var(--paper)} .ds-wordmark{font:900 26px/1 var(--text);letter-spacing:-0.04em;color:var(--ink);text-decoration:none} .ds-nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0} .ds-nav li a{display:inline-flex;padding:8px 12px;border-radius:999px;font:600 15px/1 var(--text);letter-spacing:-0.005em;color:var(--ink-2);text-decoration:none;transition:background-color .2s,color .2s} .ds-nav li a:hover{background:var(--paper-shade);color:var(--ink)} .ds-nav li a[aria-current=page]{color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)} .ds-nav li a.ds-nav-gh{background:var(--ink);color:var(--paper)} .ds-nav li a.ds-nav-gh:hover{background:var(--film-2)} .ds-nav a:focus-visible{outline:3px solid var(--red);outline-offset:3px}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Pill toggle with hairline ring; selected inverts to ink.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" aria-pressed=\"true\">Title</button><button class=\"ds-chip\" aria-pressed=\"false\">Chart</button><button class=\"ds-chip\" aria-pressed=\"false\">Timeline</button></div>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-chips{display:flex;gap:8px;flex-wrap:wrap} .ds-chip{border:0;border-radius:999px;padding:9px 14px;cursor:pointer;background:transparent;color:var(--ink-2);font:600 14px/1 var(--text);box-shadow:inset 0 0 0 1px var(--line-strong);transition:background-color .2s,color .2s} .ds-chip:hover{background:var(--paper-white);color:var(--ink)} .ds-chip[aria-pressed=true]{background:var(--ink);color:var(--paper);box-shadow:none} .ds-chip:focus-visible{outline:3px solid var(--red);outline-offset:3px}"
+    },
+    {
+      "name": "Film Strip",
+      "kind": "custom",
+      "refersTo": "contact-sheet",
+      "description": "Film-black grid of 16:9 frames between sprocket rebates, with mono edge numbers.",
+      "html": "<div class=\"ds-strip\"><figure class=\"ds-frame\"><a href=\"#\"><span class=\"ds-img\" style=\"background:#f4efe4\"></span></a><figcaption class=\"ds-edge\"><span>FOLIO</span><span>01A</span></figcaption></figure><figure class=\"ds-frame\"><a href=\"#\"><span class=\"ds-img\" style=\"background:#13161f\"></span></a><figcaption class=\"ds-edge\"><span>NOCTURNE</span><span>07A</span></figcaption></figure><figure class=\"ds-frame\"><a href=\"#\"><span class=\"ds-img\" style=\"background:#1f4fe0\"></span></a><figcaption class=\"ds-edge\"><span>GRID</span><span>15A</span></figcaption></figure></div>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto 1fr auto;column-gap:12px;background:var(--film);padding:4px 12px;border-radius:3px;box-shadow:var(--shadow-print)} .ds-strip::before,.ds-strip::after{content:'';display:block;height:12px;grid-column:1/-1;margin:0 -12px;background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='12'%3E%3Crect x='7' y='2' width='14' height='8' rx='2' fill='%233a3936'/%3E%3C/svg%3E\") repeat-x left center / 28px 12px} .ds-strip::before{grid-row:1} .ds-strip::after{grid-row:3} .ds-frame{grid-row:2;margin:0} .ds-frame a{display:block;border-radius:2px;overflow:hidden} .ds-img{display:block;aspect-ratio:16/9;border-radius:2px;transition:transform .35s var(--ease),filter .35s var(--ease)} .ds-frame a:hover .ds-img{transform:scale(1.025);filter:brightness(1.04)} .ds-frame a:focus-visible{outline:3px solid var(--red);outline-offset:3px} .ds-edge{display:flex;justify-content:space-between;gap:8px;padding:6px 2px 0;font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--edge)}"
+    },
+    {
+      "name": "Grease-Pencil Circle",
+      "kind": "custom",
+      "refersTo": "frame-edge",
+      "description": "Hand-drawn red stroke drawn on around the chosen frame, with a hand note.",
+      "html": "<div class=\"ds-keeper\"><span class=\"ds-img\"></span><svg class=\"ds-grease\" viewBox=\"0 0 220 140\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path pathLength=\"1\" d=\"M118 12C64 6 14 26 10 66c-4 40 44 66 104 64 62-2 100-28 96-64-4-34-46-56-102-54-30 1-58 8-74 20\"/></svg><span class=\"ds-note\" aria-hidden=\"true\">keep this one</span></div>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-keeper{position:relative;width:240px;margin:40px 60px;background:var(--film);padding:8px;border-radius:3px} .ds-img{display:block;aspect-ratio:16/9;background:#f4efe4;border-radius:2px} .ds-grease{position:absolute;inset:-16% -9% -24% -9%;width:118%;height:140%;overflow:visible;pointer-events:none} .ds-grease path{fill:none;stroke:var(--red);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0;opacity:.94;animation:ds-draw 1.1s .3s var(--ease) both} .ds-keeper:hover .ds-grease path{animation:ds-draw 1.1s var(--ease) both} @keyframes ds-draw{from{stroke-dashoffset:1}} .ds-note{position:absolute;right:-40px;top:-36px;font:400 38px/1 var(--hand);color:var(--yellow);transform:rotate(-4deg)} @media (prefers-reduced-motion:reduce){.ds-grease path{animation:none}}"
+    },
+    {
+      "name": "Install Panel",
+      "kind": "card",
+      "refersTo": "install-panel",
+      "description": "The one calm paper panel: fresh print, 1.5px ink border, numbered steps.",
+      "html": "<section class=\"ds-panel\"><h2>Install in a minute</h2><ol><li><p>Add the marketplace</p><div class=\"ds-cmd\"><code>/plugin marketplace add GgauravJ05/decklume</code></div></li><li><p>Install the plugin</p><div class=\"ds-cmd\"><code>/plugin install decklume@decklume</code></div></li></ol></section>",
+      "css": ":host{--paper:#f1eee7;--paper-white:#faf8f3;--paper-shade:#e6e2d8;--ink:#0d0d0d;--ink-2:#3d3a35;--ink-3:#5c5850;--line:rgba(13,13,13,.14);--line-strong:rgba(13,13,13,.32);--film:#0d0d0d;--film-2:#1c1c1c;--edge:#b9b4a8;--red:#e4362b;--red-ink:#b3261c;--yellow:#f2c230;--ease:cubic-bezier(0.16,1,0.3,1);--text:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;--mono:'Martian Mono',ui-monospace,Menlo,monospace;--hand:'Reenie Beanie','Bradley Hand',cursive;--shadow-print:0 1px 2px rgba(13,13,13,.12),0 18px 40px -18px rgba(13,13,13,.45)} .ds-panel{background:var(--paper-white);border:1.5px solid var(--ink);border-radius:4px;padding:40px;display:grid;gap:28px;color:var(--ink);font:400 17px/1.6 var(--text)} .ds-panel h2{margin:0;font:800 44px/0.98 var(--text);letter-spacing:-0.035em} .ds-panel ol{list-style:none;margin:0;padding:0;display:grid;gap:24px;counter-reset:i} .ds-panel li{counter-increment:i;display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:16px;row-gap:10px} .ds-panel li::before{content:counter(i);grid-row:span 2;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font:600 14px/1 var(--mono)} .ds-panel p{margin:0;font-weight:600} .ds-cmd{background:var(--paper);border:1px solid var(--line-strong);border-radius:6px;padding:12px 14px;font:400 13px/1.5 var(--mono)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Contact Sheet",
+    "overview": "The site is a photographer's contact sheet of real slides. Print-paper ground, film-black sheets with sprocket rebates and Martian Mono edge numbers, and a grease pencil that circles the keeper. The interface is the light table around the film: achromatic paper and ink, heavy grotesk headlines, pill-shaped controls. Every hue on the page arrives either inside a frame (a real Decklume slide, rendered from the product's ten themes) or as a grease-pencil mark made by hand over the film.\n\nDensity is generous on paper and dense on film. Bands of paper open with big balanced headlines and let one dark artefact (a contact sheet, a viewer, a story stage, a QA bench) carry the section. Film carries many small frames at once; paper carries few words at a time. The slide engine and its ten themes under `skills/decklume/` are the product, not this system; their colours appear here only as pictures inside frames.\n\nThe world rejects the dark-gradient tool landing and the cream-serif editorial default: the ground is a cool-warm photo paper set in a heavy grotesk, never a serif.",
+    "keyCharacteristics": [
+      "Achromatic chrome: paper, ink and film; colour comes from slides in frames and from grease pencil.",
+      "Film-black artefacts (sheets, strips, viewer, stage) with 12px sprocket rebates and mono edge numbers.",
+      "Schibsted Grotesk at 800 with tight negative tracking for every heading.",
+      "Grease-pencil marks: hand-drawn SVG strokes and Reenie Beanie notes in red and yellow, drawn on with a stroke animation.",
+      "Pill controls on paper, near-square corners on film."
+    ],
+    "rules": [
+      {
+        "name": "The Colour Lives In The Frame Rule",
+        "body": "The chrome is achromatic. A hue appears only inside a slide frame or as a grease-pencil mark (stroke, hand note, focus ring, selection, tick). If a new component needs colour to work, it is the wrong component.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red On Paper, Yellow On Film Rule",
+        "body": "Marks on paper use red (text form `red-ink`); marks drawn over film-black may use yellow, which is how the colophon and hero sheet keep their marks legible.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Voice Rule",
+        "body": "Every heading is Schibsted Grotesk 800 with negative tracking and `text-wrap: balance`. No serif, no second display face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Uppercase Belongs To Film Rule",
+        "body": "Uppercase letterspaced text exists only as edge printing in Martian Mono on film. Labels on paper are sentence case.",
+        "section": "typography"
+      },
+      {
+        "name": "The Light Table Rule",
+        "body": "Only film and prints cast shadows. Paper-side components are flat and separated by hairlines and rings.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do let real slide frames supply every colour on a page; keep chrome in paper, ink and film.",
+      "Do set every heading in Schibsted Grotesk 800 with negative tracking (-0.02em to -0.045em).",
+      "Do put film artefacts on the print shadow at 2-3px radius, and keep paper controls flat with inset rings.",
+      "Do use grease pencil (red on paper, yellow on film) to point at a choice or a defect, drawn on once with the expo-out ease, and disabled under reduced motion.",
+      "Do keep edge numbers at 11px or larger in Martian Mono 600.",
+      "Do make the primary action a copyable command or an ink pill button."
+    ],
+    "donts": [
+      "Don't fill buttons, panels or backgrounds with red or yellow; they are marks, not surfaces.",
+      "Don't introduce a serif or a second display face; the world refuses the cream-serif editorial default.",
+      "Don't build dark-gradient hero sections; dark appears only as film-black artefacts on paper.",
+      "Don't add uppercase letterspaced labels on paper; uppercase is film edge printing only.",
+      "Don't box content in generic rounded cards; divide with hairlines or put it on film."
+    ]
+  }
+}

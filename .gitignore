@@ -15,3 +15,9 @@ evals/runs/
 # Python
 __pycache__/
 *.pyc
+
+# Impeccable working files
+.impeccable/review/
+.impeccable/tmp/
+.impeccable/mocks/
+.decklume-frames/
