@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: 22
       - name: Rebuild live demos, gallery markup and sitemap
-        run: node scripts/build-site.mjs --no-images
+        run: node scripts/build-site.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

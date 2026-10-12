@@ -1,128 +1,146 @@
 #!/usr/bin/env node
 /* =====================================================================
-   Build the GitHub Pages site assets:
-   - site/demos/<theme>.html  the showcase lecture in every theme (live demos)
-   - site/assets/themes/<theme>.jpg  a 3-slide strip per theme (README + site)
-   - site/assets/hero.jpg      a mosaic of every theme's title slide
-   - site/assets/og.png        1280×640 social preview card
+   Build the Decklume website (GitHub Pages, site/):
+   - demos/<theme>.html            the showcase lecture in every theme
+   - all pages (static HTML)       home, themes, audiences, docs, compare, 404
+   - sitemap.xml, robots.txt
+   With --images (needs Playwright + cwebp):
+   - assets/frames/<theme>/NN.webp  every slide of every theme (640 px, 1280 for slide 1)
+   - assets/themes/<theme>.jpg      3-slide strips (README)
+   - assets/hero.jpg                README mosaic
 
-   Usage: node scripts/build-site.mjs [--no-images]
+   Usage: node scripts/build-site.mjs [--images]
    ===================================================================== */
-import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 import { build, listThemes } from "../skills/decklume/scripts/build.mjs";
+import { SITE, AUDIENCES } from "./site/content.mjs";
+import { home } from "./site/home.mjs";
+import { themesIndex, themePage, audiencePage, docsPage, comparePage, notFound } from "./site/pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SITE = join(ROOT, "site");
+const OUT = join(ROOT, "site");
 const SRC = join(ROOT, "examples/sleep-and-memory/sleep-and-memory.deck.html");
-const STRIP_SLIDES = [1, 7, 15]; // title, process, numbers
 const ORDER = ["folio", "nocturne", "grid", "campus", "atlas", "aurora", "volt", "ma", "bloom", "chalk"];
 const rank = (slug) => (ORDER.includes(slug) ? ORDER.indexOf(slug) : ORDER.length);
 const themes = listThemes().sort((a, b) => rank(a.slug) - rank(b.slug));
 
-mkdirSync(join(SITE, "demos"), { recursive: true });
-mkdirSync(join(SITE, "assets/themes"), { recursive: true });
+const write = (rel, html) => {
+  const file = join(OUT, rel);
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, html);
+};
 
-// 1. Live demos: one self-contained deck per theme (assets inlined).
-for (const t of themes) {
-  const r = build(SRC, { theme: t.slug, out: join(SITE, "demos", `${t.slug}.html`), inline: true });
-  console.log(`✓ demo ${t.slug} (${(r.bytes / 1024).toFixed(0)} KB)`);
-}
-writeFileSync(join(SITE, "assets/themes.json"), JSON.stringify(themes.map(({ fonts, ...t }) => t), null, 2));
+// 1. Live demo decks (assets inlined so each is one file).
+for (const t of themes) build(SRC, { theme: t.slug, out: join(OUT, "demos", `${t.slug}.html`), inline: true });
+console.log(`✓ ${themes.length} demo decks`);
 
-// Static theme gallery in index.html (crawlable, no JS needed).
-const esc = (v) => String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-const gallery = themes.map((t) => `      <article class="theme">
-        <div>
-          <h3><a href="demos/${t.slug}.html">${esc(t.name)}</a></h3>
-          <p>${esc(t.tagline)}</p>
-          <div class="tags">${t.best_for.slice(0, 3).map(esc).join(" · ")}</div>
-        </div>
-        <a href="demos/${t.slug}.html" aria-label="Open the ${esc(t.name)} live demo">
-          <img src="assets/themes/${t.slug}.jpg" width="1854" height="374" loading="lazy" alt="Three slides in the ${esc(t.name)} theme: title, process and numbers">
-        </a>
-      </article>`).join("\n");
-const indexPath = join(SITE, "index.html");
-const index = readFileSync(indexPath, "utf8").replace(/<!-- THEMES:START -->[\s\S]*?<!-- THEMES:END -->/, `<!-- THEMES:START -->\n${gallery}\n<!-- THEMES:END -->`);
-writeFileSync(indexPath, index);
+// 2. Pages.
+const pages = [
+  ["index.html", home(themes), ""],
+  ["themes/index.html", themesIndex(themes), "themes/"],
+  ...themes.map((t) => [`themes/${t.slug}/index.html`, themePage(t, themes), `themes/${t.slug}/`]),
+  ...Object.values(AUDIENCES).map((a) => [`for/${a.slug}/index.html`, audiencePage(a, themes), `for/${a.slug}/`]),
+  ["docs/index.html", docsPage(), "docs/"],
+  ["compare/frontend-slides/index.html", comparePage(), "compare/frontend-slides/"],
+  ["404.html", notFound(), null],
+];
+for (const [rel, html] of pages) write(rel, html);
+console.log(`✓ ${pages.length} pages`);
 
-// Sitemap: landing page + every live demo.
-const BASE = "https://ggauravj05.github.io/decklume/";
+// 3. Sitemap + robots.
 const today = new Date().toISOString().slice(0, 10);
-const urls = ["", ...themes.map((t) => `demos/${t.slug}.html`)];
-writeFileSync(join(SITE, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
+const urls = pages.filter(([, , p]) => p !== null).map(([, , p]) => p);
+write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${BASE}${u}</loc><lastmod>${today}</lastmod><priority>${u ? "0.6" : "1.0"}</priority></url>`).join("\n")}
+${urls.map((u) => `  <url><loc>${SITE.base}${u}</loc><lastmod>${today}</lastmod><priority>${u === "" ? "1.0" : u.split("/").length > 2 ? "0.7" : "0.8"}</priority></url>`).join("\n")}
 </urlset>
 `);
-writeFileSync(join(SITE, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${BASE}sitemap.xml\n`);
-writeFileSync(join(SITE, ".nojekyll"), "");
+write("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE.base}sitemap.xml\n`);
+write(".nojekyll", "");
+console.log("✓ sitemap.xml, robots.txt");
 
-if (process.argv.includes("--no-images")) process.exit(0);
+if (!process.argv.includes("--images")) process.exit(0);
 
-// 2. Images.
+// 4. Images: every slide of every theme, captured from the live demos.
 const { launch, serve, open, waitForFonts, freeze } = await import("../skills/decklume/scripts/lib/browser.mjs");
 const browser = await launch();
-const server = await serve(SITE);
-const shots = {};
+const server = await serve(OUT);
+const tmp = join(ROOT, ".decklume-frames");
+rmSync(tmp, { recursive: true, force: true });
+mkdirSync(tmp, { recursive: true });
+// Provenance sidecar (<file>.json): every shipped raster records where it came from.
+const provenance = (file, origin) =>
+  writeFileSync(file + ".json", JSON.stringify({ prompt: `Origin: real screenshot, not generated. ${origin}`, createdAt: new Date().toISOString() }, null, 2) + "\n");
+const webp = (png, out, width, origin) => {
+  execFileSync("cwebp", ["-quiet", "-q", width > 700 ? "82" : "76", "-resize", String(width), "0", png, "-o", out]);
+  provenance(out, origin);
+};
+const strips = {};
 try {
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   for (const t of themes) {
     await open(page, server.url(`demos/${t.slug}.html`));
     await waitForFonts(page);
     await freeze(page);
-    shots[t.slug] = [];
-    for (const n of STRIP_SLIDES) {
-      await page.evaluate((i) => window.decklume.go(i, { steps: Infinity, instant: true }), n - 1);
-      await page.waitForTimeout(80);
-      shots[t.slug].push((await page.screenshot({ type: "jpeg", quality: 88 })).toString("base64"));
+    const n = await page.evaluate(() => window.decklume.slides.length);
+    mkdirSync(join(OUT, "assets/frames", t.slug), { recursive: true });
+    strips[t.slug] = [];
+    for (let i = 0; i < n; i++) {
+      await page.evaluate((i) => window.decklume.go(i, { steps: Infinity, instant: true }), i);
+      await page.waitForTimeout(60);
+      const png = join(tmp, `${t.slug}-${i}.png`);
+      await page.screenshot({ path: png });
+      const nn = String(i + 1).padStart(2, "0");
+      const origin = `Slide ${nn} of examples/sleep-and-memory rendered in the Decklume ${t.slug} theme at 1920x1080 by scripts/build-site.mjs (Playwright), resized with cwebp`;
+      webp(png, join(OUT, "assets/frames", t.slug, `${nn}.webp`), 640, `${origin} to 640px.`);
+      if (i === 0) webp(png, join(OUT, "assets/frames", t.slug, `${nn}-1280.webp`), 1280, `${origin} to 1280px.`);
+      if ([0, 6, 14].includes(i)) strips[t.slug].push((await page.screenshot({ type: "jpeg", quality: 88 })).toString("base64"));
     }
-    console.log(`✓ captured ${t.slug}`);
+    console.log(`✓ frames ${t.slug} (${n})`);
   }
 
   const img = (b64) => `<img src="data:image/jpeg;base64,${b64}">`;
-  const render = async (html, w, h, path, type = "jpeg") => {
+  const render = async (html, w, h, path) => {
     const p = await browser.newPage({ viewport: { width: w, height: h } });
     await p.setContent(html, { waitUntil: "load" });
-    await p.screenshot({ path, type, ...(type === "jpeg" ? { quality: 84 } : {}) });
+    await p.screenshot({ path, type: "jpeg", quality: 84 });
     await p.close();
   };
-
-  // Strips: three slides side by side.
+  mkdirSync(join(OUT, "assets/themes"), { recursive: true });
   for (const t of themes) {
-    await render(
-      `<style>body{margin:0;background:#0f0f10;display:flex;gap:18px;padding:18px}img{width:600px;height:337.5px;border-radius:8px;display:block}</style>${shots[t.slug].map(img).join("")}`,
-      1854, 374, join(SITE, `assets/themes/${t.slug}.jpg`)
-    );
+    await render(`<style>body{margin:0;background:#0f0f10;display:flex;gap:18px;padding:18px}img{width:600px;height:337.5px;border-radius:8px;display:block}</style>${strips[t.slug].map(img).join("")}`, 1854, 374, join(OUT, `assets/themes/${t.slug}.jpg`));
+    provenance(join(OUT, `assets/themes/${t.slug}.jpg`), `Slides 01, 07 and 15 of examples/sleep-and-memory in the ${t.slug} theme, composed into a strip by scripts/build-site.mjs.`);
   }
+  await render(`<style>body{margin:0;background:#0f0f10;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;padding:16px}img{width:100%;aspect-ratio:16/9;border-radius:8px;display:block}</style>${themes.map((t) => img(strips[t.slug][0])).join("")}`, 1920, 466, join(OUT, "assets/hero.jpg"));
+  provenance(join(OUT, "assets/hero.jpg"), "Title slide of examples/sleep-and-memory in all ten themes, composed into a mosaic by scripts/build-site.mjs.");
 
-  // Hero mosaic: every theme's title slide, 5 × 2.
-  await render(
-    `<style>body{margin:0;background:#0f0f10;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;padding:16px}img{width:100%;aspect-ratio:16/9;border-radius:8px;display:block}</style>${themes.map((t) => img(shots[t.slug][0])).join("")}`,
-    1920, 466, join(SITE, "assets/hero.jpg")
-  );
-
-  // Social preview card (GitHub recommends 1280×640).
-  const tiles = themes.slice(0, 6).map((t, i) => `<img style="--r:${[-6, 4, -3, 5, -4, 3][i]}deg" src="data:image/jpeg;base64,${shots[t.slug][i % 3]}">`).join("");
-  await render(
-    `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@500;600&display=swap">
-    <style>
-      body{margin:0;width:1280px;height:640px;overflow:hidden;background:#0f0f10;color:#f3eee4;font-family:"Instrument Sans",sans-serif;position:relative}
-      .copy{position:absolute;left:72px;top:96px;width:560px}
-      h1{font:400 112px/0.95 Fraunces,serif;letter-spacing:-0.03em;margin:0}
-      h1 em{color:#e9b44c}
-      p{font-size:30px;line-height:1.35;color:#c9c3b6;margin:28px 0 0}
-      .tag{margin-top:36px;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:#e9b44c}
-      .wall{position:absolute;right:-90px;top:-40px;width:720px;display:grid;grid-template-columns:1fr 1fr;gap:22px;transform:rotate(-8deg)}
-      .wall img{width:100%;border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.5)}
-    </style>
-    <div class="copy"><h1>Deck<em>lume</em></h1><p>Beautiful, animated presentations from any topic — a Claude Code skill.</p><div class="tag">10 themes · Magic Move · Design QA</div></div>
-    <div class="wall">${tiles}</div>`,
-    1280, 640, join(SITE, "assets/og.png"), "png"
-  );
-  console.log("✓ strips, hero.jpg, og.png");
+  // Social card (1280×640), in the site's contact-sheet world.
+  const og = await browser.newPage({ viewport: { width: 1280, height: 640 } });
+  const ogFrames = ["nocturne", "grid", "folio", "campus", "aurora", "chalk"].map((s, i) => `<img${i === 2 ? ' class="keep"' : ""} src="data:image/jpeg;base64,${strips[s][i % 3]}">`).join("");
+  await og.setContent(`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;800;900&family=Reenie+Beanie&display=swap">
+  <style>body{margin:0;width:1280px;height:640px;overflow:hidden;background:#f1eee7;font-family:"Schibsted Grotesk";color:#0d0d0d;position:relative}
+  .w{position:absolute;left:64px;top:48px;font:900 30px/1 "Schibsted Grotesk";letter-spacing:-.04em}
+  h1{position:absolute;left:60px;top:110px;margin:0;font:800 96px/.9 "Schibsted Grotesk";letter-spacing:-.045em}
+  p{position:absolute;left:64px;top:318px;margin:0;font:500 26px/1.35 "Schibsted Grotesk";color:#3d3a35;width:620px}
+  .sheet{position:absolute;left:0;right:0;bottom:0;height:210px;background:#0d0d0d;display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:30px 24px;box-sizing:border-box}
+  .sheet:before,.sheet:after{content:"";position:absolute;left:0;right:0;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='12'%3E%3Crect x='7' y='2' width='14' height='8' rx='2' fill='%233a3936'/%3E%3C/svg%3E") repeat-x}
+  .sheet:before{top:8px}.sheet:after{bottom:8px}
+  img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px;align-self:center}
+  .ring{position:absolute;left:428px;top:430px;width:250px;height:170px;border:6px solid #e4362b;border-radius:50%;transform:rotate(-5deg);box-sizing:border-box}
+  .note{position:absolute;left:700px;top:372px;font:56px "Reenie Beanie";color:#b3261c;transform:rotate(-4deg)}</style>
+  <div class="w">Decklume</div><h1>Pick the frame.<br>Ship the deck.</h1>
+  <p>Beautiful, animated presentations from any topic: a free Claude Code skill.</p>
+  <div class="note">keep this one</div><div class="sheet">${ogFrames}</div><div class="ring"></div>`, { waitUntil: "networkidle" });
+  await og.evaluate(() => document.fonts.ready);
+  await og.screenshot({ path: join(OUT, "assets/og.png") });
+  provenance(join(OUT, "assets/og.png"), "Social card composed by scripts/build-site.mjs from real slide screenshots of examples/sleep-and-memory, with the headline set in HTML.");
+  console.log("✓ og.png");
+  console.log("✓ strips and hero mosaic");
 } finally {
+  rmSync(tmp, { recursive: true, force: true });
   await server.close();
   await browser.close();
 }
