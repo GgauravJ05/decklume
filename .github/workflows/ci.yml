@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build, test and QA
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright + Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.64.0
+          npx playwright install --with-deps chromium
+
+      - name: Build examples
+        run: npm run build:examples
+
+      - name: Unit and runtime tests
+        run: npm test
+
+      - name: Design QA on every example
+        run: |
+          for f in examples/*/*.html; do
+            case "$f" in *.deck.html) continue ;; esac
+            node skills/decklume/scripts/qa.mjs "$f" --out "qa-out/$(basename "$f" .html)"
+          done
+
+      - name: Upload QA contact sheets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-contact-sheets
+          path: qa-out/**/contact-sheet.png
+          if-no-files-found: ignore
