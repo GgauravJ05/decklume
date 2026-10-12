@@ -1,0 +1,132 @@
+/* =====================================================================
+   THEME · CHALK
+   A green blackboard with chalk dust. Caveat for handwritten headings,
+   Nunito for readable body text, chalk-yellow and chalk-pink highlights,
+   dashed chalk rules and circled numbers.
+   ===================================================================== */
+:root {
+  --c-stage: #121915;
+  --c-bg: #1f2b26;
+  --c-surface: #26342e;
+  --c-ink: #eef0e8;
+  --c-ink-2: #c4cbc2;
+  --c-ink-3: #98a39a;
+  --c-line: rgba(238, 240, 232, 0.22);
+  --c-accent: #f2d06b;
+  --c-accent-ink: #1f2b26;
+  --c-accent-2: #f2a7a0;
+  --c-bar: #56665e;
+  --c-chart-1: #98a39a;
+  --c-chart-2: #f2d06b;
+  --c-chart-3: #f2a7a0;
+  --c-chart-4: #8fc7e8;
+  --c-code-bg: #16201c;
+
+  --f-display: "Caveat", "Comic Sans MS", cursive;
+  --f-body: "Nunito", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --fw-display: 700;
+  --fw-heading: 700;
+  --fw-body: 450;
+  --fw-strong: 800;
+  --lh-display: 0.92;
+  --lh-heading: 1;
+  --tr-display: 0;
+  --tr-heading: 0;
+  --tr-caps: 0.12em;
+  --em-style: normal;
+
+  /* Caveat runs small: lift the display steps. */
+  --fs-lead: 42px;
+  --fs-h3: 60px;
+  --fs-h2: 108px;
+  --fs-h1: 148px;
+  --fs-display: 210px;
+  --fs-mega: 320px;
+
+  --radius: 6px;
+  --radius-lg: 10px;
+  --rule: 3px;
+
+  --dur-3: 800ms;
+  --stagger: 110ms;
+  --enter-from: translateY(10px);
+  --vt-duration: 600ms;
+}
+
+/* Chalk dust and an eraser haze. */
+.slide:not(.l-bleed) {
+  background:
+    radial-gradient(1200px 500px at 30% 20%, rgba(255, 255, 255, 0.05), transparent 70%),
+    var(--c-bg);
+}
+
+.slide:not(.l-bleed)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.slide > * { position: relative; }
+
+/* Chalk underline under emphasis. */
+.slide :where(h1, h2, h3, .display, .statement) em {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 0.12em;
+  text-decoration-color: color-mix(in srgb, var(--c-accent) 70%, transparent);
+}
+
+.slide .eyebrow { font-weight: 800; color: var(--c-accent-2); }
+
+.slide hr,
+.slide .rule { background: none; border-top: 3px dashed var(--c-line); height: 0; }
+
+.l-title > .byline,
+.l-closing .contact { border-top-style: dashed; }
+
+.l-section > .kicker { color: var(--c-accent); }
+
+/* Circled step numbers, as if drawn by hand. */
+.l-steps .steps > li { border-top: 3px dashed var(--c-line); }
+.l-steps .steps > li::before {
+  width: 1.3em;
+  height: 1.3em;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--c-accent);
+  border-radius: 48% 52% 50% 50% / 55% 45% 55% 45%;
+  font-size: 64px;
+}
+
+.slide .card {
+  --card-bg: transparent;
+  border: 3px dashed var(--c-line);
+}
+
+.slide .card > h3 { font-size: 52px; }
+.slide .card.is-highlight { background: transparent; border: 3px solid var(--c-accent); color: var(--c-ink-2); }
+.slide .card.is-highlight :is(h3, strong, .card-index) { color: var(--c-accent); }
+
+.l-compare .col,
+.l-stats .stat { border-top-style: dashed; }
+
+.slide .flow > .node { background: transparent; border: 3px solid var(--c-ink-2); }
+.slide .flow > .node.is-highlight { background: transparent; border-color: var(--c-accent); color: var(--c-ink-2); }
+.slide .flow > .node.is-highlight strong { color: var(--c-accent); }
+
+.slide table.data th { border-bottom: 3px dashed var(--c-ink-2); }
+.slide table.data td { border-bottom-style: dashed; }
+
+.l-quote blockquote > p { font-size: 100px; line-height: 1.02; }
+.l-statement .statement { font-size: 150px; line-height: 0.98; }
+
+@media print {
+  .slide:not(.l-bleed)::before { content: none; }
+}

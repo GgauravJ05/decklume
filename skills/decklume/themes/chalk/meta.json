@@ -1,0 +1,14 @@
+{
+  "name": "Chalk",
+  "tagline": "A real classroom blackboard — handwritten headings, chalk-yellow highlights.",
+  "mood": ["friendly", "educational", "nostalgic", "approachable"],
+  "formality": "low",
+  "density": "medium",
+  "scheme": "dark",
+  "motion": "calm",
+  "best_for": ["school lessons", "tutoring and revision", "maths and science explainers", "teacher training", "student club talks"],
+  "avoid_for": ["investor pitches", "corporate reports"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Caveat:wght@500..700&family=Nunito:ital,wght@0,400..800;1,400..800&family=JetBrains+Mono:wght@400&display=swap",
+  "font_families": ["Caveat", "Nunito", "JetBrains Mono"],
+  "colors": { "bg": "#1F2B26", "ink": "#EEF0E8", "accent": "#F2D06B" }
+}
