@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Decklume in your work, please cite it as below."
+title: "Decklume: designer-grade HTML presentations for Claude Code"
+type: software
+authors:
+  - alias: GgauravJ05
+license: MIT
+repository-code: "https://github.com/GgauravJ05/decklume"
+url: "https://ggauravj05.github.io/decklume/"
+version: 0.1.0
+date-released: 2026-10-12
+keywords:
+  - presentations
+  - slides
+  - Claude Code
+  - AI presentation maker
+  - HTML
