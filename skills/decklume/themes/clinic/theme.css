@@ -1,0 +1,146 @@
+/* =====================================================================
+   THEME · CLINIC
+   Clean and reassuring. Manrope headings, Atkinson Hyperlegible body
+   (designed for low-vision readers). Bright white field, deep slate ink,
+   one calm cyan-teal, soft rounded panels and pill labels.
+   ===================================================================== */
+:root {
+  --c-stage: #0c1f24;
+  --c-bg: #f8fbfb;
+  --c-surface: #e8f2f3;
+  --c-ink: #10282e;
+  --c-ink-2: #36525a;
+  --c-ink-3: #55707a;
+  --c-line: rgba(16, 40, 46, 0.14);
+  --c-accent: #08717e;
+  --c-accent-ink: #ffffff;
+  --c-accent-2: #e07a5f;
+  --c-bar: #b8d3d7;
+  --c-chart-1: #10282e;
+  --c-chart-2: #08717e;
+  --c-chart-3: #e07a5f;
+  --c-chart-4: #b8d3d7;
+  --c-code-bg: #10282e;
+
+  --f-display: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --fw-display: 700;
+  --fw-heading: 700;
+  --fw-body: 400;
+  --fw-strong: 700;
+  --lh-display: 0.98;
+  --lh-heading: 1.08;
+  --tr-display: -0.035em;
+  --tr-heading: -0.025em;
+  --tr-caps: 0.04em;
+  --caps-transform: none;
+  --em-style: normal;
+  --em-color: var(--c-accent);
+
+  --fs-h2: 80px;
+  --fs-h1: 112px;
+  --fs-display: 160px;
+
+  --radius: 12px;
+  --radius-lg: 28px;
+  --radius-media: 28px;
+  --rule: 2px;
+
+  --dur-2: 400ms;
+  --dur-3: 720ms;
+  --stagger: 80ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --enter-from: translateY(20px);
+  --vt-duration: 600ms;
+}
+
+/* Signature 1: pill labels — eyebrows sit in a soft tinted capsule. */
+.slide .eyebrow {
+  justify-self: start;
+  width: max-content;
+  padding: 6px var(--sp-3);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg));
+  color: #086470;
+  font-weight: 700;
+}
+
+.l-title > .eyebrow { width: auto; gap: var(--sp-3); padding: 0; background: none; }
+.l-title > .eyebrow > span {
+  padding: 6px var(--sp-3);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg));
+}
+
+.l-bleed .eyebrow { background: rgba(255, 255, 255, 0.18); color: #fff; }
+
+/* Signature 2: soft panels — cards, tiers and nodes are tinted, borderless, round. */
+.slide .card { --card-bg: var(--c-surface); }
+.slide .card.is-highlight { background: var(--c-accent); }
+
+.slide .flow > .node {
+  border: 0;
+  background: var(--c-surface);
+}
+
+.slide .flow > .node.is-highlight { background: var(--c-accent); }
+
+.l-tiers .tier { border-color: transparent; background: var(--c-surface); }
+.l-tiers .tier.is-featured { border-color: var(--c-accent); background: var(--c-bg); }
+.l-tiers .badge { border-radius: 999px; padding-inline: var(--sp-3); }
+
+.l-problem .problem { border-style: solid; border-color: var(--c-line); background: #fff; }
+
+.l-roadmap .bar { border-left: 0; border-radius: 999px; padding-inline: var(--sp-4); }
+
+.l-matrix .quads { border-radius: 0 0 0 var(--radius); }
+
+.l-stats .stat,
+.l-compare .col,
+.l-steps .steps > li { border-top-color: var(--c-line); }
+
+.l-stats .stat.is-highlight,
+.l-compare .col.is-highlight { border-top-color: var(--c-accent); }
+
+.l-steps .steps > li::before { color: var(--c-accent); font-weight: 800; }
+
+/* Signature 3: section slides sit on a calm teal field with a pulse line. */
+.slide.l-section {
+  --c-bg: #08717e; /* literal: --c-accent is redefined below */
+  --c-ink: #ffffff;
+  --c-ink-2: rgba(255, 255, 255, 0.88);
+  --c-accent: #ffffff;
+  --em-color: #c9f1f4;
+  background: var(--c-bg);
+  color: var(--c-ink);
+}
+
+.slide.l-section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 34%;
+  height: 120px;
+  pointer-events: none;
+  opacity: 0.35;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 120' preserveAspectRatio='none'><path d='M0 60 H760 L800 60 L830 10 L870 110 L900 60 H1920' fill='none' stroke='white' stroke-width='3' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat;
+}
+
+.slide.l-section > * { position: relative; z-index: 1; }
+
+.l-section > .kicker { font-weight: 800; letter-spacing: -0.06em; }
+
+.l-title > .byline { border-top-color: var(--c-line); }
+
+.l-statement .statement { font-weight: 700; }
+
+.l-quote blockquote::before { font-family: var(--f-display); font-weight: 800; }
+.l-quote blockquote > p { font-weight: 600; }
+
+.l-timeline .timeline > li::before { background: var(--c-bg); }
+.l-timeline .timeline > li.is-current::before { background: var(--c-accent); }
+
+.slide table.data th { border-bottom-color: var(--c-accent); }

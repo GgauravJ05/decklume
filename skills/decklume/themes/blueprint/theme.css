@@ -1,0 +1,158 @@
+/* =====================================================================
+   THEME · BLUEPRINT
+   An engineering drawing. IBM Plex Sans Condensed headings, Plex Sans
+   body, Plex Mono annotations. Pale cyan linework on blueprint blue over
+   a drafting grid; one orange redline for what matters.
+   ===================================================================== */
+:root {
+  --c-stage: #071a31;
+  --c-bg: #0f2d52;
+  --c-surface: #153a66;
+  --c-ink: #eaf3fc;
+  --c-ink-2: #bcd3ec;
+  --c-ink-3: #92b3d6;
+  --c-line: rgba(160, 205, 245, 0.28);
+  --c-accent: #ff8a5b;
+  --c-accent-ink: #1c0c04;
+  --c-accent-2: #7fd1ff;
+  --c-bar: #3f6894;
+  --c-chart-1: #7fd1ff;
+  --c-chart-2: #ff8a5b;
+  --c-chart-3: #eaf3fc;
+  --c-chart-4: #3f6894;
+  --c-code-bg: #0a2240;
+
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --f-eyebrow: var(--f-mono);
+
+  --fw-display: 500;
+  --fw-heading: 500;
+  --fw-body: 400;
+  --fw-strong: 600;
+  --lh-display: 0.94;
+  --lh-heading: 1.04;
+  --tr-display: -0.02em;
+  --tr-heading: -0.01em;
+  --tr-caps: 0.08em;
+  --em-style: normal;
+  --em-color: var(--c-accent);
+
+  --fs-h2: 88px;
+  --fs-h1: 124px;
+  --fs-display: 188px;
+
+  --radius: 0;
+  --radius-lg: 2px;
+  --rule: 2px;
+
+  --dur-2: 260ms;
+  --dur-3: 520ms;
+  --stagger: 55ms;
+  --ease-out: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --enter-from: translateX(-14px);
+  --vt-duration: 460ms;
+}
+
+/* Signature 1: the drafting grid — fine lines every 32px, major every 160px. */
+.slide:not(.l-bleed)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(160, 205, 245, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160, 205, 245, 0.13) 1px, transparent 1px),
+    linear-gradient(rgba(160, 205, 245, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160, 205, 245, 0.05) 1px, transparent 1px);
+  background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px;
+  background-position: -1px -1px;
+}
+
+/* Signature 2: a sheet border with corner ticks, like a drawing frame. */
+.slide:not(.l-bleed) {
+  background:
+    linear-gradient(var(--c-ink-3), var(--c-ink-3)) 40px 40px / 28px 2px no-repeat,
+    linear-gradient(var(--c-ink-3), var(--c-ink-3)) 40px 40px / 2px 28px no-repeat,
+    linear-gradient(var(--c-ink-3), var(--c-ink-3)) calc(100% - 40px) calc(100% - 40px) / 28px 2px no-repeat,
+    linear-gradient(var(--c-ink-3), var(--c-ink-3)) calc(100% - 40px) calc(100% - 40px) / 2px 28px no-repeat,
+    var(--c-bg);
+}
+
+.slide > * { position: relative; z-index: 1; }
+
+/* Annotations: eyebrows read like dimension labels. */
+.slide .eyebrow {
+  font-weight: 500;
+  color: var(--c-accent-2);
+}
+
+.slide .eyebrow::before { content: "// "; color: var(--c-ink-3); }
+.l-title > .eyebrow::before { content: none; }
+
+/* Signature 3: title block — the byline sits in a ruled box, bottom right. */
+.l-title > .byline {
+  justify-self: start;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--c-ink-3);
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  gap: var(--sp-5);
+}
+
+.l-title > .byline > span + span {
+  padding-left: var(--sp-5);
+  border-left: 1px solid var(--c-ink-3);
+}
+
+.l-section > .kicker {
+  font-family: var(--f-mono);
+  font-weight: 400;
+  font-size: 260px;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--c-accent-2);
+}
+
+/* Line art, not fills: cards, nodes and tiers are outlined. */
+.slide .card {
+  --card-bg: rgba(15, 45, 82, 0.72);
+  border: 1px solid var(--c-ink-3);
+}
+
+.slide .card.is-highlight { background: var(--c-accent); border-color: var(--c-accent); }
+
+.slide .flow > .node {
+  background: var(--c-bg);
+  border: 1px solid var(--c-ink-3);
+}
+
+.slide .flow > .node.is-highlight { background: var(--c-accent); border-color: var(--c-accent); }
+
+.l-tiers .tier { background: rgba(15, 45, 82, 0.72); border-width: 1px; border-color: var(--c-ink-3); }
+.l-tiers .tier.is-featured { background: #163e6c; border-color: var(--c-accent); border-width: 2px; }
+
+.l-problem .problem { background: rgba(15, 45, 82, 0.72); }
+
+.l-roadmap .bar { background: #1a4475; }
+
+.l-matrix .quad.is-highlight { background: rgba(255, 138, 91, 0.14); }
+
+.l-steps .steps > li,
+.l-stats .stat,
+.l-compare .col { border-top-style: dashed; border-top-color: var(--c-ink-3); }
+
+.l-steps .steps > li::before { font-family: var(--f-mono); font-weight: 400; }
+
+.l-agenda .agenda > li { font-family: var(--f-display); }
+
+.slide table.data th { font-family: var(--f-mono); font-weight: 500; border-bottom-color: var(--c-ink-3); }
+
+.l-quote blockquote::before { font-family: var(--f-mono); color: var(--c-accent); }
+
+.l-timeline .timeline > li::before { background: var(--c-bg); }
+
+@media print {
+  .slide:not(.l-bleed)::before { content: none; }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Clinic",
+  "tagline": "Clean and reassuring — bright white, calm cyan-teal, rounded panels and highly legible type.",
+  "mood": ["clean", "calm", "trustworthy", "caring"],
+  "formality": "medium",
+  "density": "medium",
+  "scheme": "light",
+  "motion": "calm",
+  "best_for": ["healthcare and medicine", "public health briefings", "life-science research", "patient and staff education", "wellbeing programmes"],
+  "avoid_for": ["edgy tech launches", "dramatic keynotes"],
+  "fonts": "https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+  "font_families": ["Manrope", "Atkinson Hyperlegible", "IBM Plex Mono"],
+  "colors": { "bg": "#F8FBFB", "ink": "#10282E", "accent": "#08717E" }
+}
