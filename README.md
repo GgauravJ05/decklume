@@ -35,6 +35,9 @@ and conference talks.
 > The result is [this 25-slide deck](https://ggauravj05.github.io/decklume/demos/folio.html):
 > press → to step through it, `P` for the presenter view, `O` for the overview.
 
+> [!NOTE]
+> Decklume is actively developed and **more features are coming soon**. See the [roadmap](#roadmap), and tell us what you'd like next.
+
 ## Contents
 
 - [What you get](#what-you-get)
@@ -48,6 +51,7 @@ and conference talks.
 - [Command-line tools](#command-line-tools)
 - [Decklume vs. other slide skills](#decklume-vs-other-slide-skills)
 - [FAQ](#faq)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 
 ## What you get
@@ -293,6 +297,20 @@ flags placeholder text.
 **PowerPoint or Google Slides output?** Decklume's native format is HTML (it's
 what makes Magic Move and the presenter view possible). Export to PDF for any
 platform that needs a file.
+
+## Roadmap
+
+Decklume 0.1.0 is the first public release, and **more features are on the way**.
+These are on the list now (directions, not dated promises):
+
+- **PowerPoint export**: a `.pptx` with your speaker notes, for when you have to hand in a PowerPoint file.
+- **More themes**, built and QA-tested across every layout like the current ten.
+- **More layouts and chart types**, for kinds of slide the current 22 layouts can't show well.
+- **More example decks** for more subjects and audiences.
+
+Have an idea? [Request a feature](https://github.com/GgauravJ05/decklume/issues/new?template=feature_request.yml)
+or [request a theme](https://github.com/GgauravJ05/decklume/issues/new?template=theme_request.yml).
+Watch or ⭐ the repo to hear when new releases ship.
 
 ## Contributing
 

@@ -21,3 +21,6 @@ __pycache__/
 .impeccable/tmp/
 .impeccable/mocks/
 .decklume-frames/
+
+# Launch-video renders
+brag-output*/
