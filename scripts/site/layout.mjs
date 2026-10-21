@@ -104,7 +104,7 @@ ${ld}
 ${body}
 </main>
 <footer class="colophon">
-  <div class="rebate" aria-hidden="true"><span>DECKLUME 1920×1080</span><span>▸ 01A</span><span>10 THEMES</span><span>▸ 22 LAYOUTS</span><span>MIT</span><span>▸ 25A</span></div>
+  <div class="rebate" aria-hidden="true"><span>DECKLUME 1920×1080</span><span>▸ 01A</span><span>13 THEMES</span><span>▸ 26 LAYOUTS</span><span>MIT</span><span>▸ 29A</span></div>
   <div class="colophon-grid">
     <div>
       <a class="wordmark" href="${root}">Decklume</a>

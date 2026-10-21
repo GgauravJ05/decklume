@@ -1695,6 +1695,357 @@ body {
   text-transform: var(--caps-transform);
 }
 
+/* --- l-matrix: 2×2 quadrant on two named axes --------------------------- */
+.l-matrix {
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-items: center;
+}
+
+.l-matrix > header { grid-column: 1 / span 4; align-self: center; }
+
+.l-matrix .matrix {
+  grid-column: 6 / -1;
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  column-gap: var(--sp-3);
+  row-gap: var(--sp-2);
+}
+
+.l-matrix .quads {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  border-left: var(--rule) solid var(--c-ink-3);
+  border-bottom: var(--rule) solid var(--c-ink-3);
+}
+
+.l-matrix .quad {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--c-ink-2);
+}
+
+/* The inner cross is drawn by the quads themselves. */
+.l-matrix .quad:nth-child(odd) { border-right: 1px solid var(--c-line); }
+.l-matrix .quad:nth-child(-n + 2) { border-bottom: 1px solid var(--c-line); }
+
+.l-matrix .quad > h3 { font-size: var(--fs-lead); }
+
+.l-matrix .quad.is-highlight {
+  background: color-mix(in srgb, var(--c-accent) 12%, transparent);
+}
+
+.l-matrix .quad.is-highlight > h3 { color: var(--c-accent); }
+
+.l-matrix :is(.axis-x, .axis-y) {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-strong);
+  letter-spacing: var(--tr-caps);
+  text-transform: var(--caps-transform);
+  color: var(--c-ink-3);
+}
+
+.l-matrix :is(.axis-x, .axis-y)::after { content: "\2002\2192"; }
+
+.l-matrix .axis-x { grid-column: 2; grid-row: 2; justify-self: end; }
+
+.l-matrix .axis-y {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+}
+
+/* --- l-tiers: 2–4 plans or options, one recommended ------------------- */
+.l-tiers {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.l-tiers .tiers {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gutter);
+  align-items: stretch;
+  align-self: center;
+}
+
+.l-tiers .tier {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  align-content: start;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border: var(--rule) solid var(--c-line);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--c-ink-2);
+}
+
+.l-tiers .tier > h3 {
+  font-family: var(--f-body);
+  font-style: normal;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-strong);
+  letter-spacing: var(--tr-caps);
+  text-transform: var(--caps-transform);
+  color: var(--c-ink-2);
+}
+
+.l-tiers .price {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-display);
+  font-size: var(--fs-h2);
+  line-height: 1;
+  letter-spacing: var(--tr-display);
+  color: var(--c-ink);
+}
+
+.l-tiers .price .per {
+  font-family: var(--f-body);
+  font-style: normal;
+  font-size: var(--fs-small);
+  letter-spacing: 0;
+  color: var(--c-ink-3);
+  margin-left: 0.2em;
+}
+
+.l-tiers .features {
+  list-style: none;
+  padding: var(--sp-3) 0 0;
+  margin: 0;
+  display: grid;
+  align-content: start;
+  gap: var(--sp-2);
+  border-top: 1px solid var(--c-line);
+}
+
+.l-tiers .features > li {
+  position: relative;
+  padding-left: 1.3em;
+  color: var(--c-ink);
+}
+
+.l-tiers .features > li::before {
+  content: "";
+  position: absolute;
+  left: 0.1em;
+  top: 0.3em;
+  width: 0.4em;
+  height: 0.7em;
+  border-right: var(--rule) solid var(--c-accent);
+  border-bottom: var(--rule) solid var(--c-accent);
+  rotate: 45deg;
+}
+
+.l-tiers .tier-foot {
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--c-line);
+  font-weight: var(--fw-strong);
+  color: var(--c-ink);
+}
+
+.l-tiers .tier.is-featured {
+  border-color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg));
+}
+
+.l-tiers .tier.is-featured > h3 { color: var(--c-accent); }
+
+.l-tiers .badge {
+  position: absolute;
+  top: 0;
+  right: var(--sp-5);
+  translate: 0 -50%;
+  padding: 4px var(--sp-2);
+  border-radius: var(--radius);
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-strong);
+  letter-spacing: var(--tr-caps);
+  text-transform: var(--caps-transform);
+  line-height: 1.3;
+}
+
+/* --- l-roadmap: 2–4 lanes across 3–5 phases ---------------------------- */
+.l-roadmap {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.l-roadmap .roadmap {
+  --phases: 3;
+  display: grid;
+  grid-template-columns: minmax(200px, auto) repeat(var(--phases), 1fr);
+  column-gap: var(--sp-2);
+  align-self: center;
+}
+
+.l-roadmap .roadmap:has(.phases > li:nth-child(4)) { --phases: 4; }
+.l-roadmap .roadmap:has(.phases > li:nth-child(5)) { --phases: 5; }
+
+.l-roadmap .phases {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.l-roadmap .phases > li {
+  padding-bottom: var(--sp-2);
+  border-bottom: var(--rule) solid var(--c-ink);
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+}
+
+.l-roadmap .phases > li.is-current {
+  border-bottom-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.l-roadmap .lane {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  row-gap: var(--sp-1);
+  align-items: center;
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--c-line);
+}
+
+.l-roadmap .lane > h3 {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  font-family: var(--f-body);
+  font-style: normal;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-strong);
+  letter-spacing: 0;
+}
+
+.l-roadmap .bar {
+  grid-column-end: span 1;
+  padding: var(--sp-2) var(--sp-3);
+  border-left: 6px solid var(--c-accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg));
+  font-size: var(--fs-small);
+  line-height: 1.3;
+  color: var(--c-ink);
+}
+
+.l-roadmap .bar.is-highlight {
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+/* Placement: at-N starts a bar in phase N; span-N stretches it. */
+.l-roadmap .bar.at-1 { grid-column-start: 2; }
+.l-roadmap .bar.at-2 { grid-column-start: 3; }
+.l-roadmap .bar.at-3 { grid-column-start: 4; }
+.l-roadmap .bar.at-4 { grid-column-start: 5; }
+.l-roadmap .bar.at-5 { grid-column-start: 6; }
+.l-roadmap .bar.span-2 { grid-column-end: span 2; }
+.l-roadmap .bar.span-3 { grid-column-end: span 3; }
+.l-roadmap .bar.span-4 { grid-column-end: span 4; }
+.l-roadmap .bar.span-5 { grid-column-end: span 5; }
+
+/* --- l-problem: the pain, then the fix ----------------------------------- */
+.l-problem {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-6);
+}
+
+.l-problem .pivot {
+  display: grid;
+  grid-template-columns: 1fr var(--sp-8) 1fr;
+  align-items: stretch;
+  align-self: center;
+}
+
+.l-problem :is(.problem, .solution) {
+  grid-row: 1;
+  display: grid;
+  align-content: start;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-body);
+  line-height: 1.4;
+}
+
+.l-problem .problem {
+  grid-column: 1;
+  border: var(--rule) dashed var(--c-ink-3);
+  color: var(--c-ink-2);
+}
+
+.l-problem .solution {
+  grid-column: 3;
+  background: var(--c-accent);
+  color: color-mix(in srgb, var(--c-accent-ink) 86%, transparent);
+}
+
+.l-problem :is(.problem, .solution) > h3 { font-size: var(--fs-h3); }
+.l-problem .problem > h3 { color: var(--c-ink-2); }
+.l-problem .solution :is(h3, strong) { color: var(--c-accent-ink); }
+
+.l-problem .tag {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-strong);
+  letter-spacing: var(--tr-caps);
+  text-transform: var(--caps-transform);
+}
+
+.l-problem .problem > .tag { color: var(--c-ink-3); }
+.l-problem .solution > .tag { color: var(--c-accent-ink); }
+.l-problem .problem > .tag::before { content: "\2715\2002"; }
+.l-problem .solution > .tag::before { content: "\2713\2002"; }
+
+/* The arrow between the two panels: a shaft and a chevron. */
+.l-problem .pivot::before,
+.l-problem .pivot::after {
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+}
+
+.l-problem .pivot::before {
+  justify-self: stretch;
+  margin: 0 var(--sp-3);
+  height: var(--rule);
+  background: var(--c-ink-3);
+}
+
+.l-problem .pivot::after {
+  justify-self: end;
+  margin-right: var(--sp-3);
+  width: 18px;
+  height: 18px;
+  border-top: var(--rule) solid var(--c-ink-3);
+  border-right: var(--rule) solid var(--c-ink-3);
+  rotate: 45deg;
+}
+
 /* --- Free-form escape hatch ---------------------------------------------- */
 .l-free {
   display: block;

@@ -23,7 +23,7 @@ import { themesIndex, themePage, audiencePage, docsPage, comparePage, notFound, 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "site");
 const SRC = join(ROOT, "examples/sleep-and-memory/sleep-and-memory.deck.html");
-const ORDER = ["folio", "nocturne", "grid", "campus", "atlas", "aurora", "volt", "ma", "bloom", "chalk"];
+const ORDER = ["folio", "nocturne", "grid", "campus", "atlas", "aurora", "volt", "ma", "bloom", "chalk", "blueprint", "broadsheet", "clinic"];
 const rank = (slug) => (ORDER.includes(slug) ? ORDER.indexOf(slug) : ORDER.length);
 const themes = listThemes().sort((a, b) => rank(a.slug) - rank(b.slug));
 

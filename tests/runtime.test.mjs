@@ -46,7 +46,7 @@ test("arrow keys move between slides and update the hash", async () => {
   await page.waitForTimeout(700); // let the view transition settle
   assert.equal(await active(), 1);
   assert.equal(await page.evaluate(() => location.hash), "#/2");
-  assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--dl-progress").trim()), String(1 / 24));
+  assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--dl-progress").trim()), String(1 / 28));
   await key("ArrowLeft");
   assert.equal(await active(), 0);
 });
@@ -122,7 +122,7 @@ test("edit mode round-trips to clean source", async () => {
   // The saved file must boot again.
   const p2 = await browser.newPage();
   await p2.setContent(html, { waitUntil: "load" });
-  assert.equal(await p2.evaluate(() => document.querySelectorAll(".slide").length), 25);
+  assert.equal(await p2.evaluate(() => document.querySelectorAll(".slide").length), 29);
   assert.equal(await p2.evaluate(() => document.querySelectorAll(".chart svg").length), 1, "chart re-renders exactly once");
   await p2.close();
 });
@@ -132,9 +132,9 @@ test("presenter view shows notes and drives the deck", async () => {
   await p.goto(url.replace(/#.*/, "") + "?presenter#/1", { waitUntil: "networkidle" });
   await p.waitForSelector(".pv-notes");
   assert.match(await p.textContent(".pv-notes"), /show of hands/);
-  assert.equal(await p.textContent(".pv-count"), "1 / 25");
+  assert.equal(await p.textContent(".pv-count"), "1 / 29");
   await p.keyboard.press("ArrowRight");
-  assert.equal(await p.textContent(".pv-count"), "2 / 25");
+  assert.equal(await p.textContent(".pv-count"), "2 / 29");
   await p.close();
 });
 
