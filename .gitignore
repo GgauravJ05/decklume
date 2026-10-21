@@ -10,7 +10,6 @@ node_modules/
 .decklume/
 qa-out/
 *.qa/
-evals/runs/
 
 # Python
 __pycache__/

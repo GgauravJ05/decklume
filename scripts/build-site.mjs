@@ -74,12 +74,8 @@ const server = await serve(OUT);
 const tmp = join(ROOT, ".decklume-frames");
 rmSync(tmp, { recursive: true, force: true });
 mkdirSync(tmp, { recursive: true });
-// Provenance sidecar (<file>.json): every shipped raster records where it came from.
-const provenance = (file, origin) =>
-  writeFileSync(file + ".json", JSON.stringify({ prompt: `Origin: real screenshot, not generated. ${origin}`, createdAt: new Date().toISOString() }, null, 2) + "\n");
-const webp = (png, out, width, origin) => {
+const webp = (png, out, width) => {
   execFileSync("cwebp", ["-quiet", "-q", width > 700 ? "82" : "76", "-resize", String(width), "0", png, "-o", out]);
-  provenance(out, origin);
 };
 const strips = {};
 try {
@@ -97,9 +93,8 @@ try {
       const png = join(tmp, `${t.slug}-${i}.png`);
       await page.screenshot({ path: png });
       const nn = String(i + 1).padStart(2, "0");
-      const origin = `Slide ${nn} of examples/sleep-and-memory rendered in the Decklume ${t.slug} theme at 1920x1080 by scripts/build-site.mjs (Playwright), resized with cwebp`;
-      webp(png, join(OUT, "assets/frames", t.slug, `${nn}.webp`), 640, `${origin} to 640px.`);
-      if (i === 0) webp(png, join(OUT, "assets/frames", t.slug, `${nn}-1280.webp`), 1280, `${origin} to 1280px.`);
+      webp(png, join(OUT, "assets/frames", t.slug, `${nn}.webp`), 640);
+      if (i === 0) webp(png, join(OUT, "assets/frames", t.slug, `${nn}-1280.webp`), 1280);
       if ([0, 6, 14].includes(i)) strips[t.slug].push((await page.screenshot({ type: "jpeg", quality: 88 })).toString("base64"));
     }
     console.log(`✓ frames ${t.slug} (${n})`);
@@ -117,7 +112,7 @@ try {
       const png = join(tmp, `${ex.slug}-${n}.png`);
       await page.screenshot({ path: png });
       const nn = String(n).padStart(2, "0");
-      webp(png, join(OUT, "assets/examples", ex.slug, `${nn}.webp`), 640, `Slide ${nn} of examples/${ex.slug} rendered at 1920x1080 by scripts/build-site.mjs (Playwright), resized with cwebp to 640px.`);
+      webp(png, join(OUT, "assets/examples", ex.slug, `${nn}.webp`), 640);
     }
     console.log(`✓ example frames ${ex.slug}`);
   }
@@ -132,10 +127,8 @@ try {
   mkdirSync(join(OUT, "assets/themes"), { recursive: true });
   for (const t of themes) {
     await render(`<style>body{margin:0;background:#0f0f10;display:flex;gap:18px;padding:18px}img{width:600px;height:337.5px;border-radius:8px;display:block}</style>${strips[t.slug].map(img).join("")}`, 1854, 374, join(OUT, `assets/themes/${t.slug}.jpg`));
-    provenance(join(OUT, `assets/themes/${t.slug}.jpg`), `Slides 01, 07 and 15 of examples/sleep-and-memory in the ${t.slug} theme, composed into a strip by scripts/build-site.mjs.`);
   }
   await render(`<style>body{margin:0;background:#0f0f10;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;padding:16px}img{width:100%;aspect-ratio:16/9;border-radius:8px;display:block}</style>${themes.map((t) => img(strips[t.slug][0])).join("")}`, 1920, 466, join(OUT, "assets/hero.jpg"));
-  provenance(join(OUT, "assets/hero.jpg"), "Title slide of examples/sleep-and-memory in all ten themes, composed into a mosaic by scripts/build-site.mjs.");
 
   // Social card (1280×640), in the site's contact-sheet world.
   const og = await browser.newPage({ viewport: { width: 1280, height: 640 } });
@@ -156,7 +149,6 @@ try {
   <div class="note">keep this one</div><div class="sheet">${ogFrames}</div><div class="ring"></div>`, { waitUntil: "networkidle" });
   await og.evaluate(() => document.fonts.ready);
   await og.screenshot({ path: join(OUT, "assets/og.png") });
-  provenance(join(OUT, "assets/og.png"), "Social card composed by scripts/build-site.mjs from real slide screenshots of examples/sleep-and-memory, with the headline set in HTML.");
   console.log("✓ og.png");
   console.log("✓ strips and hero mosaic");
 } finally {
