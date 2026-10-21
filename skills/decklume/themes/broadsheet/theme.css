@@ -1,0 +1,171 @@
+/* =====================================================================
+   THEME · BROADSHEET
+   A newspaper front page. Playfair Display at heavy weights for
+   headlines, Libre Franklin body, Courier Prime datelines. Black ink on
+   newsprint, double rules, column lines and one oxblood spot colour.
+   ===================================================================== */
+:root {
+  --c-stage: #121212;
+  --c-bg: #f2efe6;
+  --c-surface: #e6e1d4;
+  --c-ink: #121212;
+  --c-ink-2: #3b3a36;
+  --c-ink-3: #5f5d56;
+  --c-line: rgba(18, 18, 18, 0.22);
+  --c-accent: #a4161a;
+  --c-accent-ink: #ffffff;
+  --c-accent-2: #121212;
+  --c-bar: #c9c3b4;
+  --c-chart-1: #121212;
+  --c-chart-2: #a4161a;
+  --c-chart-3: #8a867b;
+  --c-chart-4: #c9c3b4;
+  --c-code-bg: #1b1b1b;
+  --c-eyebrow: var(--c-ink);
+
+  --f-display: "Playfair Display", "Bodoni 72", Georgia, serif;
+  --f-body: "Libre Franklin", "Franklin Gothic Medium", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Courier Prime", "Courier New", ui-monospace, monospace;
+  --f-eyebrow: var(--f-mono);
+
+  --fw-display: 900;
+  --fw-heading: 800;
+  --fw-body: 400;
+  --fw-strong: 650;
+  --lh-display: 0.92;
+  --lh-heading: 1.02;
+  --tr-display: -0.02em;
+  --tr-heading: -0.01em;
+  --tr-caps: 0.1em;
+  --em-style: italic;
+  --em-color: var(--c-accent);
+
+  --fs-body: 28px;
+  --fs-lead: 38px;
+  --fs-h2: 84px;
+  --fs-h1: 120px;
+  --fs-display: 176px;
+  --measure: 58ch;
+
+  --m-top: 128px;
+  --radius: 0;
+  --radius-lg: 0;
+  --rule: 2px;
+
+  --dur-3: 600ms;
+  --stagger: 60ms;
+  --enter-from: translateY(10px);
+  --vt-duration: 520ms;
+}
+
+/* Signature 1: the masthead rule — a thick rule over a thin one, full width. */
+.slide:not(.l-bleed, .l-split)::before {
+  content: "";
+  position: absolute;
+  left: var(--m-x);
+  right: var(--m-x);
+  top: calc(var(--m-top) - 56px);
+  height: 11px;
+  border-top: 5px solid var(--c-ink);
+  border-bottom: 1px solid var(--c-ink);
+  pointer-events: none;
+}
+
+/* Datelines: eyebrows are small typewriter caps. */
+.slide .eyebrow,
+.slide .kicker {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.slide .eyebrow { color: var(--c-ink-2); }
+
+.slide::after {
+  font-family: var(--f-mono);
+  text-align: center;
+}
+
+/* The title is a front page: centred nameplate, dateline between rules. */
+.l-title { text-align: center; justify-items: center; }
+.l-title > :is(h1, .display) { max-width: 16ch; font-size: 150px; }
+.l-title > .eyebrow {
+  align-self: start;
+  justify-content: center;
+  width: 100%;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--c-ink);
+  color: var(--c-ink);
+}
+.l-title > .lead { font-family: var(--f-display); font-style: italic; color: var(--c-ink-2); }
+.l-title > .byline {
+  width: 100%;
+  justify-content: center;
+  border-top: 1px solid var(--c-ink);
+  font-family: var(--f-mono);
+}
+
+.l-section > .kicker {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--c-accent);
+}
+
+.l-section > :is(h2, .display) { padding-top: var(--sp-4); border-top: 5px solid var(--c-ink); }
+
+.l-statement .statement { font-weight: 800; }
+
+.l-quote blockquote > p { font-style: italic; font-weight: 500; }
+
+/* Signature 2: column rules — parallel items are separated by hairlines, not boxes. */
+.slide .card {
+  --card-bg: transparent;
+  --card-pad: var(--sp-4);
+  border-radius: 0;
+}
+
+.l-cards .card + .card,
+.l-steps .steps > li + li,
+.l-people .person + .person {
+  padding-left: var(--sp-4);
+  border-left: 1px solid var(--c-line);
+}
+
+.slide .card > h3 { font-weight: 800; }
+
+.slide .card.is-highlight { background: var(--c-ink); color: rgba(255, 255, 255, 0.82); }
+.slide .card.is-highlight :is(h3, strong) { color: #fff; }
+.slide .card.is-highlight .card-index { color: #ff9b9d; }
+
+.l-stats .stat { border-top: 5px solid var(--c-ink); }
+.l-stats .stat.is-highlight { border-top-color: var(--c-accent); }
+.l-steps .steps > li { border-top-width: 5px; }
+.l-compare .col { border-top: 5px solid var(--c-ink); }
+.l-compare .col.is-highlight { border-top-color: var(--c-accent); }
+
+.l-tiers .tier { border: 0; border-top: 5px solid var(--c-ink); border-radius: 0; }
+.l-tiers .tier.is-featured { border-top-color: var(--c-accent); background: var(--c-surface); }
+
+.l-problem .problem { border-color: var(--c-ink-3); }
+.l-problem .solution { background: var(--c-ink); color: rgba(255, 255, 255, 0.84); }
+.l-problem .solution :is(h3, strong, .tag) { color: #fff; }
+
+.l-roadmap .bar { background: var(--c-surface); border-left-color: var(--c-ink); }
+.l-roadmap .bar.is-highlight { background: var(--c-accent); }
+
+.slide .flow > .node { border-radius: 0; }
+
+/* Signature 3: a drop cap opens the split-slide body text. */
+.l-split .body > .muted::first-letter {
+  float: left;
+  margin: 0.06em 0.1em 0 0;
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: 3.2em;
+  line-height: 0.8;
+  color: var(--c-accent);
+}
+
+.slide table.data th { font-family: var(--f-mono); border-bottom-width: 5px; }
+.l-agenda .agenda > li { font-weight: 700; }
+.l-define .term { font-weight: 900; }
