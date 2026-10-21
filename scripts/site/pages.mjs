@@ -32,7 +32,7 @@ export function themesIndex(themes) {
   return page({
     root,
     path: "themes/",
-    title: "10 Free Presentation Themes for Claude Code",
+    title: "13 Free Presentation Themes for Claude Code",
     description: "Browse Decklume's thirteen free presentation themes: editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful, chalkboard, blueprint, newspaper and clinical. Every theme covers all 26 slide layouts.",
     current: "themes/",
     jsonld: [
