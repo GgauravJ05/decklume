@@ -303,6 +303,81 @@ Formulas: write native MathML (`<math display="block">…</math>`) in the meanin
 ```
 End on the call to action or key message rather than a bare "Questions?".
 
+## l-problem — the pain, then the fix
+
+```html
+<section class="slide l-problem">
+  <header><p class="eyebrow">Label</p><h2>Headline about the problem</h2></header>
+  <div class="pivot">
+    <div class="problem"><p class="tag">The problem</p><h3>≤ 6 words</h3><p>≤ 20 words.</p></div>
+    <div class="solution"><p class="tag">The fix</p><h3>≤ 6 words</h3><p>≤ 20 words.</p></div>
+  </div>
+</section>
+```
+The problem panel is muted and dashed, the fix is filled with the accent; the
+arrow is drawn automatically. Use `l-compare` instead for two neutral options.
+
+## l-matrix — 2×2 quadrant
+
+```html
+<section class="slide l-matrix">
+  <header><p class="eyebrow">Label</p><h2>Headline</h2><p class="muted">Optional one line.</p></header>
+  <div class="matrix">
+    <div class="quads">
+      <div class="quad is-highlight"><h3>Top left</h3><p>≤ 10 words.</p></div>
+      <div class="quad"><h3>Top right</h3><p>…</p></div>
+      <div class="quad"><h3>Bottom left</h3><p>…</p></div>
+      <div class="quad"><h3>Bottom right</h3><p>…</p></div>
+    </div>
+    <p class="axis-x">Horizontal axis</p>
+    <p class="axis-y">Vertical axis</p>
+  </div>
+</section>
+```
+Exactly four quads, in reading order. Axes grow up and to the right, so put
+the "high" ends top and right. Axis names ≤ 2 words; quad titles ≤ 4 words.
+At most one `is-highlight`. Good for SWOT, effort vs. impact, positioning.
+
+## l-tiers — 2 to 4 plans or options
+
+```html
+<section class="slide l-tiers">
+  <header><p class="eyebrow">Label</p><h2>Headline</h2></header>
+  <div class="tiers">
+    <article class="tier">
+      <h3>Plan name</h3>
+      <p class="price num">$12<span class="per">/ month</span></p>
+      <p>Who it is for, ≤ 8 words.</p>
+      <ul class="features"><li>≤ 5 words</li></ul>
+      <p class="tier-foot">Optional call to action</p>
+    </article>
+    <article class="tier is-featured"><span class="badge">Recommended</span>…</article>
+  </div>
+</section>
+```
+2–4 tiers; 2–4 features each, parallel across tiers. At most one
+`is-featured` with a one-word `badge`. The price can be any short value
+(`8<span class="per">hours</span>`), ≤ 5 characters before the unit.
+
+## l-roadmap — lanes across phases
+
+```html
+<section class="slide l-roadmap">
+  <header><p class="eyebrow">Label</p><h2>Headline</h2></header>
+  <div class="roadmap">
+    <ol class="phases"><li>Now</li><li class="is-current">Next</li><li>Later</li></ol>
+    <div class="lane">
+      <h3>Lane name</h3>
+      <p class="bar at-1 span-2">≤ 5 words</p>
+      <p class="bar at-3 is-highlight">…</p>
+    </div>
+  </div>
+</section>
+```
+3–5 phases, 2–4 lanes, ≤ 3 bars per lane. `at-N` starts a bar in phase N and
+`span-N` stretches it across N phases; bars must not overlap within a lane.
+Use `l-timeline` instead for dated moments on a single line.
+
 ## l-free — escape hatch
 
 `<section class="slide l-free">` is a blank canvas with no grid. Use it only
