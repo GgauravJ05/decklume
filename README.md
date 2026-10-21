@@ -3,12 +3,12 @@
 # Decklume — AI presentation maker for Claude Code
 
 **Turn any topic, notes or PowerPoint into a stunning, animated HTML presentation.**<br>
-Story-first outlines · your slides in three styles side by side · 10 designer themes · Magic Move transitions · presenter view · vector PDF · automated design QA.
+Story-first outlines · your slides in three styles side by side · 13 designer themes · Magic Move transitions · presenter view · vector PDF · automated design QA.
 
 [![CI](https://github.com/GgauravJ05/decklume/actions/workflows/ci.yml/badge.svg)](https://github.com/GgauravJ05/decklume/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-e9b44c.svg)](LICENSE)
 [![Claude Code skill](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-1a1916.svg)](#install)
-[![Themes](https://img.shields.io/badge/themes-10-b83a22.svg)](#themes)
+[![Themes](https://img.shields.io/badge/themes-13-b83a22.svg)](#themes)
 [![Zero dependencies](https://img.shields.io/badge/output-single%20HTML%20file-3d5a4c.svg)](#what-you-get)
 
 [**Live demos**](https://ggauravj05.github.io/decklume/) · [Install](#install) · [Themes](#themes) · [How it works](#how-it-works) · [FAQ](#faq)
@@ -22,7 +22,7 @@ Story-first outlines · your slides in three styles side by side · 10 designer 
 Most AI-made slides look the same: a heading, three bullets, a purple gradient.
 **Decklume** is a [Claude Code](https://claude.com/claude-code) skill that gives
 Claude a real design system instead of adjectives. It has a fixed 16:9 canvas, a
-modular type scale, a 12-column grid, 22 tested slide layouts and ten complete
+modular type scale, a 12-column grid, 26 tested slide layouts and thirteen complete
 themes. A **QA gate** renders every slide in a real browser and fails the deck on
 overflow, overlap, low contrast or tiny text before you ever see it.
 
@@ -32,7 +32,7 @@ and conference talks.
 
 > *"Make a 15-minute lecture on how sleep shapes memory for first-year psychology students."*
 >
-> The result is [this 25-slide deck](https://ggauravj05.github.io/decklume/demos/folio.html):
+> The result is [this 29-slide deck](https://ggauravj05.github.io/decklume/demos/folio.html):
 > press → to step through it, `P` for the presenter view, `O` for the overview.
 
 > [!NOTE]
@@ -60,15 +60,15 @@ and conference talks.
 |---|---|
 | **Story first** | Claude writes a slide-by-slide outline with an *assertion headline* on every slide ("Half the night is stage N2", not "Sleep stages"). You approve it before any design happens. |
 | **Show, don't ask** | Your own title and content slides, rendered in three themes on **one comparison page**. Pick A, B, C, or mix them. |
-| **10 designer themes** | Editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful and chalkboard. Each is complete across every layout. |
-| **22 tested layouts** | Title, section, statement, quote, cards, split, full-bleed, compare, timeline, steps, KPI, stats, chart, table, code, diagram, people, agenda, definition, gallery, closing and free-form. |
+| **13 designer themes** | Editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful, chalkboard, engineering blueprint, newspaper and clinical. Each is complete across every layout. |
+| **26 tested layouts** | Title, section, statement, quote, cards, split, full-bleed, compare, timeline, steps, KPI, stats, chart, table, code, diagram, people, agenda, definition, gallery, closing, 2×2 matrix, pricing tiers, roadmap, problem → solution and free-form. |
 | **Magic Move** | Elements glide between slides (Keynote-style) using the View Transitions API. Pair them by hand, or let auto Magic Move match titles, numbers and images. |
 | **Animation library** | 10 slide transitions, 13 entrance effects (typewriter, count-up, SVG draw…), step builds with highlight sweeps, and line-by-line code walkthroughs. |
 | **Charts without libraries** | Bar, horizontal bar, line and donut charts from data attributes, coloured by the theme, highlighting the point your headline makes. |
 | **Automated design QA** | Overflow, clipped text, overlap, type size, WCAG contrast, font loading, leaked placeholder text, broken images, 16:9 on phones, AI-slop patterns, plus a contact sheet of every slide. |
 | **Presenter view** | Notes, timer, clock and next slide in a second window, synced live. Also overview grid, jump-to-slide, blackout and fullscreen. |
 | **Edit in the browser** | Press `E`, click any text, `⌘/Ctrl+S` saves a clean HTML file. |
-| **Share anywhere** | A single self-contained HTML file, a **vector PDF with selectable text** (a 25-slide deck is about 0.8 MB), PNG per slide, or a live link. |
+| **Share anywhere** | A single self-contained HTML file, a **vector PDF with selectable text** (a 29-slide deck is about 0.9 MB), PNG per slide, or a live link. |
 | **PowerPoint import** | Reads `.pptx`, including bullet levels, tables, images in groups, speaker notes and **native chart data**. |
 
 ## Example decks
@@ -77,7 +77,7 @@ Four complete decks, each made for a different room. Open one and use the arrow 
 
 | Deck | For | Theme | What it shows |
 |---|---|---|---|
-| [How Sleep Shapes Memory](https://ggauravj05.github.io/decklume/examples/sleep-and-memory.html) | Students and teachers | Folio | All 22 layouts, builds, Magic Move, speaker notes |
+| [How Sleep Shapes Memory](https://ggauravj05.github.io/decklume/examples/sleep-and-memory.html) | Students and teachers | Folio | All 26 layouts, builds, Magic Move, speaker notes |
 | [From URL to Pixels](https://ggauravj05.github.io/decklume/examples/url-to-pixels.html) | Engineers | Volt | Push/wipe/flip/iris transitions, a self-drawing diagram, code walkthroughs |
 | [Does Retrieval Practice Beat Rereading?](https://ggauravj05.github.io/decklume/examples/retrieval-practice-defense.html) | Researchers | Campus | A thesis defense with a MathML formula, count-up and highlight builds (fictional study, labelled) |
 | [Orbit Notes: Seed Pitch](https://ggauravj05.github.io/decklume/examples/orbit-notes-pitch.html) | Founders | Aurora | Auto Magic Move carrying a traction number between slides (fictional company, labelled) |
@@ -179,7 +179,7 @@ Explain the French Revolution to 10th graders in 15 slides, playful but clear
 
 <img src="site/assets/hero.jpg" alt="The same lecture title slide rendered in ten Decklume themes" width="100%">
 
-Every theme is complete across all 22 layouts and passes the same QA.
+Every theme is complete across all 26 layouts and passes the same QA.
 [**Open the live demos →**](https://ggauravj05.github.io/decklume/#themes)
 
 | Theme | Best for | Preview |
@@ -194,6 +194,9 @@ Every theme is complete across all 22 layouts and passes the same QA.
 | **Ma**: Japanese minimal | design, architecture, philosophy | <img src="site/assets/themes/ma.jpg" width="420" alt="Ma theme"> |
 | **Bloom**: warm and playful | workshops, school and club talks | <img src="site/assets/themes/bloom.jpg" width="420" alt="Bloom theme"> |
 | **Chalk**: classroom blackboard | lessons, tutoring, maths and science | <img src="site/assets/themes/chalk.jpg" width="420" alt="Chalk theme"> |
+| **Blueprint**: engineering drawing | system design, architecture, STEM | <img src="site/assets/themes/blueprint.jpg" width="420" alt="Blueprint theme"> |
+| **Broadsheet**: newspaper front page | reports, policy, journalism, history | <img src="site/assets/themes/broadsheet.jpg" width="420" alt="Broadsheet theme"> |
+| **Clinic**: clean and reassuring | healthcare, public health, life sciences | <img src="site/assets/themes/clinic.jpg" width="420" alt="Clinic theme"> |
 
 Need something else? Claude can design a **custom theme** for your brand or
 subject. See [`references/custom-themes.md`](skills/decklume/references/custom-themes.md).
@@ -261,15 +264,15 @@ another popular open-source Claude Code skill for HTML presentations:
 
 | | frontend-slides | Decklume |
 |---|---|---|
-| How design is controlled | Prose guidance + style recipes the model translates by hand | Design tokens, 22 tested layouts, themes as code |
+| How design is controlled | Prose guidance + style recipes the model translates by hand | Design tokens, 26 tested layouts, themes as code |
 | Style previews | 3 separate title-slide files | One comparison page with your title **and content** slides |
 | Story | Asks for content | Approves an assertion-headline outline first |
-| Themes | 12 presets + 34 bold recipes (title slide previewed) | 10 complete themes, every layout designed and tested |
+| Themes | 12 presets + 34 bold recipes (title slide previewed) | 13 complete themes, every layout designed and tested |
 | Motion | Entrance animations | Entrances + **Magic Move** + step builds, per-theme timing |
 | Charts | — | Built-in SVG charts |
 | Verification | Screenshot advice | Automated QA gate + contact sheet, CI-tested |
 | Presenter mode | Notes via host | Presenter window with notes, timer and next slide |
-| PDF | Screenshot images (~20 MB for 18 slides) | Vector with selectable text (~0.8 MB for 25 slides) |
+| PDF | Screenshot images (~20 MB for 18 slides) | Vector with selectable text (~0.9 MB for 29 slides) |
 | PowerPoint import | Python script: text, images, notes | Pure Node: + bullet levels, tables, groups, native chart data |
 
 ## FAQ
@@ -304,8 +307,8 @@ Decklume 0.1.0 is the first public release, and **more features are on the way**
 These are on the list now (directions, not dated promises):
 
 - **PowerPoint export**: a `.pptx` with your speaker notes, for when you have to hand in a PowerPoint file.
-- **More themes**, built and QA-tested across every layout like the current ten.
-- **More layouts and chart types**, for kinds of slide the current 22 layouts can't show well.
+- **More themes**, built and QA-tested across every layout like the current thirteen.
+- **More layouts and chart types**, for kinds of slide the current 26 layouts can't show well.
 - **More example decks** for more subjects and audiences.
 
 Have an idea? [Request a feature](https://github.com/GgauravJ05/decklume/issues/new?template=feature_request.yml)

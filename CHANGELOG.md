@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Four layouts: `l-matrix` (2×2 quadrant on named axes), `l-tiers` (2–4
+  plans with one recommended), `l-roadmap` (lanes across phases, bars placed
+  with `at-N` / `span-N`) and `l-problem` (the pain, an arrow, the fix).
+- Three themes: Blueprint (engineering drawing on a drafting grid),
+  Broadsheet (newspaper front page) and Clinic (clean healthcare look with
+  Atkinson Hyperlegible body text).
+- The showcase lecture gains four slides (29 in total) covering the new layouts.
+
 ## [0.1.0] — 2026-10-12
 
 First public release.
