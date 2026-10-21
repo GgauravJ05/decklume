@@ -16,11 +16,11 @@ evals/runs/
 __pycache__/
 *.pyc
 
-# Impeccable working files
-.impeccable/review/
-.impeccable/tmp/
-.impeccable/mocks/
+# Site frame captures
 .decklume-frames/
 
 # Launch-video renders
 brag-output*/
+
+# Local design-tool state (Impeccable)
+.impeccable/

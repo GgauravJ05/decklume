@@ -58,18 +58,18 @@ and conference talks.
 
 | | |
 |---|---|
-| 🧭 **Story first** | Claude writes a slide-by-slide outline with an *assertion headline* on every slide ("Half the night is stage N2", not "Sleep stages"). You approve it before any design happens. |
-| 👀 **Show, don't ask** | Your own title and content slides, rendered in three themes on **one comparison page**. Pick A, B, C, or mix them. |
-| 🎨 **10 designer themes** | Editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful and chalkboard. Each is complete across every layout. |
-| 🧱 **22 tested layouts** | Title, section, statement, quote, cards, split, full-bleed, compare, timeline, steps, KPI, stats, chart, table, code, diagram, people, agenda, definition, gallery, closing and free-form. |
-| ✨ **Magic Move** | Elements glide between slides (Keynote-style) using the View Transitions API. Pair them by hand, or let auto Magic Move match titles, numbers and images. |
-| 🎬 **Animation library** | 10 slide transitions, 13 entrance effects (typewriter, count-up, SVG draw…), step builds with highlight sweeps, and line-by-line code walkthroughs. |
-| 📊 **Charts without libraries** | Bar, horizontal bar, line and donut charts from data attributes, coloured by the theme, highlighting the point your headline makes. |
-| ✅ **Automated design QA** | Overflow, clipped text, overlap, type size, WCAG contrast, font loading, leaked placeholder text, broken images, 16:9 on phones, AI-slop patterns, plus a contact sheet of every slide. |
-| 🎤 **Presenter view** | Notes, timer, clock and next slide in a second window, synced live. Also overview grid, jump-to-slide, blackout and fullscreen. |
-| ✏️ **Edit in the browser** | Press `E`, click any text, `⌘/Ctrl+S` saves a clean HTML file. |
-| 📄 **Share anywhere** | A single self-contained HTML file, a **vector PDF with selectable text** (a 25-slide deck is about 0.8 MB), PNG per slide, or a live link. |
-| 🔁 **PowerPoint import** | Reads `.pptx`, including bullet levels, tables, images in groups, speaker notes and **native chart data**. |
+| **Story first** | Claude writes a slide-by-slide outline with an *assertion headline* on every slide ("Half the night is stage N2", not "Sleep stages"). You approve it before any design happens. |
+| **Show, don't ask** | Your own title and content slides, rendered in three themes on **one comparison page**. Pick A, B, C, or mix them. |
+| **10 designer themes** | Editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful and chalkboard. Each is complete across every layout. |
+| **22 tested layouts** | Title, section, statement, quote, cards, split, full-bleed, compare, timeline, steps, KPI, stats, chart, table, code, diagram, people, agenda, definition, gallery, closing and free-form. |
+| **Magic Move** | Elements glide between slides (Keynote-style) using the View Transitions API. Pair them by hand, or let auto Magic Move match titles, numbers and images. |
+| **Animation library** | 10 slide transitions, 13 entrance effects (typewriter, count-up, SVG draw…), step builds with highlight sweeps, and line-by-line code walkthroughs. |
+| **Charts without libraries** | Bar, horizontal bar, line and donut charts from data attributes, coloured by the theme, highlighting the point your headline makes. |
+| **Automated design QA** | Overflow, clipped text, overlap, type size, WCAG contrast, font loading, leaked placeholder text, broken images, 16:9 on phones, AI-slop patterns, plus a contact sheet of every slide. |
+| **Presenter view** | Notes, timer, clock and next slide in a second window, synced live. Also overview grid, jump-to-slide, blackout and fullscreen. |
+| **Edit in the browser** | Press `E`, click any text, `⌘/Ctrl+S` saves a clean HTML file. |
+| **Share anywhere** | A single self-contained HTML file, a **vector PDF with selectable text** (a 25-slide deck is about 0.8 MB), PNG per slide, or a live link. |
+| **PowerPoint import** | Reads `.pptx`, including bullet levels, tables, images in groups, speaker notes and **native chart data**. |
 
 ## Example decks
 
@@ -310,7 +310,7 @@ These are on the list now (directions, not dated promises):
 
 Have an idea? [Request a feature](https://github.com/GgauravJ05/decklume/issues/new?template=feature_request.yml)
 or [request a theme](https://github.com/GgauravJ05/decklume/issues/new?template=theme_request.yml).
-Watch or ⭐ the repo to hear when new releases ship.
+Watch or star the repo to hear when new releases ship.
 
 ## Contributing
 
@@ -328,6 +328,6 @@ npm run build:site       # rebuild live demos and gallery images
 
 Typefaces from [Google Fonts](https://fonts.google.com) under the SIL Open Font License.
 
-If Decklume helped you present something, **a ⭐ helps other students find it.**
+If Decklume helped you present something, **a star helps other students find it.**
 
 <sub>MIT © 2026 GgauravJ05</sub>
