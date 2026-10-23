@@ -22,6 +22,16 @@ All notable changes to this project are documented here. The format follows
   number, image, quote, chart) in three fixed patterns (`is-a`, `is-b`,
   `is-c`). The build warns when the tile count does not match the pattern.
   The showcase gains a recap slide (31 slides).
+- `l-annotated`: a screenshot or diagram with 3–6 numbered callouts. Pins
+  sit at `data-at="x,y"` on the picture; each label is placed beside its
+  pin's height and joined by a leader line that draws in with its build
+  step. QA fails pins that touch and lines that cross; the build checks
+  callout counts and points. The showcase gains a hypnogram slide
+  (32 slides).
+
+### Fixed
+- Edit-mode saves no longer write the cover masthead's fitted size into
+  the source.
 
 ## [0.1.0] — 2026-10-12
 

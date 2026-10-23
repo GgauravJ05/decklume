@@ -7,7 +7,7 @@ Status keys: `[ ]` todo · `[~]` in progress · `[x]` done
 
 ## Where Decklume stands (as of 0.1.0 + unreleased)
 
-- 28 layouts, 13 themes, all passing the QA gate on the 31-slide showcase.
+- 29 layouts, 13 themes, all passing the QA gate on the 32-slide showcase.
 - Already unique: themes and layouts as code, a browser QA gate, style
   discovery with the user's own slides, PowerPoint import, vector PDF.
 - Runtime: presenter view, overview, edit mode, Magic Move, 4 chart types
@@ -40,7 +40,7 @@ update counts in README / site / tests.
 - [x] **`l-bento`**: the Apple-keynote feature grid. One hero tile plus 3–4
       smaller tiles of different sizes (number, image, quote, chart). Fixed
       patterns (`is-a`, `is-b`, `is-c`) so the model never invents a grid.
-- [ ] **`l-annotated`**: a screenshot or diagram with numbered callouts and
+- [x] **`l-annotated`**: a screenshot or diagram with numbered callouts and
       leader lines that draw in one at a time. QA checks labels don't overlap.
 - [ ] **`l-chart-story`**: one chart that builds across steps: baseline,
       then highlight, then an annotation pinned to an exact data point.
