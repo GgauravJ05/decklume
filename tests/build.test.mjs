@@ -69,6 +69,21 @@ test("build warns about unknown layouts and missing assets", () => {
   assert.ok(warnings.some((w) => w.includes("missing asset: missing.png")));
 });
 
+test("build checks l-bento patterns and tile counts", () => {
+  const dir = tmp();
+  const src = join(dir, "b.deck.html");
+  const tiles = (n) => '<article class="tile"><h3>T</h3></article>'.repeat(n);
+  writeFileSync(src, deck("title: B", [
+    `<section class="slide l-bento is-a"><div class="bento">${tiles(4)}</div></section>`,
+    `<section class="slide l-bento is-c"><div class="bento">${tiles(4)}</div></section>`,
+    `<section class="slide l-bento"><div class="bento">${tiles(4)}</div></section>`,
+  ].join("\n")));
+  const { warnings } = build(src);
+  assert.ok(!warnings.some((w) => w.startsWith("slide 1:")), "is-a with 4 tiles is valid");
+  assert.ok(warnings.includes("slide 2: l-bento is-c takes 5 tiles, found 4"));
+  assert.ok(warnings.some((w) => w.startsWith("slide 3: l-bento needs a pattern class")));
+});
+
 test("--inline-assets embeds local images as data URIs", () => {
   const dir = tmp();
   writeFileSync(join(dir, "dot.svg"), '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>');

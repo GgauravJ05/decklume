@@ -22,7 +22,7 @@
     ":scope > header > *",
     ".cards > *", ".stats > *", ".steps > *", ".timeline > *", ".people > *",
     ".agenda > *", ".points > *", ".flow > *", ".gallery > *", ".columns > *",
-    ".contact > *", ".body > *", ".takeaway > *",
+    ".contact > *", ".body > *", ".takeaway > *", ".bento > *",
   ].join(",");
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -90,7 +90,7 @@
           if (el.matches(".step, [data-morph], .notes, script, style") || el.closest("[data-morph]")) return;
           if (el.classList.contains("dl-enter")) return;
           // Containers whose children animate don't animate themselves.
-          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, header")) return;
+          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, .bento, header")) return;
           el.classList.add("dl-enter");
           el.style.setProperty("--i", String(Math.min(i++, 9)));
         });

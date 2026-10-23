@@ -398,6 +398,38 @@ scrim is added); use `is-split` with a portrait image when the photo is busy.
 Use it instead of `l-title` for a handout, a report or a series opener, not
 as well as it. No folio is shown.
 
+## l-bento — feature grid: one hero tile and 3–4 smaller tiles
+
+```html
+<section class="slide l-bento is-a">      <!-- pick one pattern: is-a, is-b or is-c -->
+  <header><p class="eyebrow">Label</p><h2>Headline</h2></header>
+  <div class="bento">
+    <article class="tile"><h3>Hero title</h3><p>Hero text.</p></article>
+    <article class="tile is-quote"><blockquote><p>Short quote.</p><footer>Person</footer></blockquote></article>
+    <article class="tile is-number"><p class="value num">90<span class="unit">min</span></p><p class="label">≤ 5 words</p></article>
+    <article class="tile is-image"><img src="assets/photo.jpg" alt="What it shows"></article>
+  </div>
+</section>
+```
+Patterns. Tiles fill the slots in source order, and **the first tile is always the hero**:
+
+| Pattern | Tiles | Shape |
+|---|---|---|
+| `is-a` | 4 | Hero on the left (half width, both rows); one wide tile top right; two small tiles bottom right |
+| `is-b` | 4 | Wide, short hero top left; two tiles under it; one tall tile on the right |
+| `is-c` | 5 | Hero in the centre (both rows); two small tiles stacked on each side |
+
+Tile kinds: a plain tile (`h3` + `p`), `is-number` (`.value` + `.label`),
+`is-image` (the picture fills the tile; no text on it), `is-quote` and
+`is-chart` (a `figure.chart` under an `h3`, **hero of `is-a` or `is-c` only**,
+≤ 5 categories). Add `is-accent` to at most one tile. No eyebrows inside
+tiles; the slide header carries the label.
+
+Limits: hero title ≤ 8 words (≤ 6 in `is-b`) and text ≤ 20 words; small
+tiles ≤ 4-word title and ≤ 8 words of text; numbers ≤ 5 characters before
+the unit; quotes ≤ 8 words. The build warns when the tile count does not
+match the pattern. Use `l-cards` instead for 2–4 equal, parallel ideas.
+
 ## l-free — escape hatch
 
 `<section class="slide l-free">` is a blank canvas with no grid. Use it only

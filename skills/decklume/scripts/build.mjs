@@ -26,8 +26,11 @@ const LAYOUTS = [
   "l-title", "l-section", "l-statement", "l-quote", "l-list", "l-cards", "l-split", "l-bleed",
   "l-compare", "l-timeline", "l-steps", "l-kpi", "l-stats", "l-chart", "l-table", "l-code",
   "l-diagram", "l-people", "l-agenda", "l-define", "l-gallery", "l-closing", "l-matrix", "l-tiers",
-  "l-roadmap", "l-problem", "l-cover", "l-free",
+  "l-roadmap", "l-problem", "l-cover", "l-bento", "l-free",
 ];
+
+// l-bento patterns and the number of tiles each one places.
+const BENTO = { "is-a": 4, "is-b": 4, "is-c": 5 };
 
 const TRANSITIONS = ["fade", "push", "rise", "cover", "zoom", "wipe", "iris", "blur", "flip", "morph", "none"];
 const ANIMS = ["fade", "rise", "drop", "left", "right", "scale", "pop", "blur", "wipe", "iris", "flip", "type", "count", "draw", "highlight"];
@@ -117,6 +120,14 @@ function lint(body, baseDir, warnings) {
     const layouts = cls.split(/\s+/).filter((c) => c.startsWith("l-"));
     if (!layouts.length) warnings.push(`slide ${slideCount}: no layout class (l-*) — it will not get a designed layout`);
     layouts.filter((l) => !LAYOUTS.includes(l)).forEach((l) => warnings.push(`slide ${slideCount}: unknown layout "${l}"`));
+    if (layouts.includes("l-bento")) {
+      const pattern = Object.keys(BENTO).find((p) => cls.split(/\s+/).includes(p));
+      const end = body.indexOf("</section>", s.index);
+      const inner = body.slice(s.index, end < 0 ? undefined : end);
+      const tiles = (inner.match(/class=("|')[^"']*\btile\b/g) || []).length;
+      if (!pattern) warnings.push(`slide ${slideCount}: l-bento needs a pattern class (${Object.keys(BENTO).join(", ")})`);
+      else if (tiles !== BENTO[pattern]) warnings.push(`slide ${slideCount}: l-bento ${pattern} takes ${BENTO[pattern]} tiles, found ${tiles}`);
+    }
   });
   for (const m of body.matchAll(/data-transition=("|')([^"']*)\1/g)) {
     if (!TRANSITIONS.includes(m[2])) warnings.push(`unknown transition "${m[2]}" (use ${TRANSITIONS.join(", ")})`);

@@ -7,7 +7,7 @@ description: Create beautiful, animated HTML presentations — lectures, pitch d
 
 Decklume turns content into a presentation that looks designed, not generated.
 It does that with constraints, not adjectives: a fixed 1920×1080 canvas, a type
-scale, a 12-column grid, 27 tested layouts, curated themes and a QA gate that
+scale, a 12-column grid, 28 tested layouts, curated themes and a QA gate that
 fails a deck on real defects. Your job is the story and the content. The engine
 handles layout, typography and motion.
 
