@@ -790,7 +790,7 @@ body {
   pointer-events: none;
 }
 
-.slide:where(.l-title, .l-section, .l-bleed, .l-statement, .l-closing, .no-folio)::after {
+.slide:where(.l-title, .l-section, .l-bleed, .l-cover, .l-statement, .l-closing, .no-folio)::after {
   content: none;
 }
 
@@ -2046,6 +2046,156 @@ body {
   rotate: 45deg;
 }
 
+/* --- l-cover: magazine-cover opener --------------------------------------- */
+.l-cover {
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  column-gap: var(--gutter);
+}
+
+/* Over the photo every theme writes in white: retarget the ink ramp. */
+.l-cover:not(.is-split) {
+  --c-ink: #fff;
+  --c-ink-2: rgba(255, 255, 255, 0.88);
+  --c-ink-3: rgba(255, 255, 255, 0.76);
+  --c-line: rgba(255, 255, 255, 0.45);
+  --c-eyebrow: #fff;
+  --em-color: color-mix(in srgb, var(--c-accent) 55%, #fff);
+  color: #fff;
+}
+
+.l-cover:not(.is-split) :is(h1, p, li, span) { color: #fff; }
+
+.l-cover > .media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 0;
+}
+
+.l-cover > .media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Scrim: darker at the top for the masthead, darkest at the foot. */
+.l-cover > .media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.12) 34%, rgba(0, 0, 0, 0.12) 50%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.l-cover > :not(.media) {
+  position: relative;
+  z-index: 2;
+}
+
+.l-cover > .masthead {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-display);
+  font-size: var(--fs-mega);   /* the runtime scales it to fill the width */
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  padding-bottom: 0.12em;  /* room for descenders above the issue rule */
+  color: inherit;
+}
+
+.l-cover > .issue {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-2);
+  border-top: var(--rule) solid currentColor;
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  letter-spacing: var(--tr-caps);
+  text-transform: var(--caps-transform);
+  color: inherit;
+}
+
+.l-cover > .feature {
+  grid-column: 1 / span 7;
+  grid-row: 4;
+  align-self: end;
+  max-width: 14ch;
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-heading);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tr-heading);
+  color: inherit;
+}
+
+/* Over a photo the accent is lifted toward white so it stays legible. */
+.l-cover:not(.is-split) em {
+  font-style: var(--em-style, italic);
+  color: color-mix(in srgb, var(--c-accent) 55%, #fff);
+}
+
+.l-cover > .coverlines {
+  grid-column: 9 / -1;
+  grid-row: 4;
+  align-self: end;
+  list-style: none;
+  padding: 0;
+  display: grid;
+  font-size: var(--fs-small);
+  line-height: 1.35;
+}
+
+.l-cover .coverlines > li {
+  padding: var(--sp-2) 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+  color: inherit;
+}
+
+.l-cover .coverlines strong {
+  display: block;
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-display);
+  font-size: var(--fs-lead);
+  line-height: 1.1;
+  color: color-mix(in srgb, var(--c-accent) 55%, #fff);
+}
+
+/* Split: photo on the right, type on the theme's own field. */
+.l-cover.is-split { color: var(--c-ink); }
+
+.l-cover.is-split > .media {
+  position: relative;
+  inset: auto;
+  grid-column: 9 / -1;
+  grid-row: 1 / -1;
+  margin: calc(-1 * var(--m-top)) calc(-1 * var(--m-x)) calc(-1 * var(--m-bottom)) 0;
+}
+
+.l-cover.is-split > .media::after { content: none; }
+
+.l-cover.is-split > :is(.masthead, .issue, .feature, .coverlines) { grid-column: 1 / span 7; }
+.l-cover.is-split > .masthead { font-size: var(--fs-display); }
+.l-cover.is-split > .feature { grid-row: 3; max-width: 16ch; margin-bottom: var(--sp-5); }
+
+.l-cover.is-split > .coverlines {
+  grid-row: 4;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  column-gap: var(--gutter);
+}
+
+.l-cover.is-split .coverlines > li { border-top-color: var(--c-line); color: var(--c-ink-2); }
+.l-cover.is-split .coverlines strong { color: var(--c-accent); }
+
 /* --- Free-form escape hatch ---------------------------------------------- */
 .l-free {
   display: block;
@@ -2769,6 +2919,19 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
   <h2>Go to sleep. Your memory is doing the work.</h2>
 </section>
 
+<section class="slide l-cover">
+  <figure class="media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIwIDEwODAiIHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMGIxMDIyIi8+PHN0b3Agb2Zmc2V0PSIuNTUiIHN0b3AtY29sb3I9IiMxZDJhNTIiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzYjM1NjYiLz48L2xpbmVhckdyYWRpZW50PjxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyIgY3g9IjcyJSIgY3k9IjQyJSIgcj0iMzQlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNjOWQ0ZmYiIHN0b3Atb3BhY2l0eT0iLjM4Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYzlkNGZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjxyYWRpYWxHcmFkaWVudCBpZD0ibW9vbiIgY3g9IjQwJSIgY3k9IjM4JSIgcj0iNzAlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmYmY2ZTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNkOWQyYmYiLz48L3JhZGlhbEdyYWRpZW50PjxtYXNrIGlkPSJjcmVzY2VudCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjEzODIiIGN5PSI0NTIiIHI9IjE5NiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjEzMDAiIGN5PSI0MDQiIHI9IjE3NiIgZmlsbD0iIzAwMCIvPjwvbWFzaz48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNza3kpIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNnbG93KSIvPjxnIGZpbGw9IiNmZmYiPjxjaXJjbGUgY3g9IjI0MCIgY3k9IjQyMCIgcj0iMiIgb3BhY2l0eT0iLjciLz48Y2lyY2xlIGN4PSI0MjAiIGN5PSI1NjAiIHI9IjEuNiIgb3BhY2l0eT0iLjUiLz48Y2lyY2xlIGN4PSI2MTAiIGN5PSI0NzAiIHI9IjIuMiIgb3BhY2l0eT0iLjgiLz48Y2lyY2xlIGN4PSI4ODAiIGN5PSI1MjAiIHI9IjEuNCIgb3BhY2l0eT0iLjUiLz48Y2lyY2xlIGN4PSIxMDEwIiBjeT0iNDMwIiByPSIyIiBvcGFjaXR5PSIuNiIvPjxjaXJjbGUgY3g9IjE3MjAiIGN5PSI2MDAiIHI9IjEuOCIgb3BhY2l0eT0iLjYiLz48Y2lyY2xlIGN4PSIxODAwIiBjeT0iMzgwIiByPSIxLjQiIG9wYWNpdHk9Ii41Ii8+PGNpcmNsZSBjeD0iMTE0MCIgY3k9IjYxMCIgcj0iMS42IiBvcGFjaXR5PSIuNCIvPjxjaXJjbGUgY3g9IjMzMCIgY3k9IjY0MCIgcj0iMS40IiBvcGFjaXR5PSIuNCIvPjxjaXJjbGUgY3g9Ijc2MCIgY3k9IjY0MCIgcj0iMiIgb3BhY2l0eT0iLjU1Ii8+PC9nPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjbW9vbikiIG1hc2s9InVybCgjY3Jlc2NlbnQpIi8+PHBhdGggZD0iTTAgODYwIEMzMjAgODAwIDU2MCA5MDAgOTAwIDg1MCBTMTUwMCA3ODAgMTkyMCA4NDAgVjEwODAgSDBaIiBmaWxsPSIjMTQxYTMzIiBvcGFjaXR5PSIuODUiLz48cGF0aCBkPSJNMCA5NDAgQzM4MCA5MDAgNzAwIDk4MCAxMDgwIDkzMCBTMTY0MCA5MDAgMTkyMCA5NTAgVjEwODAgSDBaIiBmaWxsPSIjMGEwZTFkIi8+PC9zdmc+Cg==" alt=""></figure>
+  <h1 class="masthead">Sleep</h1>
+  <p class="issue"><span>Cognitive Science 101</span><span>Lecture 7 · Take-home issue</span></p>
+  <p class="feature">What your brain does <em>after</em> lights out</p>
+  <ul class="coverlines">
+    <li><strong>90 min</strong>One full cycle of sleep stages</li>
+    <li><strong>Deep sleep</strong>Where the day gets replayed</li>
+    <li><strong>3 habits</strong>To protect tonight’s learning</li>
+  </ul>
+  <aside class="notes">The handout version of this lecture opens with this cover. Everything on it is on the course page.</aside>
+</section>
+
 <section class="slide l-closing">
   <h2>Thank <em>you.</em></h2>
   <ul class="contact">
@@ -2829,6 +2992,8 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
       this.channel = MODE !== "embed" && "BroadcastChannel" in window ? new BroadcastChannel("decklume:" + location.pathname) : null;
 
       this.prepareSlides();
+      this.fitMastheads();
+      document.fonts?.ready.then(() => this.fitMastheads());
       this.scale = this.scale.bind(this);
       window.addEventListener("resize", this.scale);
       this.scale();
@@ -2884,6 +3049,21 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
           if (el.dataset.duration) el.style.setProperty("--a-dur", `${parseInt(el.dataset.duration, 10)}ms`);
           if (type === "type") el.style.setProperty("--chars", String(Math.max(1, el.textContent.trim().length)));
         });
+      });
+    }
+
+    /* Cover mastheads span their column: scale the type to the box,
+       between half and 1.35× the theme's size. */
+    fitMastheads() {
+      this.stage.querySelectorAll(".l-cover > .masthead").forEach((el) => {
+        el.style.fontSize = "";
+        const base = parseFloat(getComputedStyle(el).fontSize);
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const text = range.getBoundingClientRect().width;
+        if (!text) return;
+        const ratio = Math.min(1.35, Math.max(0.5, (el.getBoundingClientRect().width / text) * 0.98));
+        el.style.fontSize = `${Math.floor(base * ratio)}px`;
       });
     }
 

@@ -14,6 +14,10 @@ All notable changes to this project are documented here. The format follows
   Broadsheet (newspaper front page) and Clinic (clean healthcare look with
   Atkinson Hyperlegible body text).
 - The showcase lecture gains four slides (29 in total) covering the new layouts.
+- `l-cover`: a magazine-cover opener with a masthead that scales to fill the
+  width, an issue line, a cover story and 2–4 cover lines over a full-bleed
+  photo; `is-split` puts the photo on the right. The showcase gains a
+  take-home cover (30 slides).
 
 ## [0.1.0] — 2026-10-12
 

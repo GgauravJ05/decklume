@@ -7,7 +7,7 @@ Status keys: `[ ]` todo · `[~]` in progress · `[x]` done
 
 ## Where Decklume stands (as of 0.1.0 + unreleased)
 
-- 26 layouts, 13 themes, all passing the QA gate on the 29-slide showcase.
+- 27 layouts, 13 themes, all passing the QA gate on the 30-slide showcase.
 - Already unique: themes and layouts as code, a browser QA gate, style
   discovery with the user's own slides, PowerPoint import, vector PDF.
 - Runtime: presenter view, overview, edit mode, Magic Move, 4 chart types
@@ -45,7 +45,7 @@ update counts in README / site / tests.
 - [ ] **`l-chart-story`**: one chart that builds across steps: baseline,
       then highlight, then an annotation pinned to an exact data point.
       Prerequisite for v0.4 source-locked numbers.
-- [ ] **`l-cover`**: magazine-cover opener (masthead, big image, cover lines,
+- [x] **`l-cover`**: magazine-cover opener (masthead, big image, cover lines,
       issue/date line), interpreted differently by each theme.
 
 Later layout ideas (next batch):

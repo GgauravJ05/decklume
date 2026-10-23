@@ -9,7 +9,7 @@ export const SITE = {
   manual: ["git clone https://github.com/GgauravJ05/decklume.git", "cp -R decklume/skills/decklume ~/.claude/skills/"],
 };
 
-/* The 29-slide showcase lecture, used for frame captions and alt text. */
+/* The 30-slide showcase lecture, used for frame captions and alt text. */
 export const SLIDES = [
   "Title — How sleep shapes memory", "Agenda — four questions", "Section — why do we forget?",
   "Definition — consolidation", "Quote — Jenkins & Dallenbach", "Section — what happens while we sleep?",
@@ -20,7 +20,7 @@ export const SLIDES = [
   "Matrix — sleep is the cheapest study tool", "Tiers — pick a sleep plan", "Roadmap — a two-week exam plan",
   "List — study with sleep",
   "Cards — three small experiments", "Code — spacing your reviews", "Statement — end with going to bed",
-  "Gallery — further reading", "People — teaching team", "Full bleed — tonight's homework", "Closing — thank you",
+  "Gallery — further reading", "People — teaching team", "Full bleed — tonight's homework", "Cover — the take-home issue", "Closing — thank you",
 ];
 
 /* Hero contact sheet: [theme, slide] in reading order. Slide 1 of Folio is the keeper. */
@@ -105,7 +105,7 @@ export const AUDIENCES = {
       ["Assertion headlines", "Results slides lead with the finding itself, such as \"Recall improves after a night of sleep\", rather than a label like \"Results\"."],
       ["Charts from your numbers", "Bar, line and donut charts drawn from data attributes, highlighting the value your claim is about."],
       ["Numbered exhibits", "The Atlas theme numbers every chart and table automatically, as in a report."],
-      ["Handouts that stay small", "Vector PDFs keep text selectable; the 29-slide example lecture exports to 0.9 MB."],
+      ["Handouts that stay small", "Vector PDFs keep text selectable; the 30-slide example lecture exports to 1.1 MB."],
     ],
     faq: [
       ["Can I use my own data for charts?", "Yes. Charts are declared with your labels and values and drawn as SVG in the theme's colours. Claude never invents data for them."],
@@ -154,9 +154,9 @@ export const FAQ_HOME = [
 /* Example decks published on the site (built from examples/<slug>/<slug>.deck.html). */
 export const EXAMPLES = [
   {
-    slug: "sleep-and-memory", title: "How Sleep Shapes Memory", theme: "folio", audience: "students", slides: 29, frames: [1, 8, 15],
+    slug: "sleep-and-memory", title: "How Sleep Shapes Memory", theme: "folio", audience: "students", slides: 30, frames: [1, 8, 15],
     kind: "University lecture",
-    summary: "A 20-minute psychology lecture using all 26 layouts: definitions, a timeline, charts, builds, Magic Move and speaker notes.",
+    summary: "A 20-minute psychology lecture using all 27 layouts: definitions, a timeline, charts, builds, Magic Move and speaker notes.",
     motion: "Fade transitions, staggered entrances, step builds with dimming, a Magic Move between two slides.",
   },
   {
