@@ -108,6 +108,32 @@ function inspectSlide({ index, minBody, minChrome }) {
     }
   }
 
+  // 2b. Annotated images: pins must stand apart and leader lines must not cross.
+  if (slide.matches(".l-annotated")) {
+    const items = [...slide.querySelectorAll(".callouts > li")];
+    const centre = (el) => { const r = rect(el); return { x: r.l + r.w / 2, y: r.t + r.h / 2 }; };
+    const seg = (li) => {
+      const l = li.querySelector(":scope > .leader line");
+      return l && ["x1", "y1", "x2", "y2"].map((a) => Number(l.getAttribute(a)));
+    };
+    const side = (ax, ay, bx, by, cx, cy) => Math.sign((bx - ax) * (cy - ay) - (by - ay) * (cx - ax));
+    for (let i = 0; i < items.length; i++) {
+      for (let j = i + 1; j < items.length; j++) {
+        const pa = items[i].querySelector(":scope > .pin"), pb = items[j].querySelector(":scope > .pin");
+        if (pa && pb) {
+          const a = centre(pa), b = centre(pb);
+          if (Math.hypot(a.x - b.x, a.y - b.y) < 48) add("error", "callout", `callout pins ${i + 1} and ${j + 1} sit on top of each other — move their data-at points apart`, pa);
+        }
+        const s = seg(items[i]), t = seg(items[j]);
+        if (s && t) {
+          const [x1, y1, x2, y2] = s, [x3, y3, x4, y4] = t;
+          const crosses = side(x1, y1, x2, y2, x3, y3) * side(x1, y1, x2, y2, x4, y4) < 0 && side(x3, y3, x4, y4, x1, y1) * side(x3, y3, x4, y4, x2, y2) < 0;
+          if (crosses) add("error", "callout", `leader lines ${i + 1} and ${j + 1} cross — order the callouts top to bottom by their pins`, items[i]);
+        }
+      }
+    }
+  }
+
   // 3. Type size.
   const chrome = ".source, .folio, .pron, .time, .card-index, th, .dl-lab, figcaption, .caption";
   textEls.forEach((el) => {

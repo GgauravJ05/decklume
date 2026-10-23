@@ -84,6 +84,22 @@ test("build checks l-bento patterns and tile counts", () => {
   assert.ok(warnings.some((w) => w.startsWith("slide 3: l-bento needs a pattern class")));
 });
 
+test("build checks l-annotated callout counts and points", () => {
+  const dir = tmp();
+  const src = join(dir, "a.deck.html");
+  const fig = (lis) => `<figure class="annotated"><img src="x.svg" alt=""><ol class="callouts">${lis}</ol></figure>`;
+  writeFileSync(src, deck("title: A", [
+    `<section class="slide l-annotated">${fig('<li data-at="10,20">A</li><li data-at="30,40">B</li><li data-at="50,60">C</li>')}</section>`,
+    `<section class="slide l-annotated">${fig('<li data-at="10,20">A</li><li data-at="130,40">B</li><li>C</li>')}</section>`,
+    `<section class="slide l-annotated">${fig('<li data-at="10,20">A</li>')}</section>`,
+  ].join("\n")));
+  const { warnings } = build(src);
+  assert.ok(!warnings.some((w) => w.startsWith("slide 1:")), "three valid callouts pass");
+  assert.ok(warnings.some((w) => w.startsWith("slide 2: callout 2 needs data-at")));
+  assert.ok(warnings.some((w) => w.startsWith("slide 2: callout 3 needs data-at")));
+  assert.ok(warnings.includes("slide 3: l-annotated takes 3–6 callouts, found 1"));
+});
+
 test("--inline-assets embeds local images as data URIs", () => {
   const dir = tmp();
   writeFileSync(join(dir, "dot.svg"), '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>');

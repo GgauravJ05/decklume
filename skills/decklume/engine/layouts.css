@@ -1225,7 +1225,7 @@
   font-family: var(--f-display);
   font-style: var(--display-style);
   font-weight: var(--fw-display);
-  font-size: var(--fs-mega);   /* the runtime scales it to fill the width */
+  font-size: var(--dl-fit, var(--fs-mega));   /* the runtime sets --dl-fit to fill the width */
   line-height: 0.82;
   letter-spacing: -0.04em;
   white-space: nowrap;
@@ -1310,7 +1310,7 @@
 .l-cover.is-split > .media::after { content: none; }
 
 .l-cover.is-split > :is(.masthead, .issue, .feature, .coverlines) { grid-column: 1 / span 7; }
-.l-cover.is-split > .masthead { font-size: var(--fs-display); }
+.l-cover.is-split > .masthead { font-size: var(--dl-fit, var(--fs-display)); }
 .l-cover.is-split > .feature { grid-row: 3; max-width: 16ch; margin-bottom: var(--sp-5); }
 
 .l-cover.is-split > .coverlines {
@@ -1431,6 +1431,120 @@
 }
 
 .l-bento .tile.is-accent :is(h3, strong, .value) { color: var(--c-accent-ink); }
+
+/* --- l-annotated: an image with numbered callouts and leader lines ---- */
+.l-annotated {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-5);
+}
+
+.l-annotated .annotated {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: var(--gutter);
+  min-height: 0;
+  counter-reset: callout;
+}
+
+/* object-position stays centred: the runtime places pins against it. */
+.l-annotated .annotated > img {
+  grid-column: 1 / span 8;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* The runtime sets each label's --dl-y so it sits beside its pin. */
+.l-annotated .callouts {
+  position: relative;
+  grid-column: 9 / -1;
+  grid-row: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.l-annotated.is-reverse .annotated > img { grid-column: 5 / -1; }
+.l-annotated.is-reverse .callouts { grid-column: 1 / span 4; }
+
+/* Callouts fade in place rather than slide, so lines stay attached. */
+.l-annotated .callouts > li {
+  --step-from: none;
+  position: absolute;
+  top: var(--dl-y, 0px);
+  left: 0;
+  right: 0;
+  counter-increment: callout;
+  padding-left: 56px;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--c-ink-2);
+}
+
+.l-annotated .callouts > li > strong { color: var(--c-ink); }
+
+.l-annotated .callouts > li::before,
+.l-annotated .pin::before {
+  content: counter(callout);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+  font-family: var(--f-body);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-strong);
+  font-style: normal;
+  line-height: 1;
+}
+
+.l-annotated .callouts > li::before {
+  float: left;
+  margin-left: -56px;
+}
+
+.l-annotated .pin {
+  position: absolute;
+  z-index: 2;
+  translate: -50% -50%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--c-bg);
+}
+
+/* Sized and offset by the runtime to cover the whole figure. */
+.l-annotated .leader {
+  position: absolute;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.l-annotated .leader line {
+  stroke: var(--c-accent);
+  stroke-width: var(--rule);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset var(--dur-3) var(--ease-out);
+}
+
+/* A halo in the slide colour keeps the line visible over any picture. */
+.l-annotated .leader line.halo {
+  stroke: var(--c-bg);
+  stroke-width: calc(var(--rule) + 4px);
+  stroke-linecap: round;
+}
+
+.l-annotated .leader circle { fill: var(--c-accent); }
+
+/* Lines draw in as their callout is revealed (or at once without builds). */
+.l-annotated .callouts > li:is(.is-shown, :not(.step)) .leader line,
+.dl-static .l-annotated .leader line { stroke-dashoffset: 0; }
 
 /* --- Free-form escape hatch ---------------------------------------------- */
 .l-free {

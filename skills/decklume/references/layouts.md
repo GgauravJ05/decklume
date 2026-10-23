@@ -430,6 +430,30 @@ tiles ≤ 4-word title and ≤ 8 words of text; numbers ≤ 5 characters before
 the unit; quotes ≤ 8 words. The build warns when the tile count does not
 match the pattern. Use `l-cards` instead for 2–4 equal, parallel ideas.
 
+## l-annotated — a screenshot or diagram with numbered callouts
+
+```html
+<section class="slide l-annotated" data-dim>   <!-- is-reverse: labels on the left -->
+  <header><p class="eyebrow">Label</p><h2>Headline</h2></header>
+  <figure class="annotated">
+    <img src="assets/screen.png" alt="What the picture shows">
+    <ol class="callouts">
+      <li class="step" data-at="24,40"><strong>Title.</strong> ≤ 8 words.</li>
+    </ol>
+  </figure>
+</section>
+```
+`data-at="x,y"` is the point the callout explains, as percentages of the
+picture (0,0 top left; 100,100 bottom right). The runtime draws a numbered
+pin there and a leader line to the label; each label sits beside its pin's
+height, so write the callouts in the order you want to reveal them, not by
+position. With `class="step"` they appear one press at a time and the line
+draws in. QA fails pins closer than 48px or lines that cross.
+
+3–6 callouts; title ≤ 3 words plus ≤ 8 words. The image needs a real
+width and height (PNG, JPG, or SVG with `width`/`height`); a landscape
+picture works best. Use `l-split` instead for an image with one message.
+
 ## l-free — escape hatch
 
 `<section class="slide l-free">` is a blank canvas with no grid. Use it only

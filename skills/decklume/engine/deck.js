@@ -48,7 +48,11 @@
 
       this.prepareSlides();
       this.fitMastheads();
-      document.fonts?.ready.then(() => this.fitMastheads());
+      this.placeCallouts();
+      document.fonts?.ready.then(() => {
+        this.fitMastheads();
+        this.placeCallouts();
+      });
       this.scale = this.scale.bind(this);
       window.addEventListener("resize", this.scale);
       this.scale();
@@ -111,14 +115,81 @@
        between half and 1.35× the theme's size. */
     fitMastheads() {
       this.stage.querySelectorAll(".l-cover > .masthead").forEach((el) => {
-        el.style.fontSize = "";
+        el.style.removeProperty("--dl-fit");
         const base = parseFloat(getComputedStyle(el).fontSize);
         const range = document.createRange();
         range.selectNodeContents(el);
         const text = range.getBoundingClientRect().width;
         if (!text) return;
         const ratio = Math.min(1.35, Math.max(0.5, (el.getBoundingClientRect().width / text) * 0.98));
-        el.style.fontSize = `${Math.floor(base * ratio)}px`;
+        el.style.setProperty("--dl-fit", `${Math.floor(base * ratio)}px`);
+      });
+    }
+
+    /* Annotated images: each callout gets a pin at data-at="x,y" (percent
+       of the picture as displayed) and a leader line to its label. Labels
+       sit at their pin's height, pushed apart only as far as needed, so
+       lines run in pin order and do not cross. Pin and line live inside
+       the <li>, so they reveal and dim with it. */
+    placeCallouts() {
+      const NS = "http://www.w3.org/2000/svg";
+      const BADGE = 20; // half the 40px number badge
+      this.stage.querySelectorAll(".l-annotated .annotated").forEach((fig) => {
+        const img = fig.querySelector(":scope > img");
+        const list = fig.querySelector(".callouts");
+        if (!img || !list) return;
+        if (!img.complete) img.addEventListener("load", () => this.placeCallouts(), { once: true });
+        // The picture's box inside the <img> under object-fit: contain.
+        const nw = img.naturalWidth || img.offsetWidth;
+        const nh = img.naturalHeight || img.offsetHeight;
+        const s = Math.min(img.offsetWidth / nw, img.offsetHeight / nh);
+        const w = nw * s;
+        const h = nh * s;
+        const x0 = img.offsetLeft + (img.offsetWidth - w) / 2;
+        const y0 = img.offsetTop + (img.offsetHeight - h) / 2;
+        const ox = list.offsetLeft;
+        const oy = list.offsetTop;
+        const lx = ox < img.offsetLeft ? ox + list.offsetWidth + 12 : ox - 12;
+        const gap = 24;
+
+        const items = [...list.querySelectorAll(":scope > li")].map((li) => {
+          li.querySelectorAll(":scope > [data-dl-generated]").forEach((n) => n.remove());
+          const [px, py] = (li.dataset.at || "50,50").split(",").map(Number);
+          return { li, x: x0 + (w * px) / 100, y: y0 + (h * py) / 100, h: li.offsetHeight };
+        });
+        // Stack in pin order: down from each pin's height, then back up from
+        // the floor. Of pins at about the same height, the one nearer the
+        // labels goes first, so the longer line passes beneath it.
+        const key = (it) => it.y + 0.06 * Math.abs(lx - it.x);
+        const byPin = [...items].sort((a, b) => key(a) - key(b));
+        let floor = 0;
+        byPin.forEach((it) => { it.top = Math.max(it.y - oy - BADGE, floor); floor = it.top + it.h + gap; });
+        let ceil = list.offsetHeight;
+        [...byPin].reverse().forEach((it) => { it.top = Math.max(0, Math.min(it.top, ceil - it.h)); ceil = it.top - gap; });
+
+        items.forEach(({ li, x, y, top }) => {
+          li.style.setProperty("--dl-y", `${top}px`);
+          const ly = oy + top + BADGE;
+          const pin = document.createElement("span");
+          pin.className = "pin";
+          pin.style.left = `${x - ox}px`;
+          pin.style.top = `${y - oy - top}px`;
+          const svg = document.createElementNS(NS, "svg");
+          svg.setAttribute("class", "leader");
+          svg.setAttribute("viewBox", `0 0 ${fig.offsetWidth} ${fig.offsetHeight}`);
+          svg.style.left = `${-ox}px`;
+          svg.style.top = `${-oy - top}px`;
+          svg.style.width = `${fig.offsetWidth}px`;
+          svg.style.height = `${fig.offsetHeight}px`;
+          const seg = `x1="${x}" y1="${y}" x2="${lx}" y2="${ly}" pathLength="1"`;
+          svg.innerHTML = `<line class="halo" ${seg}/><line ${seg}/><circle cx="${lx}" cy="${ly}" r="5"/>`;
+          for (const n of [pin, svg]) {
+            n.setAttribute("data-dl-generated", "");
+            n.setAttribute("aria-hidden", "true");
+            n.setAttribute("contenteditable", "false");
+            li.prepend(n);
+          }
+        });
       });
     }
 
@@ -668,6 +739,12 @@
       ["--a-delay", "--a-dur", "--chars"].forEach((v) => el.style.removeProperty(v));
       if (!el.getAttribute("style")) el.removeAttribute("style");
       if (!el.classList.length) el.removeAttribute("class");
+    });
+    // Positions the runtime computes (cover mastheads, callout labels).
+    clone.querySelectorAll(".l-cover > .masthead, .l-annotated .callouts > li").forEach((el) => {
+      el.style.removeProperty("--dl-fit");
+      el.style.removeProperty("--dl-y");
+      if (!el.getAttribute("style")) el.removeAttribute("style");
     });
     clone.querySelectorAll("[contenteditable]").forEach((el) => el.removeAttribute("contenteditable"));
     clone.querySelectorAll("[data-morph]").forEach((el) => { el.style.viewTransitionName = ""; if (!el.getAttribute("style")) el.removeAttribute("style"); });

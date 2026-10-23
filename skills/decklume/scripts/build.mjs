@@ -26,7 +26,7 @@ const LAYOUTS = [
   "l-title", "l-section", "l-statement", "l-quote", "l-list", "l-cards", "l-split", "l-bleed",
   "l-compare", "l-timeline", "l-steps", "l-kpi", "l-stats", "l-chart", "l-table", "l-code",
   "l-diagram", "l-people", "l-agenda", "l-define", "l-gallery", "l-closing", "l-matrix", "l-tiers",
-  "l-roadmap", "l-problem", "l-cover", "l-bento", "l-free",
+  "l-roadmap", "l-problem", "l-cover", "l-bento", "l-annotated", "l-free",
 ];
 
 // l-bento patterns and the number of tiles each one places.
@@ -127,6 +127,16 @@ function lint(body, baseDir, warnings) {
       const tiles = (inner.match(/class=("|')[^"']*\btile\b/g) || []).length;
       if (!pattern) warnings.push(`slide ${slideCount}: l-bento needs a pattern class (${Object.keys(BENTO).join(", ")})`);
       else if (tiles !== BENTO[pattern]) warnings.push(`slide ${slideCount}: l-bento ${pattern} takes ${BENTO[pattern]} tiles, found ${tiles}`);
+    }
+    if (layouts.includes("l-annotated")) {
+      const end = body.indexOf("</section>", s.index);
+      const items = body.slice(s.index, end < 0 ? undefined : end).match(/<li\b[^>]*>/g) || [];
+      if (items.length < 3 || items.length > 6) warnings.push(`slide ${slideCount}: l-annotated takes 3–6 callouts, found ${items.length}`);
+      items.forEach((li, k) => {
+        const at = (li.match(/data-at=("|')([^"']*)\1/) || [])[2];
+        const ok = at && at.split(",").length === 2 && at.split(",").every((v) => v.trim() !== "" && +v >= 0 && +v <= 100);
+        if (!ok) warnings.push(`slide ${slideCount}: callout ${k + 1} needs data-at="x,y" (percent, 0–100)`);
+      });
     }
   });
   for (const m of body.matchAll(/data-transition=("|')([^"']*)\1/g)) {
