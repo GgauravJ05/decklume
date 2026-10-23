@@ -2196,6 +2196,115 @@ body {
 .l-cover.is-split .coverlines > li { border-top-color: var(--c-line); color: var(--c-ink-2); }
 .l-cover.is-split .coverlines strong { color: var(--c-accent); }
 
+/* --- l-bento: a hero tile and 3–4 smaller tiles, fixed patterns -------- */
+.l-bento {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-5);
+}
+
+.l-bento .bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: var(--gutter);
+  min-height: 0;
+}
+
+/* Tiles fill areas a–e in source order; the first tile is the hero. */
+.l-bento.is-a .bento { grid-template-areas: "a a a a a a b b b b b b" "a a a a a a c c c d d d"; }
+.l-bento.is-b .bento { grid-template-areas: "a a a a a a a a b b b b" "c c c c d d d d b b b b"; }
+.l-bento.is-c .bento { grid-template-areas: "b b b a a a a a a d d d" "c c c a a a a a a e e e"; }
+
+.l-bento .tile:nth-child(1) { grid-area: a; }
+.l-bento .tile:nth-child(2) { grid-area: b; }
+.l-bento .tile:nth-child(3) { grid-area: c; }
+.l-bento .tile:nth-child(4) { grid-area: d; }
+.l-bento .tile:nth-child(5) { grid-area: e; }
+
+.l-bento .tile {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: var(--sp-2);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: var(--sp-4);
+  background: var(--card-bg, var(--c-surface));
+  border: var(--card-border, 0);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--c-ink-2);
+}
+
+.l-bento .tile > h3 { font-size: var(--fs-lead); color: var(--c-ink); }
+
+.l-bento .tile:first-child { padding: var(--sp-5); font-size: var(--fs-body); }
+.l-bento .tile:first-child > h3 { font-size: var(--fs-h3); }
+
+/* In is-a and is-c the hero is two rows tall: the title goes up a step. */
+.l-bento:not(.is-b) .tile:first-child > h3 { font-size: var(--fs-h2); line-height: var(--lh-heading); }
+/* Number tile: the figure is the headline. */
+.l-bento .tile .value {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-display);
+  font-size: var(--fs-h2);
+  line-height: 1;
+  letter-spacing: var(--tr-display);
+  color: var(--c-accent);
+}
+
+.l-bento .tile:first-child .value { font-size: var(--fs-display); }
+.l-bento .tile .value .unit { font-size: 0.45em; margin-left: 0.12em; letter-spacing: 0; }
+
+/* Image tile: the picture fills the tile, no text on top. */
+.l-bento .tile.is-image { padding: 0; }
+
+.l-bento .tile.is-image > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Quote tile. */
+.l-bento .tile blockquote { display: grid; gap: var(--sp-2); }
+
+.l-bento .tile blockquote::before {
+  content: "\201C";
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  line-height: 0.6;
+  color: var(--c-accent);
+}
+
+.l-bento .tile blockquote > p {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-size: var(--fs-lead);
+  line-height: 1.2;
+  color: var(--c-ink);
+}
+
+.l-bento .tile:first-child blockquote > p { font-size: var(--fs-h3); }
+.l-bento .tile blockquote footer { font-size: var(--fs-small); color: var(--c-ink-3); }
+
+/* Chart tile (hero only): the chart takes the space under the title. */
+.l-bento .tile.is-chart { align-content: stretch; grid-template-rows: auto 1fr; }
+.l-bento .tile.is-chart > .chart { min-height: 0; }
+
+/* Accent tile: at most one per slide. */
+.l-bento .tile.is-accent {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: color-mix(in srgb, var(--c-accent-ink) 86%, transparent);
+}
+
+.l-bento .tile.is-accent :is(h3, strong, .value) { color: var(--c-accent-ink); }
+
 /* --- Free-form escape hatch ---------------------------------------------- */
 .l-free {
   display: block;
@@ -2929,6 +3038,20 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
   <h2>Go to sleep. Your memory is doing the work.</h2>
 </section>
 
+<section class="slide l-bento is-a">
+  <header>
+    <p class="eyebrow">Recap</p>
+    <h2>The night at a glance</h2>
+  </header>
+  <div class="bento">
+    <article class="tile"><h3>Sleep turns today’s study into memory</h3><p>Deep sleep replays the day. REM helps connect it to what you already know.</p></article>
+    <article class="tile is-image"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTEwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMTAwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTlkY2Q2Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCwxNjUgTDAsMTg4IEw0MCwxNzAgTDgwLDE1MiBMMTIwLDEzNCBMMTYwLDExOSBMMjAwLDEwOCBMMjQwLDEwMSBMMjgwLDk5IEwzMjAsMTAyIEwzNjAsMTEwIEw0MDAsMTIyIEw0NDAsMTM4IEw0ODAsMTU2IEw1MjAsMTc0IEw1NjAsMTkyIEw2MDAsMjA4IEw2NDAsMjIwIEw2ODAsMjI4IEw3MjAsMjMxIEw3NjAsMjI5IEw4MDAsMjIyIEw4NDAsMjExIEw4ODAsMTk2IEw5MjAsMTc4IEw5MDAsMTEwMCBaIiBmaWxsPSIjZDFhOTlhIiBvcGFjaXR5PSIwLjU1Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCwyNjMgTDAsMjkyIEw0MCwzMjYgTDgwLDM1NiBMMTIwLDM3OCBMMTYwLDM5MSBMMjAwLDM5NSBMMjQwLDM4OCBMMjgwLDM3MSBMMzIwLDM0NiBMMzYwLDMxNCBMNDAwLDI3OSBMNDQwLDI0MiBMNDgwLDIwNiBMNTIwLDE3NiBMNTYwLDE1MiBMNjAwLDEzNiBMNjQwLDEzMSBMNjgwLDEzNiBMNzIwLDE1MCBMNzYwLDE3NCBMODAwLDIwNCBMODQwLDIzOSBMODgwLDI3NiBMOTIwLDMxMiBMOTAwLDExMDAgWiIgZmlsbD0iI2I4OGE3YSIgb3BhY2l0eT0iMC42MCIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsMzYxIEwwLDM2NiBMNDAsNDIwIEw4MCw0NzAgTDEyMCw1MTIgTDE2MCw1NDEgTDIwMCw1NTcgTDI0MCw1NTcgTDI4MCw1NDIgTDMyMCw1MTIgTDM2MCw0NzEgTDQwMCw0MjIgTDQ0MCwzNjcgTDQ4MCwzMTIgTDUyMCwyNjEgTDU2MCwyMTggTDYwMCwxODUgTDY0MCwxNjcgTDY4MCwxNjMgTDcyMCwxNzUgTDc2MCwyMDEgTDgwMCwyNDAgTDg0MCwyODggTDg4MCwzNDIgTDkyMCwzOTcgTDkwMCwxMTAwIFoiIGZpbGw9IiM5YzZlNWYiIG9wYWNpdHk9IjAuNjUiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDQ1OCBMMCw0MDMgTDQwLDQxNiBMODAsNDMxIEwxMjAsNDQ5IEwxNjAsNDY3IEwyMDAsNDg1IEwyNDAsNTAxIEwyODAsNTEzIEwzMjAsNTIxIEwzNjAsNTI0IEw0MDAsNTIyIEw0NDAsNTE2IEw0ODAsNTA0IEw1MjAsNDg5IEw1NjAsNDcyIEw2MDAsNDU0IEw2NDAsNDM2IEw2ODAsNDE5IEw3MjAsNDA2IEw3NjAsMzk3IEw4MDAsMzkzIEw4NDAsMzkzIEw4ODAsMzk5IEw5MjAsNDEwIEw5MDAsMTEwMCBaIiBmaWxsPSIjZTJjMmI2IiBvcGFjaXR5PSIwLjcwIi8+PHBhdGggZD0iTTAsMTEwMCBMMCw1NTYgTDAsNjg2IEw0MCw2ODggTDgwLDY3OSBMMTIwLDY2MSBMMTYwLDYzNCBMMjAwLDYwMiBMMjQwLDU2NiBMMjgwLDUyOSBMMzIwLDQ5NSBMMzYwLDQ2NSBMNDAwLDQ0MiBMNDQwLDQyOCBMNDgwLDQyNCBMNTIwLDQzMSBMNTYwLDQ0NyBMNjAwLDQ3MSBMNjQwLDUwMyBMNjgwLDUzOCBMNzIwLDU3NSBMNzYwLDYxMCBMODAwLDY0MiBMODQwLDY2NiBMODgwLDY4MiBMOTIwLDY4OCBMOTAwLDExMDAgWiIgZmlsbD0iI2QxYTk5YSIgb3BhY2l0eT0iMC41NSIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsNjU0IEwwLDc0MCBMNDAsNjg4IEw4MCw2MzMgTDEyMCw1NzkgTDE2MCw1MzEgTDIwMCw0OTMgTDI0MCw0NjcgTDI4MCw0NTYgTDMyMCw0NjEgTDM2MCw0ODAgTDQwMCw1MTMgTDQ0MCw1NTcgTDQ4MCw2MDggTDUyMCw2NjMgTDU2MCw3MTcgTDYwMCw3NjcgTDY0MCw4MDcgTDY4MCw4MzYgTDcyMCw4NTAgTDc2MCw4NDkgTDgwMCw4MzMgTDg0MCw4MDMgTDg4MCw3NjIgTDkyMCw3MTEgTDkwMCwxMTAwIFoiIGZpbGw9IiNiODhhN2EiIG9wYWNpdHk9IjAuNjAiLz48cGF0aCBkPSJNMCwxMTAwIEwwLDc1MiBMMCw4MDMgTDQwLDc5MCBMODAsNzc0IEwxMjAsNzU2IEwxNjAsNzM3IEwyMDAsNzIwIEwyNDAsNzA1IEwyODAsNjk0IEwzMjAsNjg3IEwzNjAsNjg2IEw0MDAsNjg5IEw0NDAsNjk4IEw0ODAsNzEwIEw1MjAsNzI2IEw1NjAsNzQ0IEw2MDAsNzYyIEw2NDAsNzgwIEw2ODAsNzk1IEw3MjAsODA3IEw3NjAsODE1IEw4MDAsODE4IEw4NDAsODE1IEw4ODAsODA4IEw5MjAsNzk2IEw5MDAsMTEwMCBaIiBmaWxsPSIjOWM2ZTVmIiBvcGFjaXR5PSIwLjY1Ii8+PHBhdGggZD0iTTAsMTEwMCBMMCw4NDkgTDAsNzM3IEw0MCw3NjAgTDgwLDc5MSBMMTIwLDgyNiBMMTYwLDg2MiBMMjAwLDg5OCBMMjQwLDkzMCBMMjgwLDk1NiBMMzIwLDk3MyBMMzYwLDk4MSBMNDAwLDk3OSBMNDQwLDk2NiBMNDgwLDk0NCBMNTIwLDkxNSBMNTYwLDg4MSBMNjAwLDg0NSBMNjQwLDgwOCBMNjgwLDc3NSBMNzIwLDc0OCBMNzYwLDcyOSBMODAwLDcxOSBMODQwLDcxOSBMODgwLDcyOSBMOTIwLDc0OSBMOTAwLDExMDAgWiIgZmlsbD0iI2UyYzJiNiIgb3BhY2l0eT0iMC43MCIvPjxwYXRoIGQ9Ik0wLDExMDAgTDAsOTQ3IEwwLDExNDIgTDQwLDExNDQgTDgwLDExMzEgTDEyMCwxMTAzIEwxNjAsMTA2MyBMMjAwLDEwMTQgTDI0MCw5NjAgTDI4MCw5MDUgTDMyMCw4NTMgTDM2MCw4MDkgTDQwMCw3NzUgTDQ0MCw3NTUgTDQ4MCw3NDkgTDUyMCw3NjAgTDU2MCw3ODQgTDYwMCw4MjIgTDY0MCw4NjkgTDY4MCw5MjIgTDcyMCw5NzggTDc2MCwxMDMxIEw4MDAsMTA3NyBMODQwLDExMTMgTDg4MCwxMTM3IEw5MjAsMTE0NSBMOTAwLDExMDAgWiIgZmlsbD0iI2QxYTk5YSIgb3BhY2l0eT0iMC41NSIvPjwvc3ZnPg==" alt="Abstract rose wave pattern"></article>
+    <article class="tile is-number"><p class="value num">7+<span class="unit">h</span></p><p class="label">A night, for adults</p></article>
+    <article class="tile is-number is-accent"><p class="value num">4–6</p><p class="label">Cycles in a healthy night</p></article>
+  </div>
+  <aside class="notes">One slide to hold on to before the take-home cover.</aside>
+</section>
+
 <section class="slide l-cover">
   <figure class="media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIwIDEwODAiIHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMGIxMDIyIi8+PHN0b3Agb2Zmc2V0PSIuNTUiIHN0b3AtY29sb3I9IiMxZDJhNTIiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzYjM1NjYiLz48L2xpbmVhckdyYWRpZW50PjxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyIgY3g9IjcyJSIgY3k9IjQyJSIgcj0iMzQlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNjOWQ0ZmYiIHN0b3Atb3BhY2l0eT0iLjM4Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYzlkNGZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjxyYWRpYWxHcmFkaWVudCBpZD0ibW9vbiIgY3g9IjQwJSIgY3k9IjM4JSIgcj0iNzAlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmYmY2ZTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNkOWQyYmYiLz48L3JhZGlhbEdyYWRpZW50PjxtYXNrIGlkPSJjcmVzY2VudCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjEzODIiIGN5PSI0NTIiIHI9IjE5NiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjEzMDAiIGN5PSI0MDQiIHI9IjE3NiIgZmlsbD0iIzAwMCIvPjwvbWFzaz48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNza3kpIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNnbG93KSIvPjxnIGZpbGw9IiNmZmYiPjxjaXJjbGUgY3g9IjI0MCIgY3k9IjQyMCIgcj0iMiIgb3BhY2l0eT0iLjciLz48Y2lyY2xlIGN4PSI0MjAiIGN5PSI1NjAiIHI9IjEuNiIgb3BhY2l0eT0iLjUiLz48Y2lyY2xlIGN4PSI2MTAiIGN5PSI0NzAiIHI9IjIuMiIgb3BhY2l0eT0iLjgiLz48Y2lyY2xlIGN4PSI4ODAiIGN5PSI1MjAiIHI9IjEuNCIgb3BhY2l0eT0iLjUiLz48Y2lyY2xlIGN4PSIxMDEwIiBjeT0iNDMwIiByPSIyIiBvcGFjaXR5PSIuNiIvPjxjaXJjbGUgY3g9IjE3MjAiIGN5PSI2MDAiIHI9IjEuOCIgb3BhY2l0eT0iLjYiLz48Y2lyY2xlIGN4PSIxODAwIiBjeT0iMzgwIiByPSIxLjQiIG9wYWNpdHk9Ii41Ii8+PGNpcmNsZSBjeD0iMTE0MCIgY3k9IjYxMCIgcj0iMS42IiBvcGFjaXR5PSIuNCIvPjxjaXJjbGUgY3g9IjMzMCIgY3k9IjY0MCIgcj0iMS40IiBvcGFjaXR5PSIuNCIvPjxjaXJjbGUgY3g9Ijc2MCIgY3k9IjY0MCIgcj0iMiIgb3BhY2l0eT0iLjU1Ii8+PC9nPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjbW9vbikiIG1hc2s9InVybCgjY3Jlc2NlbnQpIi8+PHBhdGggZD0iTTAgODYwIEMzMjAgODAwIDU2MCA5MDAgOTAwIDg1MCBTMTUwMCA3ODAgMTkyMCA4NDAgVjEwODAgSDBaIiBmaWxsPSIjMTQxYTMzIiBvcGFjaXR5PSIuODUiLz48cGF0aCBkPSJNMCA5NDAgQzM4MCA5MDAgNzAwIDk4MCAxMDgwIDkzMCBTMTY0MCA5MDAgMTkyMCA5NTAgVjEwODAgSDBaIiBmaWxsPSIjMGEwZTFkIi8+PC9zdmc+Cg==" alt=""></figure>
   <h1 class="masthead">Sleep</h1>
@@ -2977,7 +3100,7 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
     ":scope > header > *",
     ".cards > *", ".stats > *", ".steps > *", ".timeline > *", ".people > *",
     ".agenda > *", ".points > *", ".flow > *", ".gallery > *", ".columns > *",
-    ".contact > *", ".body > *", ".takeaway > *",
+    ".contact > *", ".body > *", ".takeaway > *", ".bento > *",
   ].join(",");
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -3045,7 +3168,7 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
           if (el.matches(".step, [data-morph], .notes, script, style") || el.closest("[data-morph]")) return;
           if (el.classList.contains("dl-enter")) return;
           // Containers whose children animate don't animate themselves.
-          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, header")) return;
+          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, .bento, header")) return;
           el.classList.add("dl-enter");
           el.style.setProperty("--i", String(Math.min(i++, 9)));
         });

@@ -2196,6 +2196,115 @@ body {
 .l-cover.is-split .coverlines > li { border-top-color: var(--c-line); color: var(--c-ink-2); }
 .l-cover.is-split .coverlines strong { color: var(--c-accent); }
 
+/* --- l-bento: a hero tile and 3–4 smaller tiles, fixed patterns -------- */
+.l-bento {
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-5);
+}
+
+.l-bento .bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: var(--gutter);
+  min-height: 0;
+}
+
+/* Tiles fill areas a–e in source order; the first tile is the hero. */
+.l-bento.is-a .bento { grid-template-areas: "a a a a a a b b b b b b" "a a a a a a c c c d d d"; }
+.l-bento.is-b .bento { grid-template-areas: "a a a a a a a a b b b b" "c c c c d d d d b b b b"; }
+.l-bento.is-c .bento { grid-template-areas: "b b b a a a a a a d d d" "c c c a a a a a a e e e"; }
+
+.l-bento .tile:nth-child(1) { grid-area: a; }
+.l-bento .tile:nth-child(2) { grid-area: b; }
+.l-bento .tile:nth-child(3) { grid-area: c; }
+.l-bento .tile:nth-child(4) { grid-area: d; }
+.l-bento .tile:nth-child(5) { grid-area: e; }
+
+.l-bento .tile {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: var(--sp-2);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: var(--sp-4);
+  background: var(--card-bg, var(--c-surface));
+  border: var(--card-border, 0);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--c-ink-2);
+}
+
+.l-bento .tile > h3 { font-size: var(--fs-lead); color: var(--c-ink); }
+
+.l-bento .tile:first-child { padding: var(--sp-5); font-size: var(--fs-body); }
+.l-bento .tile:first-child > h3 { font-size: var(--fs-h3); }
+
+/* In is-a and is-c the hero is two rows tall: the title goes up a step. */
+.l-bento:not(.is-b) .tile:first-child > h3 { font-size: var(--fs-h2); line-height: var(--lh-heading); }
+/* Number tile: the figure is the headline. */
+.l-bento .tile .value {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-weight: var(--fw-display);
+  font-size: var(--fs-h2);
+  line-height: 1;
+  letter-spacing: var(--tr-display);
+  color: var(--c-accent);
+}
+
+.l-bento .tile:first-child .value { font-size: var(--fs-display); }
+.l-bento .tile .value .unit { font-size: 0.45em; margin-left: 0.12em; letter-spacing: 0; }
+
+/* Image tile: the picture fills the tile, no text on top. */
+.l-bento .tile.is-image { padding: 0; }
+
+.l-bento .tile.is-image > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Quote tile. */
+.l-bento .tile blockquote { display: grid; gap: var(--sp-2); }
+
+.l-bento .tile blockquote::before {
+  content: "\201C";
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  line-height: 0.6;
+  color: var(--c-accent);
+}
+
+.l-bento .tile blockquote > p {
+  font-family: var(--f-display);
+  font-style: var(--display-style);
+  font-size: var(--fs-lead);
+  line-height: 1.2;
+  color: var(--c-ink);
+}
+
+.l-bento .tile:first-child blockquote > p { font-size: var(--fs-h3); }
+.l-bento .tile blockquote footer { font-size: var(--fs-small); color: var(--c-ink-3); }
+
+/* Chart tile (hero only): the chart takes the space under the title. */
+.l-bento .tile.is-chart { align-content: stretch; grid-template-rows: auto 1fr; }
+.l-bento .tile.is-chart > .chart { min-height: 0; }
+
+/* Accent tile: at most one per slide. */
+.l-bento .tile.is-accent {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: color-mix(in srgb, var(--c-accent-ink) 86%, transparent);
+}
+
+.l-bento .tile.is-accent :is(h3, strong, .value) { color: var(--c-accent-ink); }
+
 /* --- Free-form escape hatch ---------------------------------------------- */
 .l-free {
   display: block;
@@ -2683,7 +2792,7 @@ console.<span class="tok-f">table</span>({ dns, tcp, tls, ttfb, load });</code><
     ":scope > header > *",
     ".cards > *", ".stats > *", ".steps > *", ".timeline > *", ".people > *",
     ".agenda > *", ".points > *", ".flow > *", ".gallery > *", ".columns > *",
-    ".contact > *", ".body > *", ".takeaway > *",
+    ".contact > *", ".body > *", ".takeaway > *", ".bento > *",
   ].join(",");
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -2751,7 +2860,7 @@ console.<span class="tok-f">table</span>({ dns, tcp, tls, ttfb, load });</code><
           if (el.matches(".step, [data-morph], .notes, script, style") || el.closest("[data-morph]")) return;
           if (el.classList.contains("dl-enter")) return;
           // Containers whose children animate don't animate themselves.
-          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, header")) return;
+          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, .bento, header")) return;
           el.classList.add("dl-enter");
           el.style.setProperty("--i", String(Math.min(i++, 9)));
         });

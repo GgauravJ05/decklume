@@ -18,6 +18,10 @@ All notable changes to this project are documented here. The format follows
   width, an issue line, a cover story and 2–4 cover lines over a full-bleed
   photo; `is-split` puts the photo on the right. The showcase gains a
   take-home cover (30 slides).
+- `l-bento`: a feature grid of one hero tile and 3–4 smaller tiles (text,
+  number, image, quote, chart) in three fixed patterns (`is-a`, `is-b`,
+  `is-c`). The build warns when the tile count does not match the pattern.
+  The showcase gains a recap slide (31 slides).
 
 ## [0.1.0] — 2026-10-12
 
