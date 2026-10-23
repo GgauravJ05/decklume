@@ -47,6 +47,8 @@
       this.channel = MODE !== "embed" && "BroadcastChannel" in window ? new BroadcastChannel("decklume:" + location.pathname) : null;
 
       this.prepareSlides();
+      this.fitMastheads();
+      document.fonts?.ready.then(() => this.fitMastheads());
       this.scale = this.scale.bind(this);
       window.addEventListener("resize", this.scale);
       this.scale();
@@ -102,6 +104,21 @@
           if (el.dataset.duration) el.style.setProperty("--a-dur", `${parseInt(el.dataset.duration, 10)}ms`);
           if (type === "type") el.style.setProperty("--chars", String(Math.max(1, el.textContent.trim().length)));
         });
+      });
+    }
+
+    /* Cover mastheads span their column: scale the type to the box,
+       between half and 1.35× the theme's size. */
+    fitMastheads() {
+      this.stage.querySelectorAll(".l-cover > .masthead").forEach((el) => {
+        el.style.fontSize = "";
+        const base = parseFloat(getComputedStyle(el).fontSize);
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const text = range.getBoundingClientRect().width;
+        if (!text) return;
+        const ratio = Math.min(1.35, Math.max(0.5, (el.getBoundingClientRect().width / text) * 0.98));
+        el.style.fontSize = `${Math.floor(base * ratio)}px`;
       });
     }
 

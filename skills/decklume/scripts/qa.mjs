@@ -155,7 +155,7 @@ function inspectSlide({ index, minBody, minChrome }) {
     for (let i = layers.length - 1; i >= 0; i--) out = blend(layers[i], out);
     return out;
   };
-  if (!slide.matches(".l-bleed")) {
+  if (!slide.matches(".l-bleed, .l-cover:not(.is-split)")) {
     textEls.forEach((el) => {
       const cs = getComputedStyle(el);
       const bg = bgOf(el);

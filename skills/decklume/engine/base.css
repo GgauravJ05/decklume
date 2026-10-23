@@ -245,7 +245,7 @@
   pointer-events: none;
 }
 
-.slide:where(.l-title, .l-section, .l-bleed, .l-statement, .l-closing, .no-folio)::after {
+.slide:where(.l-title, .l-section, .l-bleed, .l-cover, .l-statement, .l-closing, .no-folio)::after {
   content: none;
 }
 

@@ -26,7 +26,7 @@ const LAYOUTS = [
   "l-title", "l-section", "l-statement", "l-quote", "l-list", "l-cards", "l-split", "l-bleed",
   "l-compare", "l-timeline", "l-steps", "l-kpi", "l-stats", "l-chart", "l-table", "l-code",
   "l-diagram", "l-people", "l-agenda", "l-define", "l-gallery", "l-closing", "l-matrix", "l-tiers",
-  "l-roadmap", "l-problem", "l-free",
+  "l-roadmap", "l-problem", "l-cover", "l-free",
 ];
 
 const TRANSITIONS = ["fade", "push", "rise", "cover", "zoom", "wipe", "iris", "blur", "flip", "morph", "none"];

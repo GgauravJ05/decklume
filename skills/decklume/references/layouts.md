@@ -378,6 +378,26 @@ At most one `is-highlight`. Good for SWOT, effort vs. impact, positioning.
 `span-N` stretches it across N phases; bars must not overlap within a lane.
 Use `l-timeline` instead for dated moments on a single line.
 
+## l-cover — magazine-cover opener
+
+```html
+<section class="slide l-cover">            <!-- is-split: photo right, type on the theme's background -->
+  <figure class="media"><img src="assets/cover.jpg" alt=""></figure>
+  <h1 class="masthead">Masthead</h1>
+  <p class="issue"><span>Issue or course</span><span>Date or edition</span></p>
+  <p class="feature">The cover story with one <em>accent</em> word</p>
+  <ul class="coverlines">
+    <li><strong>90 min</strong>One cover line, ≤ 6 words</li>
+  </ul>
+</section>
+```
+The masthead scales to fill the width: ≤ 10 characters, one word is best.
+Feature ≤ 8 words; 2–4 cover lines, each a short `strong` figure or name
+plus ≤ 6 words. The photo needs a calm area at the top and a darker foot (a
+scrim is added); use `is-split` with a portrait image when the photo is busy.
+Use it instead of `l-title` for a handout, a report or a series opener, not
+as well as it. No folio is shown.
+
 ## l-free — escape hatch
 
 `<section class="slide l-free">` is a blank canvas with no grid. Use it only
