@@ -28,10 +28,18 @@ All notable changes to this project are documented here. The format follows
   step. QA fails pins that touch and lines that cross; the build checks
   callout counts and points. The showcase gains a hypnogram slide
   (32 slides).
+- `l-chart-story`: one bar, hbar or line chart beside 2–4 story steps.
+  The chart starts plain; each step lights a category (`data-highlight`)
+  and fades the rest, and one step can pin itself to an exact value
+  (`data-point="Label"` or `"Series:Label"`) with a leader and dot. The
+  build checks the chart type, step count, indexes and labels. The
+  showcase gains a REM-per-cycle slide (33 slides).
 
 ### Fixed
 - Edit-mode saves no longer write the cover masthead's fitted size into
   the source.
+- The home page player counted 29 slides after the showcase grew; it now
+  follows the slide list.
 
 ## [0.1.0] — 2026-10-12
 

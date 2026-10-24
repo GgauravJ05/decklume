@@ -9,11 +9,11 @@ export const SITE = {
   manual: ["git clone https://github.com/GgauravJ05/decklume.git", "cp -R decklume/skills/decklume ~/.claude/skills/"],
 };
 
-/* The 32-slide showcase lecture, used for frame captions and alt text. */
+/* The 33-slide showcase lecture, used for frame captions and alt text. */
 export const SLIDES = [
   "Title — How sleep shapes memory", "Agenda — four questions", "Section — why do we forget?",
   "Definition — consolidation", "Quote — Jenkins & Dallenbach", "Section — what happens while we sleep?",
-  "Steps — the four sleep stages", "Chart — half the night is stage N2", "Annotated — reading a hypnogram", "Diagram — the two-stage model",
+  "Steps — the four sleep stages", "Chart — half the night is stage N2", "Annotated — reading a hypnogram", "Chart story — REM across the night", "Diagram — the two-stage model",
   "Split — the brain rehearses the day", "Section — what is the evidence?", "Timeline — a century of findings",
   "Compare — all-nighter vs. a full night", "Big number — 1 in 3 adults", "Stats — sleep by the numbers",
   "Table — what each stage contributes", "Section — what should students do?", "Problem — late review fades",
@@ -25,14 +25,14 @@ export const SLIDES = [
 
 /* Hero contact sheet: [theme, slide] in reading order. Slide 1 of Folio is the keeper. */
 export const HERO_FRAMES = [
-  ["nocturne", 7], ["grid", 16], ["campus", 8], ["atlas", 17], ["aurora", 15], ["volt", 25],
-  ["ma", 26], ["bloom", 24], ["folio", 1], ["chalk", 10],
-  ["grid", 3], ["nocturne", 29], ["campus", 13], ["bloom", 27],
+  ["nocturne", 7], ["grid", 17], ["campus", 8], ["atlas", 18], ["aurora", 16], ["volt", 26],
+  ["ma", 27], ["bloom", 25], ["folio", 1], ["chalk", 11],
+  ["grid", 3], ["nocturne", 30], ["campus", 14], ["bloom", 28],
 ];
 export const KEEPER_INDEX = 8;
 
 export const SWITCH_SLIDES = [
-  [1, "Title"], [7, "Process"], [8, "Chart"], [14, "Compare"], [16, "Numbers"], [24, "Cards"],
+  [1, "Title"], [7, "Process"], [8, "Chart"], [15, "Compare"], [17, "Numbers"], [25, "Cards"],
 ];
 
 export const AUDIENCES = {
@@ -105,7 +105,7 @@ export const AUDIENCES = {
       ["Assertion headlines", "Results slides lead with the finding itself, such as \"Recall improves after a night of sleep\", rather than a label like \"Results\"."],
       ["Charts from your numbers", "Bar, line and donut charts drawn from data attributes, highlighting the value your claim is about."],
       ["Numbered exhibits", "The Atlas theme numbers every chart and table automatically, as in a report."],
-      ["Handouts that stay small", "Vector PDFs keep text selectable; the 32-slide example lecture exports to 1.1 MB."],
+      ["Handouts that stay small", "Vector PDFs keep text selectable; the 33-slide example lecture exports to 1.1 MB."],
     ],
     faq: [
       ["Can I use my own data for charts?", "Yes. Charts are declared with your labels and values and drawn as SVG in the theme's colours. Claude never invents data for them."],
@@ -154,9 +154,9 @@ export const FAQ_HOME = [
 /* Example decks published on the site (built from examples/<slug>/<slug>.deck.html). */
 export const EXAMPLES = [
   {
-    slug: "sleep-and-memory", title: "How Sleep Shapes Memory", theme: "folio", audience: "students", slides: 32, frames: [1, 8, 16],
+    slug: "sleep-and-memory", title: "How Sleep Shapes Memory", theme: "folio", audience: "students", slides: 33, frames: [1, 8, 17],
     kind: "University lecture",
-    summary: "A 20-minute psychology lecture using all 29 layouts: definitions, a timeline, charts, builds, Magic Move and speaker notes.",
+    summary: "A 20-minute psychology lecture using all 30 layouts: definitions, a timeline, charts, builds, Magic Move and speaker notes.",
     motion: "Fade transitions, staggered entrances, step builds with dimming, a Magic Move between two slides.",
   },
   {

@@ -38,13 +38,13 @@ export function home(themes) {
         <div class="strip s4">${[6, 7, 8, 9].map((i) => fr(i)).join("")}</div>
         <div class="strip s4">${[10, 11, 12, 13].map((i) => fr(i)).join("")}</div>
       </div>
-      <div class="print" id="play" data-player data-theme="folio" data-total="29">
+      <div class="print" id="play" data-player data-theme="folio" data-total="${SLIDES.length}">
         <div class="screen">
           <img class="poster" src="${frameSrc(root, "folio", 1, 1280)}" alt="Folio theme title slide: How sleep shapes memory" width="1280" height="720" fetchpriority="high">
         </div>
         <div class="controls">
           <button type="button" data-act="prev" aria-label="Previous slide">${icon("prev")}</button>
-          <span class="count" aria-live="polite"><b data-count>01</b> / 29</span>
+          <span class="count" aria-live="polite"><b data-count>01</b> / ${SLIDES.length}</span>
           <button type="button" data-act="next" aria-label="Next slide">${icon("next")}</button>
           <span class="print-label">How sleep shapes memory · Folio</span>
           <a class="full" href="demos/folio.html" aria-label="Open the demo deck full screen">${icon("expand")}</a>
@@ -59,7 +59,7 @@ export function home(themes) {
 <section class="band switcher" id="looks" aria-labelledby="looks-h">
   <div class="band-head">
     <h2 id="looks-h">One deck. Thirteen looks.</h2>
-    <p>The same 32-slide lecture, rebuilt in every theme. Choose a look and a slide: this is the real deck running live, not a screenshot.</p>
+    <p>The same 33-slide lecture, rebuilt in every theme. Choose a look and a slide: this is the real deck running live, not a screenshot.</p>
   </div>
   <div class="switch" data-switcher>
     <div class="viewer">
@@ -89,8 +89,8 @@ export function home(themes) {
     ["01", "l-title", "How sleep shapes memory"],
     ["07", "l-steps", "The night runs in repeating cycles"],
     ["08", "l-chart", "Half the night is stage N2"],
-    ["15", "l-kpi", "1 in 3 US adults sleep under seven hours"],
-    ["26", "l-statement", "The best study session ends with going to bed"],
+    ["16", "l-kpi", "1 in 3 US adults sleep under seven hours"],
+    ["27", "l-statement", "The best study session ends with going to bed"],
   ];
   const story = `
 <section class="band story" id="how" aria-labelledby="how-h">
@@ -103,22 +103,22 @@ export function home(themes) {
       <div class="stage-frame">
         <div class="stage" data-stage="1">
           <p class="term"><span class="prompt">&gt;</span> <span class="typed" data-type="Make a 15-minute lecture on how sleep shapes memory for first-year psychology students.">Make a 15-minute lecture on how sleep shapes memory for first-year psychology students.</span></p>
-          <ul class="answers"><li>Lecture</li><li>Speaker-led</li><li>~32 slides</li><li>No images</li></ul>
+          <ul class="answers"><li>Lecture</li><li>Speaker-led</li><li>~33 slides</li><li>No images</li></ul>
         </div>
         <div class="stage" data-stage="2">
           <table class="outline"><thead><tr><th>#</th><th>Layout</th><th>Headline</th></tr></thead><tbody>${outline.map(([n, l, h]) => `<tr><td>${n}</td><td>${l}</td><td>${h}</td></tr>`).join("")}</tbody></table>
           <p class="approve">${icon("check")} Outline approved</p>
         </div>
         <div class="stage" data-stage="3">
-          <div class="abc">${["folio", "nocturne", "grid"].map((t, i) => `<figure class="${i === 0 ? "keeper" : ""}">${i === 0 ? greaseCircle("g-circle") : ""}<img src="${frameSrc(root, t, 16)}" alt="" width="640" height="360" loading="lazy"><figcaption>${"ABC"[i]} · ${byslug[t].name}</figcaption></figure>`).join("")}</div>
+          <div class="abc">${["folio", "nocturne", "grid"].map((t, i) => `<figure class="${i === 0 ? "keeper" : ""}">${i === 0 ? greaseCircle("g-circle") : ""}<img src="${frameSrc(root, t, 17)}" alt="" width="640" height="360" loading="lazy"><figcaption>${"ABC"[i]} · ${byslug[t].name}</figcaption></figure>`).join("")}</div>
         </div>
         <div class="stage" data-stage="4">
           <div class="qa-mini">${SLIDES.map((_, i) => `<span style="--i:${i}"><img src="${frameSrc(root, "folio", i + 1)}" alt="" width="640" height="360" loading="lazy"></span>`).join("")}</div>
-          <p class="term pass">${icon("check")} QA passed · 32 slides · 0 errors</p>
+          <p class="term pass">${icon("check")} QA passed · 33 slides · 0 errors</p>
         </div>
         <div class="stage" data-stage="5">
-          <figure class="deliver"><img src="${frameSrc(root, "folio", 32)}" alt="" width="640" height="360" loading="lazy"></figure>
-          <ul class="outputs"><li>sleep-and-memory.html <em>one file</em></li><li>sleep-and-memory.pdf <em>1.1 MB, vector</em></li><li>slides/01–32.png</li><li>a live link</li></ul>
+          <figure class="deliver"><img src="${frameSrc(root, "folio", 33)}" alt="" width="640" height="360" loading="lazy"></figure>
+          <ul class="outputs"><li>sleep-and-memory.html <em>one file</em></li><li>sleep-and-memory.pdf <em>1.1 MB, vector</em></li><li>slides/01–33.png</li><li>a live link</li></ul>
         </div>
       </div>
     </div>
@@ -201,7 +201,7 @@ export function home(themes) {
 </section>`;
 
   /* --- 6. Made for -------------------------------------------------------- */
-  const auds = [["students", "campus", 7], ["teachers", "chalk", 4], ["researchers", "atlas", 8], ["founders", "aurora", 15]];
+  const auds = [["students", "campus", 7], ["teachers", "chalk", 4], ["researchers", "atlas", 8], ["founders", "aurora", 16]];
   const made = `
 <section class="band made" aria-labelledby="made-h">
   <div class="band-head"><h2 id="made-h">Made for whoever is presenting next.</h2></div>
@@ -222,7 +222,7 @@ export function home(themes) {
       <tr><th scope="row">Verification</th><td>Advice to check screenshots</td><td>Automated QA gate with a contact sheet, run in CI</td></tr>
       <tr><th scope="row">Motion</th><td>Entrance animations</td><td>Entrances, step builds and Magic Move</td></tr>
       <tr><th scope="row">Presenting</th><td>Speaker notes via host</td><td>Presenter window with notes, timer and next slide</td></tr>
-      <tr><th scope="row">PDF</th><td>Screenshots, about 20 MB for 18 slides</td><td>Vector with selectable text, 1.1 MB for 32 slides</td></tr>
+      <tr><th scope="row">PDF</th><td>Screenshots, about 20 MB for 18 slides</td><td>Vector with selectable text, 1.1 MB for 33 slides</td></tr>
     </tbody>
   </table>
   <a class="more" href="compare/frontend-slides/">Read the full comparison ${icon("arrow")}</a>
