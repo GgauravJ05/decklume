@@ -100,6 +100,25 @@ test("build checks l-annotated callout counts and points", () => {
   assert.ok(warnings.includes("slide 3: l-annotated takes 3–6 callouts, found 1"));
 });
 
+test("build checks l-chart-story charts, steps and points", () => {
+  const dir = tmp();
+  const src = join(dir, "s.deck.html");
+  const fig = (type) => `<figure class="chart" data-type="${type}" data-labels="A,B,C" data-series="X:1,2,3;Y:3,2,1"></figure>`;
+  writeFileSync(src, deck("title: S", [
+    `<section class="slide l-chart-story">${fig("line")}<ol class="story"><li>Context</li><li class="step" data-highlight="2">C</li><li class="step" data-point="Y:B">B</li></ol></section>`,
+    `<section class="slide l-chart-story">${fig("donut")}<ol class="story"><li>Only one</li></ol></section>`,
+    `<section class="slide l-chart-story">${fig("bar")}<ol class="story"><li data-highlight="3">x</li><li data-point="D">y</li><li data-point="Z:A">z</li></ol></section>`,
+  ].join("\n")));
+  const { warnings } = build(src);
+  assert.ok(!warnings.some((w) => w.startsWith("slide 1:")), "a valid line story passes");
+  assert.ok(warnings.includes('slide 2: l-chart-story needs a bar, hbar or line chart, not "donut"'));
+  assert.ok(warnings.includes("slide 2: l-chart-story takes 2–4 story steps, found 1"));
+  assert.ok(warnings.includes("slide 3: l-chart-story pins at most one data-point note"));
+  assert.ok(warnings.includes("slide 3: story step 1 highlights index 3, but the chart has 3 labels"));
+  assert.ok(warnings.includes('slide 3: story step 2 points at "D", which is not a value in the chart'));
+  assert.ok(warnings.includes('slide 3: story step 3 points at "Z:A", which is not a value in the chart'));
+});
+
 test("--inline-assets embeds local images as data URIs", () => {
   const dir = tmp();
   writeFileSync(join(dir, "dot.svg"), '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>');

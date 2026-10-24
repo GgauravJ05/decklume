@@ -26,7 +26,7 @@ const LAYOUTS = [
   "l-title", "l-section", "l-statement", "l-quote", "l-list", "l-cards", "l-split", "l-bleed",
   "l-compare", "l-timeline", "l-steps", "l-kpi", "l-stats", "l-chart", "l-table", "l-code",
   "l-diagram", "l-people", "l-agenda", "l-define", "l-gallery", "l-closing", "l-matrix", "l-tiers",
-  "l-roadmap", "l-problem", "l-cover", "l-bento", "l-annotated", "l-free",
+  "l-roadmap", "l-problem", "l-cover", "l-bento", "l-annotated", "l-chart-story", "l-free",
 ];
 
 // l-bento patterns and the number of tiles each one places.
@@ -127,6 +127,27 @@ function lint(body, baseDir, warnings) {
       const tiles = (inner.match(/class=("|')[^"']*\btile\b/g) || []).length;
       if (!pattern) warnings.push(`slide ${slideCount}: l-bento needs a pattern class (${Object.keys(BENTO).join(", ")})`);
       else if (tiles !== BENTO[pattern]) warnings.push(`slide ${slideCount}: l-bento ${pattern} takes ${BENTO[pattern]} tiles, found ${tiles}`);
+    }
+    if (layouts.includes("l-chart-story")) {
+      const end = body.indexOf("</section>", s.index);
+      const inner = body.slice(s.index, end < 0 ? undefined : end);
+      const attr = (tag, name) => (tag.match(new RegExp(`\\s${name}=("|')([^"']*)\\1`)) || [])[2];
+      const fig = (inner.match(/<figure\b[^>]*\bchart\b[^>]*>/) || [])[0] || "";
+      const type = attr(fig, "data-type") || "bar";
+      const labels = (attr(fig, "data-labels") || "").split(",").map((t) => t.trim()).filter(Boolean);
+      const names = (attr(fig, "data-series") || "").split(";").map((c) => c.split(":")[0].trim());
+      const items = inner.match(/<li\b[^>]*>/g) || [];
+      if (!["bar", "hbar", "line"].includes(type)) warnings.push(`slide ${slideCount}: l-chart-story needs a bar, hbar or line chart, not "${type}"`);
+      if (items.length < 2 || items.length > 4) warnings.push(`slide ${slideCount}: l-chart-story takes 2–4 story steps, found ${items.length}`);
+      if (items.filter((li) => attr(li, "data-point")).length > 1) warnings.push(`slide ${slideCount}: l-chart-story pins at most one data-point note`);
+      items.forEach((li, k) => {
+        const hl = attr(li, "data-highlight");
+        if (hl !== undefined && !(Number.isInteger(+hl) && +hl >= 0 && +hl < labels.length)) warnings.push(`slide ${slideCount}: story step ${k + 1} highlights index ${hl}, but the chart has ${labels.length} labels`);
+        const pt = attr(li, "data-point");
+        if (pt === undefined) return;
+        const [name, label] = pt.includes(":") ? pt.split(":").map((t) => t.trim()) : [null, pt.trim()];
+        if (!labels.includes(label) || (name !== null && !names.includes(name))) warnings.push(`slide ${slideCount}: story step ${k + 1} points at "${pt}", which is not a value in the chart`);
+      });
     }
     if (layouts.includes("l-annotated")) {
       const end = body.indexOf("</section>", s.index);

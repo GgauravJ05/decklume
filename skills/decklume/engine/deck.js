@@ -22,7 +22,7 @@
     ":scope > header > *",
     ".cards > *", ".stats > *", ".steps > *", ".timeline > *", ".people > *",
     ".agenda > *", ".points > *", ".flow > *", ".gallery > *", ".columns > *",
-    ".contact > *", ".body > *", ".takeaway > *", ".bento > *",
+    ".contact > *", ".body > *", ".takeaway > *", ".bento > *", ".story > *",
   ].join(",");
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -94,7 +94,7 @@
           if (el.matches(".step, [data-morph], .notes, script, style") || el.closest("[data-morph]")) return;
           if (el.classList.contains("dl-enter")) return;
           // Containers whose children animate don't animate themselves.
-          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, .bento, header")) return;
+          if (el.matches(".cards, .stats, .steps, .timeline, .people, .agenda, .points, .flow, .gallery, .columns, .contact, .body, .takeaway, .bento, .story, header")) return;
           el.classList.add("dl-enter");
           el.style.setProperty("--i", String(Math.min(i++, 9)));
         });
@@ -740,11 +740,12 @@
       if (!el.getAttribute("style")) el.removeAttribute("style");
       if (!el.classList.length) el.removeAttribute("class");
     });
-    // Positions the runtime computes (cover mastheads, callout labels).
-    clone.querySelectorAll(".l-cover > .masthead, .l-annotated .callouts > li").forEach((el) => {
-      el.style.removeProperty("--dl-fit");
-      el.style.removeProperty("--dl-y");
+    // Positions the runtime computes (cover mastheads, callout labels, chart notes).
+    clone.querySelectorAll(".l-cover > .masthead, .l-annotated .callouts > li, .l-chart-story .story > li").forEach((el) => {
+      ["--dl-fit", "--dl-x", "--dl-y"].forEach((v) => el.style.removeProperty(v));
+      el.classList.remove("is-left", "is-below");
       if (!el.getAttribute("style")) el.removeAttribute("style");
+      if (!el.classList.length) el.removeAttribute("class");
     });
     clone.querySelectorAll("[contenteditable]").forEach((el) => el.removeAttribute("contenteditable"));
     clone.querySelectorAll("[data-morph]").forEach((el) => { el.style.viewTransitionName = ""; if (!el.getAttribute("style")) el.removeAttribute("style"); });

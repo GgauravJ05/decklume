@@ -454,6 +454,32 @@ draws in. QA fails pins closer than 48px or lines that cross.
 width and height (PNG, JPG, or SVG with `width`/`height`); a landscape
 picture works best. Use `l-split` instead for an image with one message.
 
+## l-chart-story — a chart that builds its point step by step
+
+```html
+<section class="slide l-chart-story" data-dim>
+  <header><p class="eyebrow">Label</p><h2>Headline</h2></header>
+  <figure class="chart" data-type="bar" data-labels="Q1,Q2,Q3,Q4"
+          data-series="Revenue:12,15,14,22" aria-label="…"></figure>
+  <ol class="story">
+    <li>The context: what the chart shows.</li>
+    <li class="step" data-highlight="3">Lights Q4 (index from 0).</li>
+    <li class="step" data-point="Q4">≤ 8 words, pinned beside Q4.</li>
+  </ol>
+</section>
+```
+The chart starts plain; each shown step lights the values it names and
+fades the rest. `data-highlight="i"` lights category `i` (0-based).
+`data-point="Label"` lights that value and pins the step itself on the
+chart beside it, with a leader and dot; on a line chart with several
+series write `"Series:Label"`. The note sits above the value, flips left
+past the chart's middle and below when the top edge is near.
+
+Bar, hbar or line only (a donut has no single point to pin). 2–4 items,
+the first one plain context; at most one `data-point`, notes ≤ 8 words.
+The build warns about indexes and labels that are not in the chart. Use
+`l-chart` instead when the chart makes one point at once.
+
 ## l-free — escape hatch
 
 `<section class="slide l-free">` is a blank canvas with no grid. Use it only
