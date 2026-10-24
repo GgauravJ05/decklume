@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-10-24
+
+Eight new layouts (30 in total) and three new themes (13 in total). The
+showcase lecture grows to 33 slides and passes QA in every theme.
+
 ### Added
 - Four layouts: `l-matrix` (2×2 quadrant on named axes), `l-tiers` (2–4
   plans with one recommended), `l-roadmap` (lanes across phases, bars placed

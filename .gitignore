@@ -23,3 +23,6 @@ brag-output*/
 
 # Local design-tool state (Impeccable)
 .impeccable/
+
+# Launch drafts and planning notes (kept local)
+launch/

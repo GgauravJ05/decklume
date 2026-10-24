@@ -149,7 +149,7 @@ export const softwareLd = {
   description: "An open-source Claude Code skill that turns a topic, notes or a PowerPoint file into a designed, animated HTML presentation with presenter view, PDF export and automated design QA.",
   url: SITE.base,
   downloadUrl: SITE.repo,
-  softwareVersion: "0.1.0",
+  softwareVersion: "0.2.0",
   license: "https://opensource.org/licenses/MIT",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

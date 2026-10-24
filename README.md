@@ -17,12 +17,27 @@ Story-first outlines · your slides in three styles side by side · 13 designer 
 
 </div>
 
+## Quick start
+
+Inside [Claude Code](https://claude.com/claude-code), run these one at a time:
+
+```text
+/plugin marketplace add https://github.com/GgauravJ05/decklume
+```
+
+```text
+/plugin install decklume@decklume
+```
+
+Then ask: *"Make a 10-minute talk on how vaccines train the immune system."*
+Needs Node.js 18+. Other ways to install are under [Install](#install).
+
 ---
 
 Most AI-made slides look the same: a heading, three bullets, a purple gradient.
 **Decklume** is a [Claude Code](https://claude.com/claude-code) skill that gives
 Claude a real design system instead of adjectives. It has a fixed 16:9 canvas, a
-modular type scale, a 12-column grid, 26 tested slide layouts and thirteen complete
+modular type scale, a 12-column grid, 30 tested slide layouts and thirteen complete
 themes. A **QA gate** renders every slide in a real browser and fails the deck on
 overflow, overlap, low contrast or tiny text before you ever see it.
 
@@ -40,6 +55,7 @@ and conference talks.
 
 ## Contents
 
+- [Quick start](#quick-start)
 - [What you get](#what-you-get)
 - [Example decks](#example-decks)
 - [Animations and transitions](#animations-and-transitions)
@@ -303,7 +319,7 @@ platform that needs a file.
 
 ## Roadmap
 
-Decklume 0.1.0 is the first public release, and **more features are on the way**.
+Decklume 0.2.0 is the latest release, and **more features are on the way**.
 These are on the list now (directions, not dated promises):
 
 - **PowerPoint export**: a `.pptx` with your speaker notes, for when you have to hand in a PowerPoint file.
