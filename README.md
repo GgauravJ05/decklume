@@ -11,7 +11,7 @@ Story-first outlines · your slides in three styles side by side · 13 designer 
 [![Themes](https://img.shields.io/badge/themes-13-b83a22.svg)](#themes)
 [![Zero dependencies](https://img.shields.io/badge/output-single%20HTML%20file-3d5a4c.svg)](#what-you-get)
 
-[**Live demos**](https://ggauravj05.github.io/decklume/) · [Install](#install) · [Themes](#themes) · [How it works](#how-it-works) · [FAQ](#faq)
+[**Live demos**](https://ggauravj05.github.io/decklume/) · [Install](#install) · [Themes](#themes) · [How it works](#how-it-works) · [FAQ](#faq) · [Why I built it](https://medium.com/@ggauravj5/designed-not-generated-why-i-built-decklume-c66c3440f1f7)
 
 <img src="docs/media/decklume-demo.gif" alt="A Decklume engineering talk playing: a typed title, push and wipe transitions, a TCP handshake diagram drawing itself, highlight builds and a code walkthrough" width="100%">
 
@@ -49,6 +49,9 @@ and conference talks.
 >
 > The result is [this 33-slide deck](https://ggauravj05.github.io/decklume/demos/folio.html):
 > press → to step through it, `P` for the presenter view, `O` for the overview.
+
+**The story behind it:** [Designed, Not Generated: Why I Built Decklume](https://medium.com/@ggauravj5/designed-not-generated-why-i-built-decklume-c66c3440f1f7)
+(also on [DEV](https://dev.to/ggauravj05/designed-not-generated-why-i-built-decklume-4f6a)).
 
 > [!NOTE]
 > Decklume is actively developed and **more features are coming soon**. See the [roadmap](#roadmap), and tell us what you'd like next.
