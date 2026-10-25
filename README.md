@@ -70,6 +70,7 @@ and conference talks.
 - [Command-line tools](#command-line-tools)
 - [Decklume vs. other slide skills](#decklume-vs-other-slide-skills)
 - [FAQ](#faq)
+- [Troubleshooting](#troubleshooting)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 
@@ -319,6 +320,28 @@ flags placeholder text.
 **PowerPoint or Google Slides output?** Decklume's native format is HTML (it's
 what makes Magic Move and the presenter view possible). Export to PDF for any
 platform that needs a file.
+
+## Troubleshooting
+
+**Playwright or Chromium won't download.** QA, previews or export stop at
+"Installing Playwright" or "Downloading Chromium". The one-time install
+(about 150 MB, into `~/.cache/decklume`) needs network access and free disk space.
+Behind a proxy, set `HTTPS_PROXY`; with little space, set `DECKLUME_CACHE` to another
+folder. Then delete the half-finished cache folder and run the command again.
+
+**QA failed.** `qa.mjs` exits with `✗ FAILED` and lists one line per problem.
+Each line gives the slide number, the rule (`[overflow]`, `[contrast]`, `[font]`…)
+and where on the slide it is. Screenshots, `report.json` and the contact sheet
+(`contact-sheet.png`) are saved next to the deck in `<deck>.qa/`; failing slides are outlined in red.
+
+**Fonts look wrong when presenting offline.** Slides fall back to system fonts
+because web fonts load from Google Fonts. Open the deck once while online so the
+browser caches them, and present from that same browser.
+
+**`/plugin install` can't find decklume.** The install says the plugin wasn't
+found because the marketplace isn't registered yet. Run
+`/plugin marketplace add https://github.com/GgauravJ05/decklume` first, then
+`/plugin install decklume@decklume`.
 
 ## Roadmap
 
