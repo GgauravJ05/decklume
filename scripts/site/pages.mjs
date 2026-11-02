@@ -34,7 +34,7 @@ export function themesIndex(themes) {
     root,
     path: "themes/",
     title: `${FACTS.themes} Free Presentation Themes for Claude Code`,
-    description: "Browse Decklume's thirteen free presentation themes: editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful, chalkboard, blueprint, newspaper and clinical. Every theme covers all 26 slide layouts.",
+    description: `Browse Decklume's thirteen free presentation themes: editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful, chalkboard, blueprint, newspaper and clinical. Every theme covers all ${FACTS.layouts} slide layouts.`,
     current: "themes/",
     jsonld: [
       breadcrumbs([["Decklume", ""], ["Themes", "themes/"]]),

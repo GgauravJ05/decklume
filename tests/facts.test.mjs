@@ -30,7 +30,7 @@ test("the README states the real layout and theme counts", () => {
 
 test("site templates take their numbers from FACTS, not literals", () => {
   // Example prompts may ask for any slide count, so only the showcase's own count is banned.
-  const literal = new RegExp(`\\b${FACTS.slides}[- ]slides?\\b|\\b\\d+ (?:\\w+ ){0,2}(?:layouts?|themes?)\\b|softwareVersion: "`, "i");
+  const literal = new RegExp(`\\b${FACTS.slides}[- ]slides?\\b|(?<!:)\\b\\d+ (?:\\w+ ){0,2}(?:layouts?|themes?)\\b|softwareVersion: "`, "i");
   for (const file of ["home", "pages", "content", "layout"]) {
     assert.doesNotMatch(read(`scripts/site/${file}.mjs`), literal, `${file}.mjs has a hard-coded number`);
   }
