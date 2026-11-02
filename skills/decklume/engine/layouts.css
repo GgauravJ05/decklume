@@ -155,8 +155,13 @@
   grid-auto-columns: 1fr;
   gap: var(--gutter);
   align-items: stretch;
-  align-self: end;
+  align-self: stretch;
 }
+
+.l-cards .card { grid-template-rows: 1fr auto auto; }
+.l-cards .card:not(:has(> .card-index)) { grid-template-rows: auto auto; align-content: end; }
+.l-cards .card > .card-index { font-family: var(--f-display); font-style: var(--display-style); font-size: var(--fs-h1); line-height: 1; }
+.l-cards .card > h3 { font-size: var(--fs-h3); line-height: 1.1; }
 
 .slide .card {
   display: grid;
