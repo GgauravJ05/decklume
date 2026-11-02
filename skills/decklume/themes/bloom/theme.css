@@ -107,3 +107,5 @@
 @media print {
   .slide .cards > .card { transform: none; }
 }
+
+.l-title > :is(h1, .display) { font-size: 164px; }
