@@ -516,11 +516,11 @@
 .l-chart > header { grid-column: 1 / -1; }
 .l-chart > .chart { grid-column: 1 / span 8; min-height: 0; }
 .l-chart > .takeaway {
-  grid-column: 10 / -1;
+  grid-column: 9 / -1;
   align-self: center;
   display: grid;
-  gap: var(--sp-3);
-  font-size: var(--fs-small);
+  gap: var(--sp-4);
+  font-size: var(--fs-body);
   color: var(--c-ink-2);
 }
 .l-chart > .takeaway > :first-child { font-size: var(--fs-lead); line-height: 1.25; color: var(--c-ink); font-family: var(--f-display); font-style: var(--display-style); }
