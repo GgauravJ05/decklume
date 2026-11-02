@@ -312,7 +312,7 @@
 
 .l-compare .col.is-highlight { border-top-color: var(--c-accent); }
 .l-compare .col > h3 { font-size: var(--fs-h3); }
-.l-compare .col .points { gap: var(--sp-3); font-size: var(--fs-body); }
+.l-compare .col .points { gap: var(--sp-4); font-size: 36px; }
 
 /* --- l-timeline: horizontal, 3–6 stops ---------------------------------- */
 .l-timeline {
