@@ -343,16 +343,17 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 154px;
+  top: 178px;
   height: var(--rule);
   background: var(--c-line);
 }
 
 .l-timeline .timeline > li {
   display: grid;
-  grid-template-rows: 112px 36px auto auto;
-  gap: var(--sp-3);
-  font-size: var(--fs-body);
+  grid-template-rows: 128px 36px auto auto;
+  gap: var(--sp-4);
+  font-size: 34px;
+  line-height: 1.35;
   color: var(--c-ink-2);
   position: relative;
 }
@@ -360,7 +361,7 @@
 .l-timeline .when {
   font-family: var(--f-display);
   font-style: var(--display-style);
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h1);
   line-height: 1;
   color: var(--c-ink);
   align-self: end;
