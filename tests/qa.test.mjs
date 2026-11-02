@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -47,4 +47,15 @@ test("counts a filled panel as occupied space", async () => {
 test("does not count the slide's own background as occupied", async () => {
   const report = await runQa(`<section class="slide l-free" style="background:#eee"><div class="bg" style="position:absolute;inset:0;background:#ddd"></div>${at("h2", 90, "Headline")}${at("p", 860, "Far below")}</section>`);
   assert.equal(deadSpace(report).length, 1);
+});
+
+test("draws the contact sheet when --out is outside the deck's folder", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "decklume-qa-"));
+  const src = join(dir, "t.deck.html");
+  writeFileSync(src, `---\ntitle: "T"\ntheme: folio\n---\n<section class="slide l-title"><h1>Headline</h1></section>`);
+  const { out } = build(src);
+  const qaOut = mkdtempSync(join(tmpdir(), "decklume-qa-out-"));
+  await new Promise((resolve) => execFile("node", [QA, out, "--out", qaOut], { maxBuffer: 1 << 24 }, resolve));
+  const blankSheetBytes = 20_000;
+  assert.ok(statSync(join(qaOut, "contact-sheet.png")).size > blankSheetBytes, "contact sheet is blank");
 });

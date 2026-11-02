@@ -223,7 +223,8 @@ function inspectSlide({ index, minBody, minChrome }) {
     const panels = [...slide.querySelectorAll("*")].filter((el) => {
       if (el.closest("svg") || !visible(el) || rect(el).h > MAX_PANEL_HEIGHT) return false;
       const fill = getComputedStyle(el).backgroundColor;
-      return fill !== "transparent" && !/\/ 0\)$|, 0\)$/.test(fill);
+      const marker = getComputedStyle(el, "::before").content;
+      return (fill !== "transparent" && !/\/ 0\)$|, 0\)$/.test(fill)) || /counter\(/.test(marker);
     });
     const bands = [...textEls, ...media, ...panels]
       .filter((el) => !el.closest(".notes, .bg, .folio, .source"))
@@ -343,8 +344,11 @@ try {
       figcaption{padding-top:6px}</style><div class="g">${tiles}</div>`;
     writeFileSync(join(outDir, "contact-sheet.html"), sheet);
     const sp = await browser.newPage({ viewport: { width: 1920, height: 800 } });
-    await sp.goto(server.url(relative(dirname(deck), join(outDir, "contact-sheet.html"))), { waitUntil: "load" });
+    // Served from outDir: --out may sit outside the deck's folder.
+    const sheetServer = await serve(outDir);
+    await sp.goto(sheetServer.url("contact-sheet.html"), { waitUntil: "load" });
     await sp.screenshot({ path: join(outDir, "contact-sheet.png"), fullPage: true });
+    await sheetServer.close();
   }
 
   /* --- Report --------------------------------------------------------- */
