@@ -11,7 +11,7 @@
    Errors (exit 1): overflow, overlap, text too small, low contrast,
                     web font failed, leaked internal text.
    Warnings:        slop patterns, crowded slides, missing alt text,
-                    long headlines, empty slides.
+                    long headlines, empty slides, dead space.
    ===================================================================== */
 import { mkdirSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { dirname, basename, resolve, join, relative } from "node:path";
@@ -210,10 +210,29 @@ function inspectSlide({ index, minBody, minChrome }) {
     if (m) add("error", "leak", `internal or placeholder text on slide: "${m[0]}"`);
   });
 
-  // 6. Warnings: crowding, alt text, headline length, emptiness, emoji icons.
+  // 6. Warnings: crowding, dead space, alt text, headline length, emptiness, emoji icons.
+  const MAX_EMPTY_BAND = 194; // 18% of the stage height
+  const BOTTOM_MARGIN = 72;
+  const SPARSE_LAYOUTS = ".l-title, .l-section, .l-statement, .l-cover, .l-bleed, .l-closing, .l-quote, .l-kpi";
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   if (words > 120) add("warn", "crowded", `${words} words on one slide — consider splitting`);
   if (words === 0 && !slide.querySelector("img, svg, video")) add("warn", "empty", "slide has no visible content");
+  if (!slide.matches(SPARSE_LAYOUTS)) {
+    const media = [...slide.querySelectorAll("img, svg, video, canvas")].filter((el) => !el.parentElement.closest("svg") && visible(el));
+    const bands = [...textEls, ...media]
+      .filter((el) => !el.closest(".notes, .bg, .folio, .source"))
+      .map(rect)
+      .sort((a, b) => a.t - b.t);
+    let reach = bands[0]?.b ?? 0;
+    let widest = { size: 0, from: 0, to: 0 };
+    for (const band of [...bands, { t: 1080 - BOTTOM_MARGIN, b: 1080 }]) {
+      if (band.t - reach > widest.size) widest = { size: band.t - reach, from: reach, to: band.t };
+      reach = Math.max(reach, band.b);
+    }
+    if (bands.length && widest.size > MAX_EMPTY_BAND) {
+      add("warn", "dead-space", `${Math.round(widest.size)}px empty band from y=${Math.round(widest.from)} to y=${Math.round(widest.to)}`);
+    }
+  }
   slide.querySelectorAll("img").forEach((img) => {
     if (!img.hasAttribute("alt")) add("warn", "alt", `image without alt attribute: ${img.getAttribute("src")?.slice(0, 40)}`);
     if (img.complete && img.naturalWidth === 0) add("error", "image", `image failed to load: ${img.getAttribute("src")?.slice(0, 60)}`);
