@@ -37,3 +37,14 @@ test("exempts layouts that are meant to be sparse", async () => {
   const report = await runQa(`<section class="slide l-statement">${at("h2", 90, "Headline")}${at("p", 860, "Far below")}</section>`);
   assert.deepEqual(deadSpace(report), []);
 });
+
+test("counts a filled panel as occupied space", async () => {
+  const panel = `<div style="position:absolute;left:120px;right:120px;top:300px;height:640px;background:#333"><p style="margin:0;color:#fff">Label</p></div>`;
+  const report = await runQa(`<section class="slide l-free">${at("h2", 90, "Headline")}${panel}</section>`);
+  assert.deepEqual(deadSpace(report), []);
+});
+
+test("does not count the slide's own background as occupied", async () => {
+  const report = await runQa(`<section class="slide l-free" style="background:#eee"><div class="bg" style="position:absolute;inset:0;background:#ddd"></div>${at("h2", 90, "Headline")}${at("p", 860, "Far below")}</section>`);
+  assert.equal(deadSpace(report).length, 1);
+});

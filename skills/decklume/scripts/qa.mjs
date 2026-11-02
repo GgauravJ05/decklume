@@ -213,13 +213,19 @@ function inspectSlide({ index, minBody, minChrome }) {
   // 6. Warnings: crowding, dead space, alt text, headline length, emptiness, emoji icons.
   const MAX_EMPTY_BAND = 194; // 18% of the stage height
   const BOTTOM_MARGIN = 72;
-  const SPARSE_LAYOUTS = ".l-title, .l-section, .l-statement, .l-cover, .l-bleed, .l-closing, .l-quote, .l-kpi";
+  const MAX_PANEL_HEIGHT = 900; // taller boxes are slide backgrounds, not panels
+  const SPARSE_LAYOUTS = ".l-title, .l-section, .l-statement, .l-cover, .l-bleed, .l-closing, .l-quote, .l-kpi, .l-define";
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   if (words > 120) add("warn", "crowded", `${words} words on one slide — consider splitting`);
   if (words === 0 && !slide.querySelector("img, svg, video")) add("warn", "empty", "slide has no visible content");
   if (!slide.matches(SPARSE_LAYOUTS)) {
     const media = [...slide.querySelectorAll("img, svg, video, canvas")].filter((el) => !el.parentElement.closest("svg") && visible(el));
-    const bands = [...textEls, ...media]
+    const panels = [...slide.querySelectorAll("*")].filter((el) => {
+      if (el.closest("svg") || !visible(el) || rect(el).h > MAX_PANEL_HEIGHT) return false;
+      const fill = getComputedStyle(el).backgroundColor;
+      return fill !== "transparent" && !/\/ 0\)$|, 0\)$/.test(fill);
+    });
+    const bands = [...textEls, ...media, ...panels]
       .filter((el) => !el.closest(".notes, .bg, .folio, .source"))
       .map(rect)
       .sort((a, b) => a.t - b.t);
