@@ -568,7 +568,7 @@
   vertical-align: top;
 }
 
-.slide table.data tbody:not(:has(tr:nth-child(6))) td { padding-block: var(--sp-5); }
+.slide table.data tbody:not(:has(tr:nth-child(5))) td { padding-block: var(--sp-5); }
 
 .slide table.data td:first-child { color: var(--c-ink); font-weight: var(--fw-strong); }
 .slide table.data :is(th, td).n { text-align: right; }
