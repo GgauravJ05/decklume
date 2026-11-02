@@ -130,3 +130,5 @@
 @media print {
   .slide:not(.l-bleed)::before { content: none; }
 }
+
+.l-title > :is(h1, .display) { font-size: 190px; }
