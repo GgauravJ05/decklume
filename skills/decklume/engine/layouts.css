@@ -1130,7 +1130,7 @@
   display: grid;
   grid-template-columns: 1fr var(--sp-8) 1fr;
   align-items: stretch;
-  align-self: center;
+  align-self: stretch;
 }
 
 .l-problem :is(.problem, .solution) {
@@ -1138,10 +1138,10 @@
   display: grid;
   align-content: start;
   gap: var(--sp-3);
-  padding: var(--sp-5);
+  padding: var(--sp-6) var(--sp-5);
   border-radius: var(--radius-lg);
-  font-size: var(--fs-body);
-  line-height: 1.4;
+  font-size: var(--fs-lead);
+  line-height: 1.35;
 }
 
 .l-problem .problem {
