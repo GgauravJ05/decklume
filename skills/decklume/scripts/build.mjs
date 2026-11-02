@@ -110,6 +110,23 @@ function inlineAssets(html, baseDir, warnings) {
   });
 }
 
+/* <img data-themed> becomes inline SVG, so var(--c-*) colours resolve against the theme. */
+function inlineThemedSvgs(html, baseDir, warnings) {
+  return html.replace(/<img\b[^>]*\bdata-themed\b[^>]*>/g, (tag) => {
+    const url = tag.match(/\ssrc=("|')([^"']+)\1/)?.[2];
+    const alt = tag.match(/\salt=("|')([^"']*)\1/)?.[2] ?? "";
+    const file = url && resolve(baseDir, decodeURIComponent(url));
+    if (!file || extname(file).toLowerCase() !== ".svg" || !existsSync(file)) {
+      warnings.push(`data-themed needs a local .svg: ${url}`);
+      return tag;
+    }
+    const a11y = alt ? `role="img" aria-label="${alt}"` : 'aria-hidden="true"';
+    return read(file)
+      .replace(/<\?xml[^>]*>\s*/, "")
+      .replace(/<svg\b([^>]*)>/, (_, attrs) => `<svg${attrs.replace(/\s(width|height)="[^"]*"/g, "")} ${a11y} preserveAspectRatio="xMidYMid slice">`);
+  });
+}
+
 function lint(body, baseDir, warnings) {
   const sections = [...body.matchAll(/<section\b([^>]*)>/g)];
   let slideCount = 0;
@@ -211,6 +228,7 @@ export function build(srcPath, opts = {}) {
   // The first slide starts active so the deck is never blank before JS runs.
   body = body.replace(/<section\b([^>]*\bclass=("|')[^"']*\bslide\b)/, (m) => m.replace(/class=("|')/, "class=$1is-active "));
 
+  body = inlineThemedSvgs(body, baseDir, warnings);
   if (opts.inline || meta["inline-assets"] === true) body = inlineAssets(body, baseDir, warnings);
 
   const usesCharts = /class=("|')[^"']*\bchart\b/.test(body);

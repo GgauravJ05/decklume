@@ -214,6 +214,7 @@
 }
 
 .slide .media > img,
+.slide .media > svg,
 .slide .media > video {
   display: block;
   width: 100%;

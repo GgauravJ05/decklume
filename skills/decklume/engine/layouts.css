@@ -814,7 +814,7 @@
   min-height: 0;
 }
 
-.l-gallery .gallery > figure > :is(img, .media) {
+.l-gallery .gallery > figure > :is(img, svg, .media) {
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -1424,7 +1424,7 @@
 /* Image tile: the picture fills the tile, no text on top. */
 .l-bento .tile.is-image { padding: 0; }
 
-.l-bento .tile.is-image > img {
+.l-bento .tile.is-image > :is(img, svg) {
   position: absolute;
   inset: 0;
   width: 100%;
