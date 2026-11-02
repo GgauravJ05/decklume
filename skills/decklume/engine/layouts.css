@@ -158,10 +158,11 @@
   align-self: stretch;
 }
 
-.l-cards .card { grid-template-rows: 1fr auto auto; }
-.l-cards .card:not(:has(> .card-index)) { grid-template-rows: auto auto; align-content: end; }
-.l-cards .card > .card-index { font-family: var(--f-display); font-style: var(--display-style); font-size: var(--fs-h1); line-height: 1; }
-.l-cards .card > h3 { font-size: var(--fs-h3); line-height: 1.1; }
+.slide.l-cards .card { grid-template-rows: 1fr auto auto; }
+.slide.l-cards .card:not(:has(> .card-index)) { grid-template-rows: auto auto; align-content: end; }
+.slide.l-cards .card > .card-index { font-family: var(--f-display); font-style: var(--display-style); font-size: var(--fs-h1); line-height: 1; }
+.slide.l-cards .card > h3 { font-size: var(--fs-h3); line-height: 1.1; }
+.slide.l-cards .cards:not(:has(> .card:nth-child(4))) .card > p { font-size: 36px; line-height: 1.35; }
 
 .slide .card {
   display: grid;
