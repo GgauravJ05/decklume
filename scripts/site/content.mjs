@@ -1,4 +1,5 @@
 /* Site copy and data. Every claim here must be true of the product. */
+import { FACTS } from "./facts.mjs";
 
 export const SITE = {
   name: "Decklume",
@@ -9,7 +10,7 @@ export const SITE = {
   manual: ["git clone https://github.com/GgauravJ05/decklume.git", "cp -R decklume/skills/decklume ~/.claude/skills/"],
 };
 
-/* The 33-slide showcase lecture, used for frame captions and alt text. */
+/* The showcase lecture, used for frame captions and alt text. */
 export const SLIDES = [
   "Title — How sleep shapes memory", "Agenda — four questions", "Section — why do we forget?",
   "Definition — consolidation", "Quote — Jenkins & Dallenbach", "Section — what happens while we sleep?",
@@ -105,7 +106,7 @@ export const AUDIENCES = {
       ["Assertion headlines", "Results slides lead with the finding itself, such as \"Recall improves after a night of sleep\", rather than a label like \"Results\"."],
       ["Charts from your numbers", "Bar, line and donut charts drawn from data attributes, highlighting the value your claim is about."],
       ["Numbered exhibits", "The Atlas theme numbers every chart and table automatically, as in a report."],
-      ["Handouts that stay small", "Vector PDFs keep text selectable; the 33-slide example lecture exports to 1.1 MB."],
+      ["Handouts that stay small", `Vector PDFs keep text selectable; the ${FACTS.slides}-slide example lecture exports to 1.1 MB.`],
     ],
     faq: [
       ["Can I use my own data for charts?", "Yes. Charts are declared with your labels and values and drawn as SVG in the theme's colours. Claude never invents data for them."],
@@ -154,9 +155,9 @@ export const FAQ_HOME = [
 /* Example decks published on the site (built from examples/<slug>/<slug>.deck.html). */
 export const EXAMPLES = [
   {
-    slug: "sleep-and-memory", title: "How Sleep Shapes Memory", theme: "folio", audience: "students", slides: 33, frames: [1, 8, 17],
+    slug: "sleep-and-memory", title: "How Sleep Shapes Memory", theme: "folio", audience: "students", slides: FACTS.slides, frames: [1, 8, 17],
     kind: "University lecture",
-    summary: "A 20-minute psychology lecture using all 30 layouts: definitions, a timeline, charts, builds, Magic Move and speaker notes.",
+    summary: `A 20-minute psychology lecture using all ${FACTS.layouts} layouts: definitions, a timeline, charts, builds, Magic Move and speaker notes.`,
     motion: "Fade transitions, staggered entrances, step builds with dimming, a Magic Move between two slides.",
   },
   {

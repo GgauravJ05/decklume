@@ -1,4 +1,5 @@
 /* Secondary pages: themes, audiences, docs, comparison, 404. */
+import { FACTS } from "./facts.mjs";
 import { SITE, SLIDES, AUDIENCES, EXAMPLES } from "./content.mjs";
 import { page, esc, icon, frame, frameSrc, command, faqHtml, faqLd, breadcrumbs, softwareLd } from "./layout.mjs";
 
@@ -32,7 +33,7 @@ export function themesIndex(themes) {
   return page({
     root,
     path: "themes/",
-    title: "13 Free Presentation Themes for Claude Code",
+    title: `${FACTS.themes} Free Presentation Themes for Claude Code`,
     description: "Browse Decklume's thirteen free presentation themes: editorial, cinematic, Swiss, academic, consulting, product launch, brutalist, Japanese minimal, playful, chalkboard, blueprint, newspaper and clinical. Every theme covers all 26 slide layouts.",
     current: "themes/",
     jsonld: [
@@ -42,7 +43,7 @@ export function themesIndex(themes) {
     body: `
 <section class="page-head">
   <h1>Thirteen themes. Every layout designed.</h1>
-  <p class="lede">Each theme restyles all 30 layouts and passes the same design checks on the same 33-slide lecture. Open one to play it, or see every slide.</p>
+  <p class="lede">Each theme restyles all ${FACTS.layouts} layouts and passes the same design checks on the same ${FACTS.slides}-slide lecture. Open one to play it, or see every slide.</p>
 </section>
 <section class="themes-list">${rows}</section>`,
   });
@@ -60,7 +61,7 @@ export function themePage(t, themes) {
     root,
     path: `themes/${t.slug}/`,
     title: `${t.name} — Free ${cap(t.mood[0])} Presentation Theme for Claude`,
-    description: `${t.name}: ${t.tagline} A free Decklume theme for ${t.best_for.slice(0, 3).join(", ")}. Play the live demo and see all 33 slides.`,
+    description: `${t.name}: ${t.tagline} A free Decklume theme for ${t.best_for.slice(0, 3).join(", ")}. Play the live demo and see all ${FACTS.slides} slides.`,
     current: "themes/",
     jsonld: [
       breadcrumbs([["Decklume", ""], ["Themes", "themes/"], [t.name, `themes/${t.slug}/`]]),
@@ -87,7 +88,7 @@ export function themePage(t, themes) {
   </div>
 </section>
 <section class="band" aria-labelledby="all-h">
-  <div class="band-head"><h2 id="all-h">All 33 slides in ${esc(t.name)}</h2><p>Every layout from the showcase lecture. Click a frame to open it in the live deck.</p></div>
+  <div class="band-head"><h2 id="all-h">All ${FACTS.slides} slides in ${esc(t.name)}</h2><p>Every layout from the showcase lecture. Click a frame to open it in the live deck.</p></div>
   <div class="sheet sheet-full"><div class="strip s5 wrap">${sheet}</div></div>
 </section>
 <nav class="pager" aria-label="More themes">
@@ -196,7 +197,7 @@ export function docsPage() {
 
     <h2 id="export">Exporting and sharing</h2>
     <p>A deck is one HTML file you can email or open offline once its fonts are cached. For other formats, ask Claude, or run the tools yourself:</p>
-    <ul><li><strong>PDF</strong>: vector, with selectable and searchable text and every build step shown. The 33-slide example lecture is 1.1 MB.</li><li><strong>PNG</strong>: one image per slide, optionally at 2× resolution.</li><li><strong>Live link</strong>: one command publishes to Vercel; the link works on any device and includes the presenter view.</li></ul>
+    <ul><li><strong>PDF</strong>: vector, with selectable and searchable text and every build step shown. The ${FACTS.slides}-slide example lecture is 1.1 MB.</li><li><strong>PNG</strong>: one image per slide, optionally at 2× resolution.</li><li><strong>Live link</strong>: one command publishes to Vercel; the link works on any device and includes the presenter view.</li></ul>
 
     <h2 id="qa">Design QA</h2>
     <p>Every slide is rendered at 1920×1080 in a real browser. The check fails on text extending past the slide or clipped inside a box, text running into the footer, overlapping text, type below the minimum size, WCAG contrast failures, web fonts that did not load, placeholder text, broken images, JavaScript errors, and slides that stop being 16:9 on a phone. It warns about crowded slides, missing alt text, long headlines and common AI-slop patterns, and writes a contact sheet of every slide for review.</p>
@@ -227,15 +228,15 @@ export function docsPage() {
 export function comparePage() {
   const root = "../../";
   const rows = [
-    ["How design is controlled", "Prose guidance and style recipes the model translates by hand", "Design tokens, 30 tested layouts and themes written as code"],
+    ["How design is controlled", "Prose guidance and style recipes the model translates by hand", `Design tokens, ${FACTS.layouts} tested layouts and themes written as code`],
     ["Story", "Asks for your content", "You approve an outline with an assertion headline per slide"],
     ["Style previews", "Three separate files, title slide only", "Your title and content slides in three themes, on one page"],
-    ["Themes", "12 presets and 34 bold style recipes", "13 complete themes, every layout designed and tested"],
+    ["Themes", "12 presets and 34 bold style recipes", `${FACTS.themes} complete themes, every layout designed and tested`],
     ["Motion", "Entrance animations", "Entrances, step-by-step builds and Magic Move transitions"],
     ["Charts", "Not included", "Bar, horizontal bar, line and donut charts in SVG"],
     ["Verification", "Advice to review screenshots", "Automated QA gate with contact sheet, tested in CI"],
     ["Presenting", "Speaker notes passed to a host", "Presenter window with notes, timer and next slide"],
-    ["PDF export", "Screenshot images; about 20 MB for 18 slides (per its docs)", "Vector with selectable text; 1.1 MB for 33 slides"],
+    ["PDF export", "Screenshot images; about 20 MB for 18 slides (per its docs)", `Vector with selectable text; 1.1 MB for ${FACTS.slides} slides`],
     ["PowerPoint import", "Python script: text, images and notes", "Pure Node: adds bullet levels, tables, grouped shapes and native chart data"],
     ["Output", "One self-contained HTML file", "One self-contained HTML file"],
     ["License", "MIT", "MIT"],

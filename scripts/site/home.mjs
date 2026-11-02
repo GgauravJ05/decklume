@@ -1,4 +1,5 @@
 /* Home page: the contact sheet. */
+import { FACTS } from "./facts.mjs";
 import { SITE, SLIDES, HERO_FRAMES, KEEPER_INDEX, SWITCH_SLIDES, FAQ_HOME, AUDIENCES } from "./content.mjs";
 import { page, esc, icon, frame, frameSrc, command, greaseCircle, greaseArrow, faqHtml, faqLd, softwareLd } from "./layout.mjs";
 
@@ -59,7 +60,7 @@ export function home(themes) {
 <section class="band switcher" id="looks" aria-labelledby="looks-h">
   <div class="band-head">
     <h2 id="looks-h">One deck. Thirteen looks.</h2>
-    <p>The same 33-slide lecture, rebuilt in every theme. Choose a look and a slide: this is the real deck running live, not a screenshot.</p>
+    <p>The same ${FACTS.slides}-slide lecture, rebuilt in every theme. Choose a look and a slide: this is the real deck running live, not a screenshot.</p>
   </div>
   <div class="switch" data-switcher>
     <div class="viewer">
@@ -103,7 +104,7 @@ export function home(themes) {
       <div class="stage-frame">
         <div class="stage" data-stage="1">
           <p class="term"><span class="prompt">&gt;</span> <span class="typed" data-type="Make a 15-minute lecture on how sleep shapes memory for first-year psychology students.">Make a 15-minute lecture on how sleep shapes memory for first-year psychology students.</span></p>
-          <ul class="answers"><li>Lecture</li><li>Speaker-led</li><li>~33 slides</li><li>No images</li></ul>
+          <ul class="answers"><li>Lecture</li><li>Speaker-led</li><li>~${FACTS.slides} slides</li><li>No images</li></ul>
         </div>
         <div class="stage" data-stage="2">
           <table class="outline"><thead><tr><th>#</th><th>Layout</th><th>Headline</th></tr></thead><tbody>${outline.map(([n, l, h]) => `<tr><td>${n}</td><td>${l}</td><td>${h}</td></tr>`).join("")}</tbody></table>
@@ -114,11 +115,11 @@ export function home(themes) {
         </div>
         <div class="stage" data-stage="4">
           <div class="qa-mini">${SLIDES.map((_, i) => `<span style="--i:${i}"><img src="${frameSrc(root, "folio", i + 1)}" alt="" width="640" height="360" loading="lazy"></span>`).join("")}</div>
-          <p class="term pass">${icon("check")} QA passed · 33 slides · 0 errors</p>
+          <p class="term pass">${icon("check")} QA passed · ${FACTS.slides} slides · 0 errors</p>
         </div>
         <div class="stage" data-stage="5">
           <figure class="deliver"><img src="${frameSrc(root, "folio", 33)}" alt="" width="640" height="360" loading="lazy"></figure>
-          <ul class="outputs"><li>sleep-and-memory.html <em>one file</em></li><li>sleep-and-memory.pdf <em>1.1 MB, vector</em></li><li>slides/01–33.png</li><li>a live link</li></ul>
+          <ul class="outputs"><li>sleep-and-memory.html <em>one file</em></li><li>sleep-and-memory.pdf <em>1.1 MB, vector</em></li><li>slides/01–${FACTS.slides}.png</li><li>a live link</li></ul>
         </div>
       </div>
     </div>
@@ -222,7 +223,7 @@ export function home(themes) {
       <tr><th scope="row">Verification</th><td>Advice to check screenshots</td><td>Automated QA gate with a contact sheet, run in CI</td></tr>
       <tr><th scope="row">Motion</th><td>Entrance animations</td><td>Entrances, step builds and Magic Move</td></tr>
       <tr><th scope="row">Presenting</th><td>Speaker notes via host</td><td>Presenter window with notes, timer and next slide</td></tr>
-      <tr><th scope="row">PDF</th><td>Screenshots, about 20 MB for 18 slides</td><td>Vector with selectable text, 1.1 MB for 33 slides</td></tr>
+      <tr><th scope="row">PDF</th><td>Screenshots, about 20 MB for 18 slides</td><td>Vector with selectable text, 1.1 MB for ${FACTS.slides} slides</td></tr>
     </tbody>
   </table>
   <a class="more" href="compare/frontend-slides/">Read the full comparison ${icon("arrow")}</a>
@@ -239,7 +240,7 @@ export function home(themes) {
     root,
     path: "",
     title: "Decklume — Free AI Presentation Maker for Claude Code",
-    description: "Decklume is a free, open-source Claude Code skill that turns any topic, notes or PowerPoint into a beautiful animated HTML presentation: story-first outline, 13 designer themes, Magic Move, presenter view, PDF export and automated design QA.",
+    description: `Decklume is a free, open-source Claude Code skill that turns any topic, notes or PowerPoint into a beautiful animated HTML presentation: story-first outline, ${FACTS.themes} designer themes, Magic Move, presenter view, PDF export and automated design QA.`,
     current: "",
     bodyClass: "home",
     jsonld: [
