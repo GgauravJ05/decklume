@@ -1692,3 +1692,47 @@
 .l-free {
   display: block;
 }
+
+/* --- Compact fallback ------------------------------------------------------
+   The runtime adds .is-compact when a slide's content would leave the safe
+   area at the generous sizes above. These are the tighter sizes. */
+.slide.is-compact.l-steps { gap: var(--sp-6); }
+.slide.is-compact.l-steps .steps { align-self: end; }
+.slide.is-compact.l-steps .steps > li { margin-top: 0; }
+.slide.is-compact.l-steps .steps > li::before { font-size: var(--fs-h2); }
+.slide.is-compact.l-steps .steps > li > h3 { font-size: var(--fs-h3); }
+
+.slide.is-compact.l-stats .stats:has(> .stat:nth-child(4)) { grid-auto-flow: column; grid-template-columns: none; }
+.slide.is-compact.l-stats .stat .value { font-size: 128px; }
+.slide.is-compact.l-stats .stat .label { font-size: var(--fs-small); max-width: 22ch; }
+
+.slide.is-compact.l-cards .card { grid-template-rows: none; }
+.slide.is-compact.l-cards .card > .card-index { font-family: var(--f-mono); font-style: normal; font-size: var(--fs-small); line-height: inherit; }
+.slide.is-compact.l-cards .card > h3 { font-size: var(--fs-lead); }
+.slide.is-compact.l-cards .cards .card > p { font-size: var(--fs-body); line-height: 1.45; }
+
+.slide.is-compact.l-timeline .timeline > li { grid-template-rows: 64px 36px auto auto; gap: var(--sp-2); font-size: var(--fs-small); }
+.slide.is-compact.l-timeline .timeline::before { top: 82px; }
+.slide.is-compact.l-timeline .timeline .when { font-size: var(--fs-h3); }
+.slide.is-compact.l-timeline .timeline > li > h3 { font-size: var(--fs-body); }
+
+.slide.is-compact.l-compare .col { gap: var(--sp-4); }
+.slide.is-compact.l-compare .col .points { gap: var(--sp-3); font-size: var(--fs-body); }
+.slide.is-compact.l-compare .col .points > li { font-size: var(--fs-body); max-width: 34ch; }
+
+.slide.is-compact.l-list > :is(ul, ol).points { gap: var(--sp-4); }
+.slide.is-compact.l-list > :is(ul, ol).points > li { font-size: var(--fs-body); }
+
+.slide.is-compact.l-table table.data { font-size: var(--fs-small); }
+.slide.is-compact.l-table table.data tbody td { padding-block: var(--sp-2); }
+
+.slide.is-compact.l-agenda .agenda > li { padding: var(--sp-3) 0; font-size: var(--fs-lead); }
+.slide.is-compact.l-agenda .agenda > li::before,
+.slide.is-compact.l-agenda .agenda > li .time { font-size: var(--fs-small); }
+
+.slide.is-compact.l-diagram .flow > .node { min-height: 0; font-size: var(--fs-small); }
+
+.slide.is-compact.l-problem .pivot { align-self: center; }
+.slide.is-compact.l-problem :is(.problem, .solution) { padding: var(--sp-5); font-size: var(--fs-body); }
+
+.slide.is-compact.l-chart > .takeaway { gap: var(--sp-3); font-size: var(--fs-small); }
