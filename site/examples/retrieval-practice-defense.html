@@ -759,6 +759,7 @@ body {
 }
 
 .slide .media > img,
+.slide .media > svg,
 .slide .media > video {
   display: block;
   width: 100%;
@@ -1007,6 +1008,9 @@ body {
 .l-list > header { grid-column: 1 / span 5; }
 .l-list > :is(ul, ol, .points, .body) { grid-column: 7 / -1; align-self: center; }
 
+.slide.l-list > :is(ul, ol).points { gap: var(--sp-5); }
+.slide.l-list > :is(ul, ol).points > li { font-size: 36px; line-height: 1.35; }
+
 .l-list.is-stacked > header { grid-column: 1 / -1; margin-bottom: var(--sp-6); }
 .l-list.is-stacked { align-content: start; }
 .l-list.is-stacked > :is(ul, ol, .points, .body) {
@@ -1028,8 +1032,14 @@ body {
   grid-auto-columns: 1fr;
   gap: var(--gutter);
   align-items: stretch;
-  align-self: end;
+  align-self: stretch;
 }
+
+.slide.l-cards .card { grid-template-rows: 1fr auto auto; }
+.slide.l-cards .card:not(:has(> .card-index)) { grid-template-rows: auto auto; align-content: end; }
+.slide.l-cards .card > .card-index { font-family: var(--f-display); font-style: var(--display-style); font-size: var(--fs-h1); line-height: 1; }
+.slide.l-cards .card > h3 { font-size: var(--fs-h3); line-height: 1.1; }
+.slide.l-cards .cards:not(:has(> .card:nth-child(4))) .card > p { font-size: 36px; line-height: 1.35; }
 
 .slide .card {
   display: grid;
@@ -1152,7 +1162,7 @@ body {
 /* --- l-compare: two columns, optional highlight ------------------------- */
 .l-compare {
   grid-template-rows: auto 1fr;
-  gap: var(--sp-6);
+  gap: var(--sp-5);
 }
 
 .l-compare .columns {
@@ -1160,6 +1170,7 @@ body {
   grid-template-columns: 1fr auto 1fr;
   gap: var(--sp-6);
   align-items: stretch;
+  align-self: center;
 }
 
 .l-compare .vs {
@@ -1180,12 +1191,14 @@ body {
 
 .l-compare .col.is-highlight { border-top-color: var(--c-accent); }
 .l-compare .col > h3 { font-size: var(--fs-h3); }
-.l-compare .col .points { gap: var(--sp-3); font-size: var(--fs-body); }
+.slide.l-compare .col { gap: var(--sp-5); }
+.slide.l-compare .col .points { gap: var(--sp-5); font-size: var(--fs-lead); }
+.slide.l-compare .col .points > li { font-size: var(--fs-lead); line-height: 1.3; max-width: none; }
 
 /* --- l-timeline: horizontal, 3–6 stops ---------------------------------- */
 .l-timeline {
   grid-template-rows: auto 1fr;
-  gap: var(--sp-7);
+  gap: var(--sp-5);
 }
 
 .l-timeline .timeline {
@@ -1193,27 +1206,30 @@ body {
   padding: 0;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  grid-auto-columns: minmax(0, 1fr);
   gap: var(--gutter);
   align-self: center;
   position: relative;
 }
+
+.l-timeline .timeline:has(> li:nth-child(5)) .when { font-size: var(--fs-h2); }
 
 .l-timeline .timeline::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  top: 82px;
+  top: 178px;
   height: var(--rule);
   background: var(--c-line);
 }
 
 .l-timeline .timeline > li {
   display: grid;
-  grid-template-rows: 64px 36px auto auto;
-  gap: var(--sp-2);
-  font-size: var(--fs-small);
+  grid-template-rows: 128px 36px auto auto;
+  gap: var(--sp-4);
+  font-size: 34px;
+  line-height: 1.35;
   color: var(--c-ink-2);
   position: relative;
 }
@@ -1221,7 +1237,7 @@ body {
 .l-timeline .when {
   font-family: var(--f-display);
   font-style: var(--display-style);
-  font-size: var(--fs-h3);
+  font-size: var(--fs-h1);
   line-height: 1;
   color: var(--c-ink);
   align-self: end;
@@ -1243,13 +1259,16 @@ body {
   border-color: var(--c-accent);
 }
 
-.l-timeline .timeline > li > h3 { font-size: var(--fs-body); font-family: var(--f-body); font-weight: var(--fw-strong); font-style: normal; letter-spacing: 0; }
+.l-timeline .timeline > li > h3 { font-size: var(--fs-lead); font-family: var(--f-body); font-weight: var(--fw-strong); font-style: normal; letter-spacing: 0; }
 
-/* --- l-steps: numbered process, 3–5 steps ------------------------------- */
+/* --- l-steps: numbered process, 3–5 steps, descending as a staircase ------ */
 .l-steps {
   grid-template-rows: auto 1fr;
-  gap: var(--sp-7);
+  gap: var(--sp-5);
+  --stair: 120px;
 }
+.l-steps:has(.steps > li:nth-child(4)) { --stair: 96px; }
+.l-steps:has(.steps > li:nth-child(5)) { --stair: 64px; }
 
 .l-steps .steps {
   list-style: none;
@@ -1259,8 +1278,14 @@ body {
   grid-auto-columns: 1fr;
   gap: var(--gutter);
   counter-reset: step;
-  align-self: end;
+  align-items: start;
+  align-self: start;
 }
+
+.l-steps .steps > li:nth-child(2) { margin-top: var(--stair); }
+.l-steps .steps > li:nth-child(3) { margin-top: calc(2 * var(--stair)); }
+.l-steps .steps > li:nth-child(4) { margin-top: calc(3 * var(--stair)); }
+.l-steps .steps > li:nth-child(5) { margin-top: calc(4 * var(--stair)); }
 
 .l-steps .steps > li {
   counter-increment: step;
@@ -1278,12 +1303,12 @@ body {
   content: counter(step, decimal-leading-zero);
   font-family: var(--f-display);
   font-style: var(--display-style);
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h1);
   line-height: 1;
   color: var(--c-accent);
 }
 
-.l-steps .steps > li > h3 { color: var(--c-ink); }
+.l-steps .steps > li > h3 { font-size: var(--fs-lead); color: var(--c-ink); }
 
 /* --- l-kpi: one big number ---------------------------------------------- */
 .l-kpi {
@@ -1325,8 +1350,13 @@ body {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  gap: var(--gutter);
+  gap: var(--sp-5) var(--gutter);
   align-self: center;
+}
+
+.l-stats .stats:has(> .stat:nth-child(4)) {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .l-stats .stat {
@@ -1341,16 +1371,19 @@ body {
   font-family: var(--f-display);
   font-style: var(--display-style);
   font-weight: var(--fw-display);
-  font-size: 128px;
+  font-size: var(--fs-display);
   line-height: 1;
   letter-spacing: -0.035em;
   color: var(--c-ink);
 }
 
+/* Five or more columns' worth of numbers won't hold display size. */
+.l-stats .stats:has(> .stat:nth-child(3):last-child) .value { font-size: 144px; }
+
 .l-stats .stat .label {
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   color: var(--c-ink-2);
-  max-width: 22ch;
+  max-width: 32ch;
 }
 
 .l-stats .stat.is-highlight { border-top-color: var(--c-accent); }
@@ -1367,11 +1400,11 @@ body {
 .l-chart > header { grid-column: 1 / -1; }
 .l-chart > .chart { grid-column: 1 / span 8; min-height: 0; }
 .l-chart > .takeaway {
-  grid-column: 10 / -1;
+  grid-column: 9 / -1;
   align-self: center;
   display: grid;
-  gap: var(--sp-3);
-  font-size: var(--fs-small);
+  gap: var(--sp-4);
+  font-size: var(--fs-body);
   color: var(--c-ink-2);
 }
 .l-chart > .takeaway > :first-child { font-size: var(--fs-lead); line-height: 1.25; color: var(--c-ink); font-family: var(--f-display); font-style: var(--display-style); }
@@ -1388,7 +1421,7 @@ body {
   align-self: start; /* natural height: rows never stretch to fill the slide */
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   line-height: 1.35;
 }
 
@@ -1403,11 +1436,13 @@ body {
 }
 
 .slide table.data td {
-  padding: var(--sp-2) var(--sp-3) var(--sp-2) 0;
+  padding: var(--sp-4) var(--sp-3) var(--sp-4) 0;
   border-bottom: 1px solid var(--c-line);
   color: var(--c-ink-2);
   vertical-align: top;
 }
+
+.slide table.data tbody:not(:has(tr:nth-child(5))) td { padding-block: var(--sp-5); }
 
 .slide table.data td:first-child { color: var(--c-ink); font-weight: var(--fw-strong); }
 .slide table.data :is(th, td).n { text-align: right; }
@@ -1422,7 +1457,7 @@ body {
 }
 
 .l-code > header { grid-column: 1 / span 4; align-self: center; }
-.l-code > pre.code { grid-column: 5 / -1; }
+.l-code > pre.code { grid-column: 5 / -1; align-self: stretch; }
 .l-code.is-stacked { grid-template-rows: auto 1fr; row-gap: var(--sp-5); align-items: start; }
 .l-code.is-stacked > header,
 .l-code.is-stacked > pre.code { grid-column: 1 / -1; }
@@ -1438,19 +1473,22 @@ body {
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: var(--sp-7);
-  align-items: center;
+  align-items: stretch;
   align-self: center;
 }
 
 .slide .flow > .node {
   position: relative;
   display: grid;
-  gap: var(--sp-1);
+  align-content: center;
+  gap: var(--sp-2);
+  min-height: 460px;
   padding: var(--sp-4);
   border: var(--rule) solid var(--c-ink);
   border-radius: var(--radius-lg);
   background: var(--c-bg);
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
+  line-height: 1.35;
   color: var(--c-ink-2);
   text-align: center;
 }
@@ -1543,7 +1581,7 @@ body {
 .l-agenda {
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  align-items: center;
+  align-items: stretch;
 }
 
 .l-agenda > header { grid-column: 1 / span 4; align-self: start; }
@@ -1553,6 +1591,8 @@ body {
   list-style: none;
   padding: 0;
   counter-reset: agenda;
+  display: grid;
+  align-content: space-between;
 }
 
 .l-agenda .agenda > li {
@@ -1561,11 +1601,11 @@ body {
   grid-template-columns: 96px 1fr auto;
   align-items: baseline;
   gap: var(--sp-3);
-  padding: var(--sp-3) 0;
+  padding: var(--sp-4) 0;
   border-bottom: 1px solid var(--c-line);
   font-family: var(--f-display);
   font-style: var(--display-style);
-  font-size: var(--fs-lead);
+  font-size: var(--fs-h3);
   line-height: 1.2;
   color: var(--c-ink-3);
 }
@@ -1574,14 +1614,14 @@ body {
   content: counter(agenda, decimal-leading-zero);
   font-family: var(--f-mono);
   font-style: normal;
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   color: var(--c-ink-3);
 }
 
 .l-agenda .agenda > li .time {
   font-family: var(--f-mono);
   font-style: normal;
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
 }
 
 .l-agenda .agenda > li.is-current { color: var(--c-ink); }
@@ -1652,7 +1692,7 @@ body {
   min-height: 0;
 }
 
-.l-gallery .gallery > figure > :is(img, .media) {
+.l-gallery .gallery > figure > :is(img, svg, .media) {
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -1978,7 +2018,7 @@ body {
   display: grid;
   grid-template-columns: 1fr var(--sp-8) 1fr;
   align-items: stretch;
-  align-self: center;
+  align-self: stretch;
 }
 
 .l-problem :is(.problem, .solution) {
@@ -1986,10 +2026,10 @@ body {
   display: grid;
   align-content: start;
   gap: var(--sp-3);
-  padding: var(--sp-5);
+  padding: var(--sp-6) var(--sp-5);
   border-radius: var(--radius-lg);
-  font-size: var(--fs-body);
-  line-height: 1.4;
+  font-size: var(--fs-lead);
+  line-height: 1.35;
 }
 
 .l-problem .problem {
@@ -2262,7 +2302,7 @@ body {
 /* Image tile: the picture fills the tile, no text on top. */
 .l-bento .tile.is-image { padding: 0; }
 
-.l-bento .tile.is-image > img {
+.l-bento .tile.is-image > :is(img, svg) {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -2527,6 +2567,50 @@ body {
   display: block;
 }
 
+/* --- Compact fallback ------------------------------------------------------
+   The runtime adds .is-compact when a slide's content would leave the safe
+   area at the generous sizes above. These are the tighter sizes. */
+.slide.is-compact.l-steps { gap: var(--sp-6); }
+.slide.is-compact.l-steps .steps { align-self: end; }
+.slide.is-compact.l-steps .steps > li { margin-top: 0; }
+.slide.is-compact.l-steps .steps > li::before { font-size: var(--fs-h2); }
+.slide.is-compact.l-steps .steps > li > h3 { font-size: var(--fs-h3); }
+
+.slide.is-compact.l-stats .stats:has(> .stat:nth-child(4)) { grid-auto-flow: column; grid-template-columns: none; }
+.slide.is-compact.l-stats .stat .value { font-size: 128px; }
+.slide.is-compact.l-stats .stat .label { font-size: var(--fs-small); max-width: 22ch; }
+
+.slide.is-compact.l-cards .card { grid-template-rows: none; }
+.slide.is-compact.l-cards .card > .card-index { font-family: var(--f-mono); font-style: normal; font-size: var(--fs-small); line-height: inherit; }
+.slide.is-compact.l-cards .card > h3 { font-size: var(--fs-lead); }
+.slide.is-compact.l-cards .cards .card > p { font-size: var(--fs-body); line-height: 1.45; }
+
+.slide.is-compact.l-timeline .timeline > li { grid-template-rows: 64px 36px auto auto; gap: var(--sp-2); font-size: var(--fs-small); }
+.slide.is-compact.l-timeline .timeline::before { top: 82px; }
+.slide.is-compact.l-timeline .timeline .when { font-size: var(--fs-h3); }
+.slide.is-compact.l-timeline .timeline > li > h3 { font-size: var(--fs-body); }
+
+.slide.is-compact.l-compare .col { gap: var(--sp-4); }
+.slide.is-compact.l-compare .col .points { gap: var(--sp-3); font-size: var(--fs-body); }
+.slide.is-compact.l-compare .col .points > li { font-size: var(--fs-body); max-width: 34ch; }
+
+.slide.is-compact.l-list > :is(ul, ol).points { gap: var(--sp-4); }
+.slide.is-compact.l-list > :is(ul, ol).points > li { font-size: var(--fs-body); }
+
+.slide.is-compact.l-table table.data { font-size: var(--fs-small); }
+.slide.is-compact.l-table table.data tbody td { padding-block: var(--sp-2); }
+
+.slide.is-compact.l-agenda .agenda > li { padding: var(--sp-3) 0; font-size: var(--fs-lead); }
+.slide.is-compact.l-agenda .agenda > li::before,
+.slide.is-compact.l-agenda .agenda > li .time { font-size: var(--fs-small); }
+
+.slide.is-compact.l-diagram .flow > .node { min-height: 0; font-size: var(--fs-small); }
+
+.slide.is-compact.l-problem .pivot { align-self: center; }
+.slide.is-compact.l-problem :is(.problem, .solution) { padding: var(--sp-5); font-size: var(--fs-body); }
+
+.slide.is-compact.l-chart > .takeaway { gap: var(--sp-3); font-size: var(--fs-small); }
+
 
 /* =====================================================================
    DECKLUME · CHART STYLES
@@ -2554,6 +2638,7 @@ body {
 }
 
 .slide .chart .dl-lab { font-size: 24px; }
+.slide .chart .dl-donut-lab { font-size: 34px; }
 .slide .chart .dl-val { font-size: 26px; font-weight: 600; fill: var(--c-ink); font-variant-numeric: tabular-nums; }
 .slide .chart .is-hl { fill: var(--c-accent); font-weight: 600; }
 .slide .chart .dl-donut-val { font-family: var(--f-display); font-size: 96px; fill: var(--c-ink); }
@@ -3069,6 +3154,9 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
   let FRAMED = false;
   try { FRAMED = window.self !== window.top; } catch { FRAMED = true; }
 
+  // Layouts that have a compact fallback in layouts.css.
+  const FITTED_LAYOUTS = ".l-steps, .l-stats, .l-cards, .l-timeline, .l-compare, .l-list, .l-table, .l-agenda, .l-diagram, .l-problem, .l-chart";
+
   // Blocks that get the staggered entrance, in reading order.
   const ENTER_SELECTOR = [
     ":scope > :not(.notes, .media, .bg, [data-enter='none'])",
@@ -3101,9 +3189,11 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
 
       this.prepareSlides();
       this.fitMastheads();
+      this.fitDensity();
       this.placeCallouts();
       document.fonts?.ready.then(() => {
         this.fitMastheads();
+        this.fitDensity();
         this.placeCallouts();
       });
       this.scale = this.scale.bind(this);
@@ -3166,6 +3256,23 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
 
     /* Cover mastheads span their column: scale the type to the box,
        between half and 1.35× the theme's size. */
+    // Generous sizes suit short content. A slide that would leave the safe
+    // area at those sizes falls back to the compact ones in layouts.css.
+    fitDensity() {
+      const SAFE_BOTTOM = 96;
+      this.slides.filter((slide) => slide.matches(FITTED_LAYOUTS)).forEach((slide) => {
+        slide.classList.remove("is-compact");
+        const box = slide.getBoundingClientRect();
+        const k = W / box.width;
+        const tooBig = [...slide.querySelectorAll("*")].some((el) => {
+          if (el.closest(".notes, svg")) return false;
+          const r = el.getBoundingClientRect();
+          return (r.bottom - box.top) * k > H - SAFE_BOTTOM || (r.right - box.left) * k > W || el.scrollWidth > el.clientWidth + 2;
+        });
+        slide.classList.toggle("is-compact", tooBig);
+      });
+    }
+
     fitMastheads() {
       this.stage.querySelectorAll(".l-cover > .masthead").forEach((el) => {
         el.style.removeProperty("--dl-fit");
@@ -4070,8 +4177,10 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
     const vals = series[0].values;
     const total = vals.reduce((a, b) => a + b, 0) || 1;
     const hl = highlightOf(fig, 0);
-    const cx = S / 2, cy = S / 2, r = 210, sw = 74;
+    const cx = W / 2, cy = S / 2, r = 210, sw = 74;
+    const LABEL_GAP = 28, LINE_GAP = 84;
     let acc = 0;
+    const sides = { left: [], right: [] };
     vals.forEach((v, i) => {
       const frac = v / total;
       const c = i === hl ? "var(--c-accent)" : `color-mix(in srgb, var(--c-ink) ${Math.max(12, 55 - i * 14)}%, transparent)`;
@@ -4081,14 +4190,22 @@ html[data-vt="flip"]::view-transition-new(root) { animation-name: dl-vt-flip-in;
         "stroke-dashoffset": String(-acc + 0.25), class: "dl-arc", style: `--d:${i * 120}ms`,
         transform: `rotate(0 ${cx} ${cy})`,
       }, svg);
+      const angle = (acc + frac / 2) * 2 * Math.PI - Math.PI / 2;
+      const reach = r + sw / 2 + LABEL_GAP;
+      sides[Math.cos(angle) < 0 ? "left" : "right"].push({ i, x: cx + reach * Math.cos(angle), y: cy + reach * Math.sin(angle) });
       acc += frac;
     });
     el("text", { x: cx, y: cy, "text-anchor": "middle", "dominant-baseline": "central", class: "dl-donut-val" }, svg).textContent =
       fig.dataset.center || Math.round((vals[hl] / total) * 100) + "%";
-    labels.forEach((lab, i) => {
-      const ly = 120 + i * 76;
-      el("rect", { x: S + 60, y: ly - 14, width: 28, height: 28, rx: 4, fill: i === hl ? "var(--c-accent)" : `color-mix(in srgb, var(--c-ink) ${Math.max(12, 55 - i * 14)}%, transparent)` }, svg);
-      el("text", { x: S + 108, y: ly, "dominant-baseline": "central", class: `dl-lab${i === hl ? " is-hl" : ""}` }, svg).textContent = `${lab} · ${Math.round((vals[i] / total) * 100)}%`;
+    // Small neighbouring slices would stack their labels, so push them apart.
+    Object.entries(sides).forEach(([side, items]) => {
+      let floor = -Infinity;
+      items.sort((a, b) => a.y - b.y).forEach(({ i, x, y }) => {
+        const top = Math.max(y, floor);
+        floor = top + LINE_GAP;
+        const label = el("text", { x, y: top, "text-anchor": side === "left" ? "end" : "start", "dominant-baseline": "central", class: `dl-lab dl-donut-lab${i === hl ? " is-hl" : ""}` }, svg);
+        label.textContent = `${labels[i]} · ${Math.round((vals[i] / total) * 100)}%`;
+      });
     });
     return svg;
   }
