@@ -88,7 +88,7 @@
   background: var(--c-bg);
 }
 
-.l-title > :is(h1, .display) { font-size: 112px; max-width: 16ch; }
+.l-title > :is(h1, .display) { font-size: 150px; max-width: 16ch; }
 
 .slide.l-section {
   --c-bg: #f2f4f7;
