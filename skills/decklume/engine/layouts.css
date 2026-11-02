@@ -587,19 +587,22 @@
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: var(--sp-7);
-  align-items: center;
+  align-items: stretch;
   align-self: center;
 }
 
 .slide .flow > .node {
   position: relative;
   display: grid;
-  gap: var(--sp-1);
+  align-content: center;
+  gap: var(--sp-2);
+  min-height: 460px;
   padding: var(--sp-4);
   border: var(--rule) solid var(--c-ink);
   border-radius: var(--radius-lg);
   background: var(--c-bg);
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
+  line-height: 1.35;
   color: var(--c-ink-2);
   text-align: center;
 }
