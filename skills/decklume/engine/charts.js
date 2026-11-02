@@ -143,8 +143,10 @@
     const vals = series[0].values;
     const total = vals.reduce((a, b) => a + b, 0) || 1;
     const hl = highlightOf(fig, 0);
-    const cx = S / 2, cy = S / 2, r = 210, sw = 74;
+    const cx = W / 2, cy = S / 2, r = 210, sw = 74;
+    const LABEL_GAP = 28, LINE_GAP = 84;
     let acc = 0;
+    const sides = { left: [], right: [] };
     vals.forEach((v, i) => {
       const frac = v / total;
       const c = i === hl ? "var(--c-accent)" : `color-mix(in srgb, var(--c-ink) ${Math.max(12, 55 - i * 14)}%, transparent)`;
@@ -154,14 +156,22 @@
         "stroke-dashoffset": String(-acc + 0.25), class: "dl-arc", style: `--d:${i * 120}ms`,
         transform: `rotate(0 ${cx} ${cy})`,
       }, svg);
+      const angle = (acc + frac / 2) * 2 * Math.PI - Math.PI / 2;
+      const reach = r + sw / 2 + LABEL_GAP;
+      sides[Math.cos(angle) < 0 ? "left" : "right"].push({ i, x: cx + reach * Math.cos(angle), y: cy + reach * Math.sin(angle) });
       acc += frac;
     });
     el("text", { x: cx, y: cy, "text-anchor": "middle", "dominant-baseline": "central", class: "dl-donut-val" }, svg).textContent =
       fig.dataset.center || Math.round((vals[hl] / total) * 100) + "%";
-    labels.forEach((lab, i) => {
-      const ly = 120 + i * 76;
-      el("rect", { x: S + 60, y: ly - 14, width: 28, height: 28, rx: 4, fill: i === hl ? "var(--c-accent)" : `color-mix(in srgb, var(--c-ink) ${Math.max(12, 55 - i * 14)}%, transparent)` }, svg);
-      el("text", { x: S + 108, y: ly, "dominant-baseline": "central", class: `dl-lab${i === hl ? " is-hl" : ""}` }, svg).textContent = `${lab} · ${Math.round((vals[i] / total) * 100)}%`;
+    // Small neighbouring slices would stack their labels, so push them apart.
+    Object.entries(sides).forEach(([side, items]) => {
+      let floor = -Infinity;
+      items.sort((a, b) => a.y - b.y).forEach(({ i, x, y }) => {
+        const top = Math.max(y, floor);
+        floor = top + LINE_GAP;
+        const label = el("text", { x, y: top, "text-anchor": side === "left" ? "end" : "start", "dominant-baseline": "central", class: `dl-lab dl-donut-lab${i === hl ? " is-hl" : ""}` }, svg);
+        label.textContent = `${labels[i]} · ${Math.round((vals[i] / total) * 100)}%`;
+      });
     });
     return svg;
   }
