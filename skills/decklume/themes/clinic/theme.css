@@ -144,3 +144,5 @@
 .l-timeline .timeline > li.is-current::before { background: var(--c-accent); }
 
 .slide table.data th { border-bottom-color: var(--c-accent); }
+
+.l-title > :is(h1, .display) { font-size: 160px; }
