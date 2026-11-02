@@ -6,6 +6,27 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- QA warns about large empty bands with a `dead-space` rule.
+- `npm run qa:themes` runs QA on the showcase in all 13 themes, and CI runs it.
+- `npm run theme-matrix` renders the same slides in every theme onto one image.
+- `data-themed` on an SVG `<img>` inlines it, so its colours follow the theme.
+- Slides fall back to compact sizes at runtime when their content would overflow.
+
+### Changed
+- Fuller, larger layouts: `l-steps` descends as a staircase, four `l-stats`
+  form a 2×2 grid, and `l-cards`, `l-table`, `l-compare`, `l-timeline`,
+  `l-diagram`, `l-problem`, `l-agenda`, `l-list` and `l-code` use more of the slide.
+- Donut charts label each slice beside its arc instead of using a legend.
+- Larger titles in Atlas, Bloom, Chalk, Clinic and Ma. Bloom's blob now appears
+  only on title-style slides.
+- The showcase artwork is coloured by the theme.
+
+### Fixed
+- Interrupting a slide transition no longer raises a page error.
+- The QA contact sheet is no longer blank when `--out` is outside the deck's folder.
+- The themes page said 26 layouts. Site counts now come from one source.
+
 ## [0.2.0] — 2026-10-24
 
 Eight new layouts (30 in total) and three new themes (13 in total). The
