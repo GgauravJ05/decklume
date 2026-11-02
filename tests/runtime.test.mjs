@@ -138,6 +138,17 @@ test("presenter view shows notes and drives the deck", async () => {
   await p.close();
 });
 
+test("interrupting a slide transition raises no page error", async () => {
+  const before = errors.length;
+  await page.evaluate(() => {
+    window.decklume.go(5);
+    window.decklume.go(6);
+  });
+  await page.waitForTimeout(300);
+  assert.deepEqual(errors.slice(before), []);
+  assert.equal(await active(), 6);
+});
+
 test("no runtime errors", () => {
   assert.deepEqual(errors, []);
 });
