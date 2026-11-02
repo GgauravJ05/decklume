@@ -537,7 +537,7 @@
   align-self: start; /* natural height: rows never stretch to fill the slide */
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   line-height: 1.35;
 }
 
@@ -552,7 +552,7 @@
 }
 
 .slide table.data td {
-  padding: var(--sp-2) var(--sp-3) var(--sp-2) 0;
+  padding: var(--sp-4) var(--sp-3) var(--sp-4) 0;
   border-bottom: 1px solid var(--c-line);
   color: var(--c-ink-2);
   vertical-align: top;
