@@ -571,7 +571,7 @@
 }
 
 .l-code > header { grid-column: 1 / span 4; align-self: center; }
-.l-code > pre.code { grid-column: 5 / -1; }
+.l-code > pre.code { grid-column: 5 / -1; align-self: stretch; }
 .l-code.is-stacked { grid-template-rows: auto 1fr; row-gap: var(--sp-5); align-items: start; }
 .l-code.is-stacked > header,
 .l-code.is-stacked > pre.code { grid-column: 1 / -1; }
