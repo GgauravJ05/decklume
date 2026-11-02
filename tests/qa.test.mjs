@@ -59,3 +59,10 @@ test("draws the contact sheet when --out is outside the deck's folder", async ()
   const blankSheetBytes = 20_000;
   assert.ok(statSync(join(qaOut, "contact-sheet.png")).size > blankSheetBytes, "contact sheet is blank");
 });
+
+test("a slide at its documented content limit stays inside the safe area", async () => {
+  const words = "memory practice evening retrieval sleep students memory practice evening retrieval sleep students memory practice evening retrieval sleep students";
+  const steps = Array.from({ length: 5 }, () => `<li><h3>Step title</h3><p>${words}</p></li>`).join("");
+  const report = await runQa(`<section class="slide l-steps"><header><h2>Headline</h2></header><ol class="steps">${steps}</ol></section>`);
+  assert.deepEqual(report.issues.filter((i) => i.level === "error"), []);
+});

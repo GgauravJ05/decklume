@@ -138,6 +138,11 @@ test("presenter view shows notes and drives the deck", async () => {
   await p.close();
 });
 
+test("short content keeps the generous layout", async () => {
+  const compact = await page.evaluate(() => document.querySelectorAll(".slide.is-compact").length);
+  assert.equal(compact, 0);
+});
+
 test("a donut labels each slice beside its arc, without collisions", async () => {
   await page.evaluate(() => window.decklume.go(7, { instant: true }));
   const boxes = await page.evaluate(() =>
