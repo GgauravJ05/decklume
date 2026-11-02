@@ -134,6 +134,9 @@
 .l-list > header { grid-column: 1 / span 5; }
 .l-list > :is(ul, ol, .points, .body) { grid-column: 7 / -1; align-self: center; }
 
+.slide.l-list > :is(ul, ol).points { gap: var(--sp-5); }
+.slide.l-list > :is(ul, ol).points > li { font-size: 36px; line-height: 1.35; }
+
 .l-list.is-stacked > header { grid-column: 1 / -1; margin-bottom: var(--sp-6); }
 .l-list.is-stacked { align-content: start; }
 .l-list.is-stacked > :is(ul, ol, .points, .body) {
