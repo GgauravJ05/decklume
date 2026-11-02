@@ -372,11 +372,14 @@
 
 .l-timeline .timeline > li > h3 { font-size: var(--fs-body); font-family: var(--f-body); font-weight: var(--fw-strong); font-style: normal; letter-spacing: 0; }
 
-/* --- l-steps: numbered process, 3–5 steps ------------------------------- */
+/* --- l-steps: numbered process, 3–5 steps, descending as a staircase ------ */
 .l-steps {
   grid-template-rows: auto 1fr;
-  gap: var(--sp-7);
+  gap: var(--sp-5);
+  --stair: 120px;
 }
+.l-steps:has(.steps > li:nth-child(4)) { --stair: 96px; }
+.l-steps:has(.steps > li:nth-child(5)) { --stair: 64px; }
 
 .l-steps .steps {
   list-style: none;
@@ -386,8 +389,14 @@
   grid-auto-columns: 1fr;
   gap: var(--gutter);
   counter-reset: step;
-  align-self: end;
+  align-items: start;
+  align-self: start;
 }
+
+.l-steps .steps > li:nth-child(2) { margin-top: var(--stair); }
+.l-steps .steps > li:nth-child(3) { margin-top: calc(2 * var(--stair)); }
+.l-steps .steps > li:nth-child(4) { margin-top: calc(3 * var(--stair)); }
+.l-steps .steps > li:nth-child(5) { margin-top: calc(4 * var(--stair)); }
 
 .l-steps .steps > li {
   counter-increment: step;
@@ -405,12 +414,12 @@
   content: counter(step, decimal-leading-zero);
   font-family: var(--f-display);
   font-style: var(--display-style);
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h1);
   line-height: 1;
   color: var(--c-accent);
 }
 
-.l-steps .steps > li > h3 { color: var(--c-ink); }
+.l-steps .steps > li > h3 { font-size: var(--fs-lead); color: var(--c-ink); }
 
 /* --- l-kpi: one big number ---------------------------------------------- */
 .l-kpi {
