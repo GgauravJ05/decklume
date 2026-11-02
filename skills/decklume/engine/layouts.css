@@ -563,6 +563,8 @@
   vertical-align: top;
 }
 
+.slide table.data tbody:not(:has(tr:nth-child(6))) td { padding-block: var(--sp-5); }
+
 .slide table.data td:first-child { color: var(--c-ink); font-weight: var(--fw-strong); }
 .slide table.data :is(th, td).n { text-align: right; }
 .slide table.data tr.is-highlight td { color: var(--c-ink); background: color-mix(in srgb, var(--c-accent) 12%, transparent); }
