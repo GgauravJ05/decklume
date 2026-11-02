@@ -296,6 +296,7 @@
   grid-template-columns: 1fr auto 1fr;
   gap: var(--sp-6);
   align-items: stretch;
+  align-self: center;
 }
 
 .l-compare .vs {
