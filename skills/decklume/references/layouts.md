@@ -26,6 +26,26 @@ Headline length: **≤ 8 words** on speaker-led slides, **≤ 12** on reading sl
 
 ---
 
+
+## How content fits
+
+Layouts use generous sizes for short content. If a slide's content would leave
+the safe area at those sizes, the runtime adds `.is-compact` and it falls back to
+tighter ones. Keep to the limits below, and run QA: it fails on overflow and warns
+about large empty bands (`dead-space`).
+
+## Theme-coloured artwork
+
+Add `data-themed` to an `<img>` that points at a local SVG. The build inlines it,
+so `var(--c-accent)` and the other colour tokens inside the file follow the theme:
+
+```html
+<img src="assets/waves.svg" alt="Abstract wave pattern" data-themed>
+```
+
+Works in `.media`, `l-gallery` and `l-bento` image tiles. Not for `l-annotated`,
+which needs a real `<img>` to place its pins.
+
 ## l-title — opening slide
 
 ```html
