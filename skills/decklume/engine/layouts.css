@@ -695,7 +695,7 @@
 .l-agenda {
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  align-items: center;
+  align-items: stretch;
 }
 
 .l-agenda > header { grid-column: 1 / span 4; align-self: start; }
@@ -705,6 +705,8 @@
   list-style: none;
   padding: 0;
   counter-reset: agenda;
+  display: grid;
+  align-content: space-between;
 }
 
 .l-agenda .agenda > li {
@@ -713,11 +715,11 @@
   grid-template-columns: 96px 1fr auto;
   align-items: baseline;
   gap: var(--sp-3);
-  padding: var(--sp-3) 0;
+  padding: var(--sp-4) 0;
   border-bottom: 1px solid var(--c-line);
   font-family: var(--f-display);
   font-style: var(--display-style);
-  font-size: var(--fs-lead);
+  font-size: var(--fs-h3);
   line-height: 1.2;
   color: var(--c-ink-3);
 }
@@ -726,14 +728,14 @@
   content: counter(agenda, decimal-leading-zero);
   font-family: var(--f-mono);
   font-style: normal;
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   color: var(--c-ink-3);
 }
 
 .l-agenda .agenda > li .time {
   font-family: var(--f-mono);
   font-style: normal;
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
 }
 
 .l-agenda .agenda > li.is-current { color: var(--c-ink); }
