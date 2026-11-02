@@ -461,8 +461,13 @@
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  gap: var(--gutter);
+  gap: var(--sp-5) var(--gutter);
   align-self: center;
+}
+
+.l-stats .stats:has(> .stat:nth-child(4)) {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .l-stats .stat {
@@ -477,16 +482,19 @@
   font-family: var(--f-display);
   font-style: var(--display-style);
   font-weight: var(--fw-display);
-  font-size: 128px;
+  font-size: var(--fs-display);
   line-height: 1;
   letter-spacing: -0.035em;
   color: var(--c-ink);
 }
 
+/* Five or more columns' worth of numbers won't hold display size. */
+.l-stats .stats:has(> .stat:nth-child(3):last-child) .value { font-size: 144px; }
+
 .l-stats .stat .label {
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   color: var(--c-ink-2);
-  max-width: 22ch;
+  max-width: 32ch;
 }
 
 .l-stats .stat.is-highlight { border-top-color: var(--c-accent); }
