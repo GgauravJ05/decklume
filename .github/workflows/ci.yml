@@ -37,6 +37,9 @@ jobs:
             node skills/decklume/scripts/qa.mjs "$f" --out "qa-out/$(basename "$f" .html)"
           done
 
+      - name: Design QA on the showcase in every theme
+        run: npm run qa:themes
+
       - name: Upload QA contact sheets
         if: always()
         uses: actions/upload-artifact@v4

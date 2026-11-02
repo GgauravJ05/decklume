@@ -1,4 +1,5 @@
 /* Shared page shell and components for the Decklume site. */
+import { FACTS } from "./facts.mjs";
 import { SITE, SLIDES } from "./content.mjs";
 
 export const esc = (v = "") => String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -104,7 +105,7 @@ ${ld}
 ${body}
 </main>
 <footer class="colophon">
-  <div class="rebate" aria-hidden="true"><span>DECKLUME 1920×1080</span><span>▸ 01A</span><span>13 THEMES</span><span>▸ 30 LAYOUTS</span><span>MIT</span><span>▸ 33A</span></div>
+  <div class="rebate" aria-hidden="true"><span>DECKLUME 1920×1080</span><span>▸ 01A</span><span>${FACTS.themes} THEMES</span><span>▸ ${FACTS.layouts} LAYOUTS</span><span>MIT</span><span>▸ ${FACTS.slides}A</span></div>
   <div class="colophon-grid">
     <div>
       <a class="wordmark" href="${root}">Decklume</a>
@@ -149,7 +150,7 @@ export const softwareLd = {
   description: "An open-source Claude Code skill that turns a topic, notes or a PowerPoint file into a designed, animated HTML presentation with presenter view, PDF export and automated design QA.",
   url: SITE.base,
   downloadUrl: SITE.repo,
-  softwareVersion: "0.2.0",
+  softwareVersion: FACTS.version,
   license: "https://opensource.org/licenses/MIT",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

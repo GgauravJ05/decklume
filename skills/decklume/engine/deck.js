@@ -317,6 +317,8 @@
           swap();
           this.nameMorphs(morphs, "to");
         });
+        // A new transition skips this one, which rejects `ready`. That's expected.
+        vt.ready.catch(() => {});
         vt.finished.finally(() => {
           this.clearMorphNames(morphs);
           root.classList.remove("dl-vt");
