@@ -70,7 +70,7 @@
 
 /* Headlines sit low and quiet; let the space speak. */
 .l-title { text-align: left; }
-.l-title > :is(h1, .display) { font-size: 128px; max-width: 11ch; }
+.l-title > :is(h1, .display) { font-size: 156px; max-width: 11ch; }
 .l-title > .byline { border-top: 0; }
 
 .l-section > .kicker {

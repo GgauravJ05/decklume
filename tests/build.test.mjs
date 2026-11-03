@@ -149,3 +149,15 @@ test("CLI scripts run when invoked through a symlinked install path", async () =
   const imp = execFileSync(process.execPath, [join(link, "scripts/extract-pptx.mjs"), join(skill, "../../tests/fixtures/sample.pptx"), tmp()], { encoding: "utf8" });
   assert.match(imp, /Extracted 5 slides/);
 });
+
+test("a data-themed image is inlined so its colours follow the theme", () => {
+  const dir = tmp();
+  writeFileSync(join(dir, "art.svg"), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><rect fill="var(--c-accent)"/></svg>');
+  const src = join(dir, "t.deck.html");
+  writeFileSync(src, deck('title: "T"\ntheme: folio', '<section class="slide l-free"><img src="art.svg" alt="Waves" data-themed></section>'));
+  const html = readFileSync(build(src).out, "utf8");
+  assert.doesNotMatch(html, /<img[^>]*art\.svg/);
+  assert.match(html, /<svg[^>]*role="img"[^>]*aria-label="Waves"/);
+  assert.match(html, /preserveAspectRatio="xMidYMid slice"/);
+  assert.match(html, /fill="var\(--c-accent\)"/);
+});

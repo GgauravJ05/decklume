@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -36,4 +36,33 @@ test("stays quiet when content is evenly spread", async () => {
 test("exempts layouts that are meant to be sparse", async () => {
   const report = await runQa(`<section class="slide l-statement">${at("h2", 90, "Headline")}${at("p", 860, "Far below")}</section>`);
   assert.deepEqual(deadSpace(report), []);
+});
+
+test("counts a filled panel as occupied space", async () => {
+  const panel = `<div style="position:absolute;left:120px;right:120px;top:300px;height:640px;background:#333"><p style="margin:0;color:#fff">Label</p></div>`;
+  const report = await runQa(`<section class="slide l-free">${at("h2", 90, "Headline")}${panel}</section>`);
+  assert.deepEqual(deadSpace(report), []);
+});
+
+test("does not count the slide's own background as occupied", async () => {
+  const report = await runQa(`<section class="slide l-free" style="background:#eee"><div class="bg" style="position:absolute;inset:0;background:#ddd"></div>${at("h2", 90, "Headline")}${at("p", 860, "Far below")}</section>`);
+  assert.equal(deadSpace(report).length, 1);
+});
+
+test("draws the contact sheet when --out is outside the deck's folder", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "decklume-qa-"));
+  const src = join(dir, "t.deck.html");
+  writeFileSync(src, `---\ntitle: "T"\ntheme: folio\n---\n<section class="slide l-title"><h1>Headline</h1></section>`);
+  const { out } = build(src);
+  const qaOut = mkdtempSync(join(tmpdir(), "decklume-qa-out-"));
+  await new Promise((resolve) => execFile("node", [QA, out, "--out", qaOut], { maxBuffer: 1 << 24 }, resolve));
+  const blankSheetBytes = 20_000;
+  assert.ok(statSync(join(qaOut, "contact-sheet.png")).size > blankSheetBytes, "contact sheet is blank");
+});
+
+test("a slide at its documented content limit stays inside the safe area", async () => {
+  const words = "memory practice evening retrieval sleep students memory practice evening retrieval sleep students memory practice evening retrieval sleep students";
+  const steps = Array.from({ length: 5 }, () => `<li><h3>Step title</h3><p>${words}</p></li>`).join("");
+  const report = await runQa(`<section class="slide l-steps"><header><h2>Headline</h2></header><ol class="steps">${steps}</ol></section>`);
+  assert.deepEqual(report.issues.filter((i) => i.level === "error"), []);
 });

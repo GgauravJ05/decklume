@@ -16,6 +16,9 @@
   let FRAMED = false;
   try { FRAMED = window.self !== window.top; } catch { FRAMED = true; }
 
+  // Layouts that have a compact fallback in layouts.css.
+  const FITTED_LAYOUTS = ".l-steps, .l-stats, .l-cards, .l-timeline, .l-compare, .l-list, .l-table, .l-agenda, .l-diagram, .l-problem, .l-chart";
+
   // Blocks that get the staggered entrance, in reading order.
   const ENTER_SELECTOR = [
     ":scope > :not(.notes, .media, .bg, [data-enter='none'])",
@@ -48,9 +51,11 @@
 
       this.prepareSlides();
       this.fitMastheads();
+      this.fitDensity();
       this.placeCallouts();
       document.fonts?.ready.then(() => {
         this.fitMastheads();
+        this.fitDensity();
         this.placeCallouts();
       });
       this.scale = this.scale.bind(this);
@@ -113,6 +118,23 @@
 
     /* Cover mastheads span their column: scale the type to the box,
        between half and 1.35× the theme's size. */
+    // Generous sizes suit short content. A slide that would leave the safe
+    // area at those sizes falls back to the compact ones in layouts.css.
+    fitDensity() {
+      const SAFE_BOTTOM = 96;
+      this.slides.filter((slide) => slide.matches(FITTED_LAYOUTS)).forEach((slide) => {
+        slide.classList.remove("is-compact");
+        const box = slide.getBoundingClientRect();
+        const k = W / box.width;
+        const tooBig = [...slide.querySelectorAll("*")].some((el) => {
+          if (el.closest(".notes, svg")) return false;
+          const r = el.getBoundingClientRect();
+          return (r.bottom - box.top) * k > H - SAFE_BOTTOM || (r.right - box.left) * k > W || el.scrollWidth > el.clientWidth + 2;
+        });
+        slide.classList.toggle("is-compact", tooBig);
+      });
+    }
+
     fitMastheads() {
       this.stage.querySelectorAll(".l-cover > .masthead").forEach((el) => {
         el.style.removeProperty("--dl-fit");

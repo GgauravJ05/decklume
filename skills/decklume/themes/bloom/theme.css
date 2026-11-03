@@ -49,7 +49,7 @@
 }
 
 /* A soft blob in the corner of every slide. */
-.slide:not(.l-bleed)::before {
+.slide:is(.l-title, .l-section, .l-statement, .l-closing)::before {
   content: "";
   position: absolute;
   right: -160px;
@@ -107,3 +107,5 @@
 @media print {
   .slide .cards > .card { transform: none; }
 }
+
+.l-title > :is(h1, .display) { font-size: 164px; }

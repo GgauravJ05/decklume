@@ -138,6 +138,29 @@ test("presenter view shows notes and drives the deck", async () => {
   await p.close();
 });
 
+test("short content keeps the generous layout", async () => {
+  const compact = await page.evaluate(() => document.querySelectorAll(".slide.is-compact").length);
+  assert.equal(compact, 0);
+});
+
+test("a donut labels each slice beside its arc, without collisions", async () => {
+  await page.evaluate(() => window.decklume.go(7, { instant: true }));
+  const boxes = await page.evaluate(() =>
+    [...document.querySelectorAll(".slide.is-active .dl-donut-lab")].map((t) => {
+      const { left, right, top, bottom } = t.getBoundingClientRect();
+      return { left, right, top, bottom, text: t.textContent };
+    })
+  );
+  assert.equal(boxes.length, 4);
+  assert.ok(boxes.every((b) => /\d+%/.test(b.text)));
+  for (const [i, a] of boxes.entries()) {
+    for (const b of boxes.slice(i + 1)) {
+      const overlap = a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+      assert.ok(!overlap, `"${a.text}" overlaps "${b.text}"`);
+    }
+  }
+});
+
 test("interrupting a slide transition raises no page error", async () => {
   const before = errors.length;
   await page.evaluate(() => {

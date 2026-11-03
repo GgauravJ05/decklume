@@ -24,6 +24,7 @@
 }
 
 .slide .chart .dl-lab { font-size: 24px; }
+.slide .chart .dl-donut-lab { font-size: 34px; }
 .slide .chart .dl-val { font-size: 26px; font-weight: 600; fill: var(--c-ink); font-variant-numeric: tabular-nums; }
 .slide .chart .is-hl { fill: var(--c-accent); font-weight: 600; }
 .slide .chart .dl-donut-val { font-family: var(--f-display); font-size: 96px; fill: var(--c-ink); }
