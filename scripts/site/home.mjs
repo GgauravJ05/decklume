@@ -1,66 +1,133 @@
-/* Home page: the contact sheet. */
+/* Home page: slides flying through a room, then the product in sections. */
 import { FACTS } from "./facts.mjs";
-import { SITE, SLIDES, HERO_FRAMES, KEEPER_INDEX, SWITCH_SLIDES, FAQ_HOME, AUDIENCES } from "./content.mjs";
-import { page, esc, icon, frame, frameSrc, command, greaseCircle, greaseArrow, faqHtml, faqLd, softwareLd } from "./layout.mjs";
+import { SITE, SWITCH_SLIDES, FAQ_HOME, AUDIENCES, EXAMPLES, ROOM_FRAMES } from "./content.mjs";
+import { page, esc, icon, frameSrc, command, greaseCircle, faqHtml, faqLd, softwareLd } from "./layout.mjs";
 
 const pad = (n) => String(n).padStart(2, "0");
 
 export function home(themes) {
   const root = "";
   const byslug = Object.fromEntries(themes.map((t) => [t.slug, t]));
-  const fr = (i, opts = {}) => {
-    const [t, n] = HERO_FRAMES[i];
-    const keeper = i === KEEPER_INDEX;
-    const html = frame(root, t, n, { eager: i < 6 || keeper, themeName: byslug[t].name, href: `themes/${t}/`, ...opts });
-    return keeper ? html.replace('<figure class="frame">', `<figure class="frame keeper">${greaseCircle("g-circle")}<span class="note note-mobile" aria-hidden="true">keep this one</span>`) : html;
-  };
+  const thumb = (t, n, { eager = false, alt = "" } = {}) =>
+    `<img src="${frameSrc(root, t, n)}" alt="${esc(alt)}" width="640" height="360" ${eager ? "" : 'loading="lazy" '}decoding="async">`;
 
-  /* --- 1. Hero: contact sheet with the keeper enlarged and playable --- */
+  /* --- 1. Hero: a room of slides, and a topic box ------------------------- */
+  const walls = Object.entries(ROOM_FRAMES).map(([wall, list]) => `
+    <div class="wall wall-${wall}">${list.map(([t, n], i) => `<figure class="fly" style="--i:${i};--n:${list.length};--lane:${i % 2}">${thumb(t, n, { eager: true })}</figure>`).join("")}</div>`).join("");
+  const firstPrompt = "Make a presentation about how sleep shapes memory, in the Folio theme.";
   const hero = `
 <section class="hero" aria-labelledby="hero-h">
-  <div class="hero-head">
-    <div class="hero-copy">
-      <h1 id="hero-h">Pick the frame. <span>Ship the deck.</span></h1>
-      <p class="lede">Decklume is a free Claude Code skill that turns a topic, your notes or a PowerPoint into a designed, animated presentation, and checks every slide in a real browser before you see it.</p>
+  <div class="room" aria-hidden="true" data-room><div class="room-scene">${walls}</div></div>
+  <div class="hero-inner">
+    <p class="eyebrow"><span class="dot"></span>Free Claude Code skill · v${FACTS.version}</p>
+    <h1 id="hero-h">One prompt.<br>A designed deck.</h1>
+    <p class="lede">Turn a topic, your notes or a PowerPoint into an animated presentation that's checked in a real browser before you see it, <em>in one conversation</em>.</p>
+    <form class="topic" id="topic-form" data-topic action="#install">
+      <span class="topic-at" aria-hidden="true">${icon("spark")}</span>
+      <label class="sr" for="topic-in">What is your talk about?</label>
+      <input id="topic-in" name="topic" type="text" autocomplete="off" maxlength="140" placeholder="What's your talk about?">
+      <label class="sr" for="topic-theme">Theme</label>
+      <select id="topic-theme" name="theme">${themes.map((t) => `<option value="${t.slug}">${esc(t.name)}</option>`).join("")}</select>
+    </form>
+    <div class="hero-cta">
+      <button type="submit" class="btn btn-primary btn-lg" form="topic-form">Get my prompt</button>
+      <a class="link-arrow" href="demos/folio.html">Play the demo deck ${icon("arrow")}</a>
     </div>
-    <div class="hero-act">
-      <p class="act-label">Install in Claude Code, one line at a time</p>
-      ${command(SITE.install[0])}
-      ${command(SITE.install[1])}
-      <a class="btn btn-primary" href="#play">${icon("play")}<span>Play the demo deck</span></a>
-    </div>
-  </div>
-  <div class="sheet" id="sheet">
-    <p class="note note-keep" aria-hidden="true">keep this one</p>
-    ${greaseArrow("g-arrow")}
-    <div class="strip s6">${[0, 1, 2, 3, 4, 5].map((i) => fr(i)).join("")}</div>
-    <div class="sheet-low">
-      <div class="strips">
-        <div class="strip s4">${[6, 7, 8, 9].map((i) => fr(i)).join("")}</div>
-        <div class="strip s4">${[10, 11, 12, 13].map((i) => fr(i)).join("")}</div>
+    <div class="recipe" data-recipe>
+      <div class="recipe-steps">
+        <p class="recipe-h">Paste these into Claude Code, one at a time</p>
+        <ol>
+          <li>${command(SITE.install[0])}</li>
+          <li>${command(SITE.install[1])}</li>
+          <li data-recipe-prompt>${command(firstPrompt)}</li>
+        </ol>
       </div>
-      <div class="print" id="play" data-player data-theme="folio" data-total="${SLIDES.length}">
-        <div class="screen">
-          <img class="poster" src="${frameSrc(root, "folio", 1, 1280)}" alt="Folio theme title slide: How sleep shapes memory" width="1280" height="720" fetchpriority="high">
-        </div>
-        <div class="controls">
-          <button type="button" data-act="prev" aria-label="Previous slide">${icon("prev")}</button>
-          <span class="count" aria-live="polite"><b data-count>01</b> / ${SLIDES.length}</span>
-          <button type="button" data-act="next" aria-label="Next slide">${icon("next")}</button>
-          <span class="print-label">How sleep shapes memory · Folio</span>
-          <a class="full" href="demos/folio.html" aria-label="Open the demo deck full screen">${icon("expand")}</a>
-        </div>
-      </div>
+      <a class="recipe-look" href="themes/folio/" data-recipe-look>
+        <img src="${frameSrc(root, "folio", 1)}" alt="" width="640" height="360" loading="lazy" decoding="async">
+        <span><b data-recipe-name>Folio</b> · see every slide ${icon("arrow")}</span>
+      </a>
     </div>
+    <a class="proof" href="themes/">
+      <span class="swatches-mini" aria-hidden="true">${["folio", "nocturne", "volt", "bloom", "campus"].map((s) => `<i style="--a:${byslug[s].colors.accent};--b:${byslug[s].colors.bg}"></i>`).join("")}</span>
+      <span class="proof-txt"><b>${FACTS.themes} themes, ${FACTS.layouts} layouts</b><span>Browse the themes ${icon("arrow")}</span></span>
+    </a>
   </div>
 </section>`;
 
-  /* --- 2. Live theme switcher ------------------------------------------ */
+  /* --- 2. How it works: four cards, each with a small mock ------------------ */
+  const outline = [["01", "title", "How sleep shapes memory"], ["07", "steps", "The night runs in cycles"], ["08", "chart", "Half the night is N2"], ["16", "kpi", "1 in 3 adults sleep < 7 h"]];
+  const how = `
+<section class="band how" id="how" aria-labelledby="how-h">
+  <div class="band-head center">
+    <h2 id="how-h">From one sentence. <span class="soft">To a finished deck.</span></h2>
+  </div>
+  <ol class="how-grid">
+    <li class="how-card">
+      <div class="mock mock-brief" aria-hidden="true">
+        <div class="mini-input"><span>&gt;</span> Make a 15-minute lecture on how sleep shapes memory</div>
+        <div class="mini-card">
+          <p class="mini-who">${icon("spark")} One round of questions</p>
+          <div class="chips-mini"><span>Lecture</span><span>Speaker-led</span><span>~${FACTS.slides} slides</span><span>No images</span></div>
+        </div>
+      </div>
+      <h3><span class="num">01</span> Describe the talk</h3>
+      <p>Say who it's for and how long, or hand over notes, a document or a .pptx. Claude asks what it still needs, once.</p>
+    </li>
+    <li class="how-card">
+      <div class="mock mock-outline" aria-hidden="true">
+        <div class="mini-card">
+          ${outline.map(([n, l, h]) => `<p class="ol-row"><span class="ol-n">${n}</span><span class="ol-l">${l}</span><span class="ol-h">${h}</span></p>`).join("")}
+          <p class="mini-actions"><span class="pill">Edit</span><span class="pill pill-on">${icon("check")} Approve</span></p>
+        </div>
+      </div>
+      <h3><span class="num">02</span> Approve the story</h3>
+      <p>An outline with one claim per slide and a layout for each. Change anything before a single pixel is designed.</p>
+    </li>
+    <li class="how-card">
+      <div class="mock mock-abc" aria-hidden="true">
+        ${["nocturne", "folio", "grid"].map((t, i) => `<figure class="abc abc-${i}${i === 1 ? " is-pick" : ""}">${thumb(t, 17)}<figcaption>${"ABC"[i]} · ${byslug[t].name}</figcaption></figure>`).join("")}
+      </div>
+      <h3><span class="num">03</span> Pick a look</h3>
+      <p>Your own title and content slides, rendered in three themes side by side. Choose one, or ask for a mix.</p>
+    </li>
+    <li class="how-card">
+      <div class="mock mock-flow" aria-hidden="true">
+        <div class="flow-row">
+          <div class="node">${icon("file")}<b>deck.html</b><span>${FACTS.slides} slides</span></div>
+          <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" pathLength="1"/></svg>${icon("check")}</div>
+          <div class="node">${icon("play")}<b>Present</b><span>PDF · link</span></div>
+        </div>
+        <p class="flow-big">0 errors</p>
+        <p class="flow-sub">checked in a real browser</p>
+      </div>
+      <h3><span class="num">04</span> Checked, then yours</h3>
+      <p>Every slide is rendered and measured, and anything that fails is fixed before you see it. Then present, export a PDF, or share a link.</p>
+    </li>
+  </ol>
+  <p class="center-act"><a class="btn btn-primary" href="#hero-h" data-focus-topic>Try it with your topic</a></p>
+</section>`;
+
+  /* --- 3. Theme gallery: a slow marquee ------------------------------------- */
+  const card = (t, dupe = false) => `<a class="tcard" href="themes/${t.slug}/"${dupe ? ' tabindex="-1"' : ""}><span class="tcard-img">${thumb(t.slug, 1, { alt: dupe ? "" : `${t.name} theme title slide` })}</span><span class="tcard-cap"><b>${esc(t.name)}</b><span>${esc(t.mood[0])}</span></span></a>`;
+  const gallery = `
+<section class="band gallery" aria-labelledby="gal-h">
+  <div class="band-head center">
+    <span class="tag tag-l" aria-hidden="true">${FACTS.themes} themes</span>
+    <span class="tag tag-r" aria-hidden="true">${FACTS.layouts} layouts</span>
+    <h2 id="gal-h">Start from a look<br>people actually present</h2>
+    <a class="btn btn-primary" href="themes/">Browse themes</a>
+  </div>
+  <div class="marquee" data-marquee>
+    <div class="marquee-track">${themes.map((t) => card(t)).join("")}<span class="marquee-dupe" aria-hidden="true">${themes.map((t) => card(t, true)).join("")}</span></div>
+  </div>
+</section>`;
+
+  /* --- 4. Live theme switcher -------------------------------------------------- */
   const switcher = `
 <section class="band switcher" id="looks" aria-labelledby="looks-h">
-  <div class="band-head">
-    <h2 id="looks-h">One deck. Thirteen looks.</h2>
-    <p>The same ${FACTS.slides}-slide lecture, rebuilt in every theme. Choose a look and a slide: this is the real deck running live, not a screenshot.</p>
+  <div class="band-head center">
+    <h2 id="looks-h">One deck. <span class="soft">${FACTS.themes} looks.</span></h2>
+    <p>The same ${FACTS.slides}-slide lecture in every theme. Pick a look and a slide: this is the real deck running live, not a screenshot.</p>
   </div>
   <div class="switch" data-switcher>
     <div class="viewer">
@@ -79,65 +146,71 @@ export function home(themes) {
         <div class="chips">${SWITCH_SLIDES.map(([n, label], i) => `<button type="button" class="chip" data-slide="${n}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div>
       </fieldset>
       <div class="theme-info" aria-live="polite">
-        ${themes.map((t, i) => `<div data-info="${t.slug}"${i ? " hidden" : ""}><p class="ti-name">${esc(t.name)}</p><p>${esc(t.tagline)}</p><p class="ti-for">Best for ${esc(t.best_for.slice(0, 3).join(", "))}.</p><a href="themes/${t.slug}/">See every slide in ${esc(t.name)} ${icon("arrow")}</a></div>`).join("")}
+        ${themes.map((t, i) => `<div data-info="${t.slug}"${i ? " hidden" : ""}><p class="ti-name">${esc(t.name)}</p><p>${esc(t.tagline)}</p><a class="link-arrow" href="themes/${t.slug}/">See every slide in ${esc(t.name)} ${icon("arrow")}</a></div>`).join("")}
       </div>
     </div>
   </div>
 </section>`;
 
-  /* --- 3. Prompt → deck story ------------------------------------------- */
-  const outline = [
-    ["01", "l-title", "How sleep shapes memory"],
-    ["07", "l-steps", "The night runs in repeating cycles"],
-    ["08", "l-chart", "Half the night is stage N2"],
-    ["16", "l-kpi", "1 in 3 US adults sleep under seven hours"],
-    ["27", "l-statement", "The best study session ends with going to bed"],
-  ];
-  const story = `
-<section class="band story" id="how" aria-labelledby="how-h">
-  <div class="band-head">
-    <h2 id="how-h">From one sentence to a finished deck.</h2>
-    <p>Five steps, and you approve the two that matter: the story and the style.</p>
-  </div>
-  <div class="story-grid" data-story>
-    <div class="story-stage" aria-hidden="true">
-      <div class="stage-frame">
-        <div class="stage" data-stage="1">
-          <p class="term"><span class="prompt">&gt;</span> <span class="typed" data-type="Make a 15-minute lecture on how sleep shapes memory for first-year psychology students.">Make a 15-minute lecture on how sleep shapes memory for first-year psychology students.</span></p>
-          <ul class="answers"><li>Lecture</li><li>Speaker-led</li><li>~${FACTS.slides} slides</li><li>No images</li></ul>
-        </div>
-        <div class="stage" data-stage="2">
-          <table class="outline"><thead><tr><th>#</th><th>Layout</th><th>Headline</th></tr></thead><tbody>${outline.map(([n, l, h]) => `<tr><td>${n}</td><td>${l}</td><td>${h}</td></tr>`).join("")}</tbody></table>
-          <p class="approve">${icon("check")} Outline approved</p>
-        </div>
-        <div class="stage" data-stage="3">
-          <div class="abc">${["folio", "nocturne", "grid"].map((t, i) => `<figure class="${i === 0 ? "keeper" : ""}">${i === 0 ? greaseCircle("g-circle") : ""}<img src="${frameSrc(root, t, 17)}" alt="" width="640" height="360" loading="lazy"><figcaption>${"ABC"[i]} · ${byslug[t].name}</figcaption></figure>`).join("")}</div>
-        </div>
-        <div class="stage" data-stage="4">
-          <div class="qa-mini">${SLIDES.map((_, i) => `<span style="--i:${i}"><img src="${frameSrc(root, "folio", i + 1)}" alt="" width="640" height="360" loading="lazy"></span>`).join("")}</div>
-          <p class="term pass">${icon("check")} QA passed · ${FACTS.slides} slides · 0 errors</p>
-        </div>
-        <div class="stage" data-stage="5">
-          <figure class="deliver"><img src="${frameSrc(root, "folio", 33)}" alt="" width="640" height="360" loading="lazy"></figure>
-          <ul class="outputs"><li>sleep-and-memory.html <em>one file</em></li><li>sleep-and-memory.pdf <em>1.1 MB, vector</em></li><li>slides/01–${FACTS.slides}.png</li><li>a live link</li></ul>
-        </div>
+  /* --- 5. Bento: everything a deck can do -------------------------------------- */
+  const bento = `
+<section class="band bento-band" aria-labelledby="bento-h">
+  <div class="band-head center"><h2 id="bento-h">Everything a deck can be.</h2></div>
+  <div class="bento">
+    <article class="tile t-qa">
+      <div class="tile-art" aria-hidden="true">
+        <ul class="mini-finds">${["overflow", "contrast 4.5:1", "type size", "fonts loaded"].map((f, i) => `<li style="--i:${i}">${icon("check")} ${f}</li>`).join("")}</ul>
       </div>
-    </div>
-    <ol class="story-steps">
-      <li data-step="1"><h3>Brief</h3><p>Describe the talk, or hand over notes, a document or a .pptx. Claude asks everything it needs in one round: purpose, audience, speaker-led or reading, length.</p></li>
-      <li data-step="2"><h3>Storyline</h3><p>You get an outline with a claim on every slide and a layout picked for each. Change anything before a single pixel is designed.</p></li>
-      <li data-step="3"><h3>Style</h3><p>Your own title and content slides, rendered in three themes side by side. Pick A, B or C, or mix them.</p></li>
-      <li data-step="4"><h3>Build and check</h3><p>The deck is built as one HTML file, then every slide is rendered in a real browser and checked. Anything that fails is fixed before you see it.</p></li>
-      <li data-step="5"><h3>Present and share</h3><p>Present with a notes window and timer, or export a vector PDF, PNGs or a live link.</p></li>
-    </ol>
+      <h3>Design QA<span>Checked before you see it</span></h3>
+      <p>Every slide rendered at 1920×1080 and measured, with a contact sheet.</p>
+    </article>
+    <article class="tile t-morph">
+      <div class="tile-art morph-art" aria-hidden="true">${thumb("aurora", 16)}<span class="morph-arrow">${icon("arrow")}</span>${thumb("aurora", 17)}</div>
+      <h3>Magic Move<span>Numbers glide across slides</span></h3>
+      <p>Keynote-style transitions that carry a figure from one slide to the next.</p>
+    </article>
+    <article class="tile t-presenter t-dark">
+      <div class="tile-art pv" aria-hidden="true">
+        <div class="pv-now">${thumb("nocturne", 8)}</div>
+        <div class="pv-side"><div class="pv-next">${thumb("nocturne", 9)}</div><p class="pv-clock">12:04</p></div>
+      </div>
+      <h3>Presenter view<span>Notes, timer, next slide</span></h3>
+      <p>Press P for a second window, synced live with the deck.</p>
+    </article>
+    <article class="tile t-pptx t-accent">
+      <div class="tile-art pptx-art" aria-hidden="true">
+        <span class="file-chip">${icon("file")} lecture-04.pptx</span>
+        <span class="pptx-arrow">${icon("arrow")}</span>
+        <span class="pptx-stack">${thumb("chalk", 4)}${thumb("chalk", 7)}</span>
+      </div>
+      <h3>Bring your PowerPoint<span>Redesigned, notes kept</span></h3>
+      <p>Bullet levels, tables, grouped images, speaker notes and native chart data all come across.</p>
+    </article>
+    <article class="tile t-charts t-dark t-wide">
+      <div class="tile-art charts-art" aria-hidden="true">${thumb("volt", 8)}${thumb("campus", 10)}</div>
+      <div class="tile-copy">
+        <h3>Charts that draw themselves<span>Labelled on the chart, from your data</span></h3>
+        <p>Bar, line and donut charts in SVG, in the theme's colours, built step by step.</p>
+      </div>
+    </article>
+    <article class="tile t-num">
+      <p class="big-num">1.1 MB</p>
+      <p class="num-sub">vector PDF, all ${FACTS.slides} slides</p>
+      <p>Selectable text and every build step shown. Small enough to email.</p>
+    </article>
+    <article class="tile t-file t-dark">
+      <p class="big-num">1 file</p>
+      <p class="num-sub">the whole deck, offline</p>
+      <p>Opens in any browser on any computer. Nothing to install.</p>
+    </article>
   </div>
 </section>`;
 
-  /* --- 4. QA inspector --------------------------------------------------- */
+  /* --- 6. QA inspector ------------------------------------------------------------ */
   const qa = `
 <section class="band qa" id="qa" aria-labelledby="qa-h">
-  <div class="band-head">
-    <h2 id="qa-h">A design check that actually looks.</h2>
+  <div class="band-head center">
+    <h2 id="qa-h">A design check <span class="soft">that actually looks.</span></h2>
     <p>Most tools trust the model. Decklume renders every slide and measures it. Run the check on this broken slide.</p>
   </div>
   <div class="qa-demo" data-qa>
@@ -166,8 +239,8 @@ export function home(themes) {
     <div class="qa-panel">
       <div class="qa-buttons">
         <button type="button" class="btn btn-primary" data-qa-run>${icon("loupe")}<span>Run design QA</span></button>
-        <button type="button" class="btn btn-ghost" data-qa-fix disabled>${icon("check")}<span>Fix and re-run</span></button>
-        <button type="button" class="btn btn-ghost btn-icon" data-qa-reset aria-label="Reset the demo">${icon("reset")}</button>
+        <button type="button" class="btn btn-quiet" data-qa-fix disabled>${icon("check")}<span>Fix and re-run</span></button>
+        <button type="button" class="btn btn-quiet btn-icon" data-qa-reset aria-label="Reset the demo">${icon("reset")}</button>
       </div>
       <ol class="findings" aria-live="polite">
         <li data-find="overlap"><code>[overlap]</code> “Three small experiments…” overlaps the badge</li>
@@ -176,46 +249,39 @@ export function home(themes) {
         <li data-find="type-size"><code>[type-size]</code> 14px source line is below the 18px minimum</li>
       </ol>
       <p class="qa-result" data-qa-result>Press run to inspect the slide.</p>
-      <p class="qa-note">These are four of the checks <code>qa.mjs</code> runs on every slide, with the same rule names. It also checks overflow past the slide edge, web fonts, broken images, leftover placeholder text, JavaScript errors and 16:9 scaling on phones.</p>
+      <p class="qa-note">Four of the checks <code>qa.mjs</code> runs on every slide, with the same rule names. It also checks overflow past the slide edge, web fonts, broken images, placeholder text, JavaScript errors and 16:9 scaling on phones.</p>
     </div>
   </div>
 </section>`;
 
-  /* --- 5. Install: the one calm panel ---------------------------------- */
-  const prompts = [
-    "Make a 10-minute presentation on the causes of World War I for my history class.",
-    "Turn lecture-04.pptx into a Chalk-themed deck and keep my speaker notes.",
-    "Build a 20-minute thesis defense from my abstract and results.",
-    "Pitch deck for our startup, 12 slides, ending with the raise.",
-  ];
-  const install = `
-<section class="band install" id="install" aria-labelledby="install-h">
-  <div class="install-panel">
-    <h2 id="install-h">Install in two commands.</h2>
-    <ol class="install-steps">
-      <li><p>In Claude Code, add the marketplace:</p>${command(SITE.install[0], { big: true })}</li>
-      <li><p>Then install the plugin:</p>${command(SITE.install[1], { big: true })}</li>
-      <li><p>Now just ask, for example:</p><ul class="prompts">${prompts.map((p) => `<li>${command(p)}</li>`).join("")}</ul></li>
-    </ol>
-    <details class="manual"><summary>Prefer a standalone skill?</summary>${command(SITE.manual[0])}${command(SITE.manual[1])}<p>Requires Node.js 18 or newer, and nothing else: PowerPoint import is pure Node. Design QA, previews and PDF export install Playwright once into <code>~/.cache/decklume</code>.</p></details>
-  </div>
-</section>`;
-
-  /* --- 6. Made for -------------------------------------------------------- */
+  /* --- 7. Examples and audiences ---------------------------------------------- */
+  const exCard = (ex) => `
+    <article class="excard">
+      <header><span class="ex-ic" style="--a:${byslug[ex.theme].colors.accent};--b:${byslug[ex.theme].colors.bg}"></span><span class="ex-t"><b>${esc(ex.title)}</b><small>${esc(ex.kind)} · ${esc(byslug[ex.theme].name)} · ${ex.slides} slides</small></span><a class="pill pill-dark" href="examples/${ex.slug}.html">Play</a></header>
+      <a class="excard-img" href="examples/${ex.slug}.html" tabindex="-1"><img src="assets/examples/${ex.slug}/${pad(ex.frames[0])}.webp" alt="${esc(ex.title)}, title slide" width="640" height="360" loading="lazy" decoding="async"></a>
+    </article>`;
   const auds = [["students", "campus", 7], ["teachers", "chalk", 4], ["researchers", "atlas", 8], ["founders", "aurora", 16]];
   const made = `
 <section class="band made" aria-labelledby="made-h">
-  <div class="band-head"><h2 id="made-h">Made for whoever is presenting next.</h2></div>
-  <div class="strip strip-wide s4">${auds.map(([a, t, n]) => `<figure class="frame aud"><a class="frame-link" href="for/${a}/"><img src="${frameSrc(root, t, n)}" alt="${esc(AUDIENCES[a].h1)}" width="640" height="360" loading="lazy" decoding="async"></a><figcaption><a href="for/${a}/">${a[0].toUpperCase() + a.slice(1)}</a><span>${esc(AUDIENCES[a].makes.map((m) => m[0]).slice(0, 2).join(" · "))}</span></figcaption></figure>`).join("")}</div>
+  <div class="made-head">
+    <h2 id="made-h">Real decks you can play, <span class="soft">and one for every room.</span></h2>
+    <div class="made-cols">
+      <p><b>Examples.</b> Four complete presentations, from a lecture to a seed pitch. Open one and use the arrow keys; press P for the presenter view. <a class="link-arrow" href="examples/">See the examples ${icon("arrow")}</a></p>
+      <p><b>Made for.</b> Students, teachers, researchers and founders each get prompts to copy and themes to start with. <a class="link-arrow" href="for/students/">Find your room ${icon("arrow")}</a></p>
+    </div>
+  </div>
+  <div class="ex-grid">${EXAMPLES.map(exCard).join("")}</div>
+  <div class="aud-row">${auds.map(([a, t, n]) => `<a class="aud-card" href="for/${a}/"><span class="aud-img">${thumb(t, n, { alt: AUDIENCES[a].h1 })}</span><b>${a[0].toUpperCase() + a.slice(1)}</b><span>${esc(AUDIENCES[a].makes.map((m) => m[0]).slice(0, 2).join(" · "))}</span></a>`).join("")}</div>
 </section>`;
 
-  /* --- 7. Compared --------------------------------------------------------- */
+  /* --- 8. Compared ------------------------------------------------------------------ */
   const compare = `
 <section class="band compare" aria-labelledby="cmp-h">
-  <div class="band-head">
+  <div class="band-head center">
     <h2 id="cmp-h">How it compares.</h2>
-    <p>Side by side with <a href="https://github.com/zarazhangrui/frontend-slides">frontend-slides</a>, another open-source Claude Code skill for HTML presentations:</p>
+    <p>Side by side with <a href="https://github.com/zarazhangrui/frontend-slides">frontend-slides</a>, another open-source Claude Code skill for HTML presentations.</p>
   </div>
+  <div class="table-card">
   <table class="ctable">
     <thead><tr><th scope="col"></th><th scope="col">frontend-slides</th><th scope="col">Decklume</th></tr></thead>
     <tbody>
@@ -226,14 +292,49 @@ export function home(themes) {
       <tr><th scope="row">PDF</th><td>Screenshots, about 20 MB for 18 slides</td><td>Vector with selectable text, 1.1 MB for ${FACTS.slides} slides</td></tr>
     </tbody>
   </table>
-  <a class="more" href="compare/frontend-slides/">Read the full comparison ${icon("arrow")}</a>
+  </div>
+  <p class="center-act"><a class="link-arrow" href="compare/frontend-slides/">Read the full comparison ${icon("arrow")}</a></p>
+</section>`;
+
+  /* --- 9. Install, set like a pricing table ----------------------------------------- */
+  const prompts = [
+    "Make a 10-minute presentation on the causes of World War I for my history class.",
+    "Turn lecture-04.pptx into a Chalk-themed deck and keep my speaker notes.",
+    "Pitch deck for our startup, 12 slides, ending with the raise.",
+  ];
+  const install = `
+<section class="band install" id="install" aria-labelledby="install-h">
+  <div class="band-head center">
+    <h2 id="install-h" class="serif">Simply free.</h2>
+    <p>No account and no subscription. Decklume is <b>MIT-licensed</b> and runs inside <b>Claude Code</b>.</p>
+  </div>
+  <div class="plans">
+    <article class="plan plan-main">
+      <p class="plan-tag">Recommended</p>
+      <h3>Claude Code plugin</h3>
+      <p class="plan-price">$0 <small>forever</small></p>
+      <ol class="plan-steps"><li><p>Add the marketplace</p>${command(SITE.install[0])}</li><li><p>Install the plugin</p>${command(SITE.install[1])}</li></ol>
+    </article>
+    <article class="plan">
+      <p class="plan-tag">Manual</p>
+      <h3>Standalone skill</h3>
+      <p class="plan-price">$0 <small>Node 18+</small></p>
+      <ol class="plan-steps"><li><p>Clone the repo</p>${command(SITE.manual[0])}</li><li><p>Copy the skill</p>${command(SITE.manual[1])}</li></ol>
+    </article>
+    <article class="plan">
+      <p class="plan-tag">Then</p>
+      <h3>Just ask</h3>
+      <p class="plan-price">1 <small>prompt</small></p>
+      <ul class="plan-steps">${prompts.map((p) => `<li>${command(p)}</li>`).join("")}</ul>
+    </article>
+  </div>
+  <p class="install-note">Needs Node.js 18 or newer. Design QA, previews and PDF export install Playwright once into <code>~/.cache/decklume</code>, never into your project.</p>
 </section>`;
 
   const close = `
 <section class="closing" aria-labelledby="close-h">
-  <h2 id="close-h">Your next deck is one prompt away.</h2>
-  ${command(SITE.install[1], { big: true })}
-  <div class="close-links"><a class="btn btn-primary" href="#install">See both install steps</a><a class="btn btn-ghost" href="${SITE.repo}">${icon("github")}<span>Star on GitHub</span></a></div>
+  <h2 id="close-h">Your next deck is <span class="serif">one prompt</span> away.</h2>
+  <div class="close-links"><a class="btn btn-primary btn-lg" href="#hero-h" data-focus-topic>Get my prompt</a><a class="btn btn-quiet btn-lg" href="${SITE.repo}">${icon("star")}<span>Star on GitHub</span></a></div>
 </section>`;
 
   return page({
@@ -248,6 +349,6 @@ export function home(themes) {
       { "@type": "WebSite", "@id": SITE.base + "#website", url: SITE.base, name: "Decklume", description: "AI presentation maker skill for Claude Code" },
       faqLd(FAQ_HOME),
     ],
-    body: hero + switcher + story + qa + install + made + compare + faqHtml(FAQ_HOME, "Questions people ask") + close,
+    body: hero + how + gallery + switcher + bento + qa + made + compare + install + faqHtml(FAQ_HOME, "Questions people ask") + close,
   });
 }
