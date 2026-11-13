@@ -28,6 +28,11 @@ site/                   # GitHub Pages landing page + live demos
 tests/                  # node:test suites
 ```
 
+## What's planned
+
+[`docs/roadmap/`](docs/roadmap/README.md) lists planned work with a brief for
+each piece. Pick one, or open an issue to propose something else.
+
 ## Adding a theme
 
 1. Copy the closest theme folder in `skills/decklume/themes/` and rename it.
