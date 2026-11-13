@@ -104,6 +104,9 @@ test("jump-to-slide with digits + Enter", async () => {
   await key("1");
   await key("2");
   await key("Enter");
+  // With View Transitions the swap runs in the transition's update callback,
+  // so the index changes a frame or two later; on a slow runner that's > 80 ms.
+  await page.waitForFunction(() => window.decklume.index === 11, null, { timeout: 3000 }).catch(() => {});
   assert.equal(await active(), 11);
 });
 
