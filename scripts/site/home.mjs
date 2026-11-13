@@ -274,28 +274,6 @@ export function home(themes) {
   <div class="aud-row">${auds.map(([a, t, n]) => `<a class="aud-card" href="for/${a}/"><span class="aud-img">${thumb(t, n, { alt: AUDIENCES[a].h1 })}</span><b>${a[0].toUpperCase() + a.slice(1)}</b><span>${esc(AUDIENCES[a].makes.map((m) => m[0]).slice(0, 2).join(" · "))}</span></a>`).join("")}</div>
 </section>`;
 
-  /* --- 8. Compared ------------------------------------------------------------------ */
-  const compare = `
-<section class="band compare" aria-labelledby="cmp-h">
-  <div class="band-head center">
-    <h2 id="cmp-h">How it compares.</h2>
-    <p>Side by side with <a href="https://github.com/zarazhangrui/frontend-slides">frontend-slides</a>, another open-source Claude Code skill for HTML presentations.</p>
-  </div>
-  <div class="table-card">
-  <table class="ctable">
-    <thead><tr><th scope="col"></th><th scope="col">frontend-slides</th><th scope="col">Decklume</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Style previews</th><td>Three separate title-slide files</td><td>Your title and content slides, side by side on one page</td></tr>
-      <tr><th scope="row">Verification</th><td>Advice to check screenshots</td><td>Automated QA gate with a contact sheet, run in CI</td></tr>
-      <tr><th scope="row">Motion</th><td>Entrance animations</td><td>Entrances, step builds and Magic Move</td></tr>
-      <tr><th scope="row">Presenting</th><td>Speaker notes via host</td><td>Presenter window with notes, timer and next slide</td></tr>
-      <tr><th scope="row">PDF</th><td>Screenshots, about 20 MB for 18 slides</td><td>Vector with selectable text, 1.1 MB for ${FACTS.slides} slides</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p class="center-act"><a class="link-arrow" href="compare/frontend-slides/">Read the full comparison ${icon("arrow")}</a></p>
-</section>`;
-
   /* --- 9. Install, set like a pricing table ----------------------------------------- */
   const prompts = [
     "Make a 10-minute presentation on the causes of World War I for my history class.",
@@ -349,6 +327,6 @@ export function home(themes) {
       { "@type": "WebSite", "@id": SITE.base + "#website", url: SITE.base, name: "Decklume", description: "AI presentation maker skill for Claude Code" },
       faqLd(FAQ_HOME),
     ],
-    body: hero + how + gallery + switcher + bento + qa + made + compare + install + faqHtml(FAQ_HOME, "Questions people ask") + close,
+    body: hero + how + gallery + switcher + bento + qa + made + install + faqHtml(FAQ_HOME, "Questions people ask") + close,
   });
 }
