@@ -41,17 +41,99 @@
     }, 1800);
   });
 
-  /* --- Mobile navigation ----------------------------------------------- */
+  /* --- Navigation: mobile toggle, the Use cases menu, scrolled state ---- */
   const toggle = $(".nav-toggle");
-  if (toggle) {
-    const list = $("#nav-list");
-    const set = (open) => {
-      toggle.setAttribute("aria-expanded", String(open));
-      list.classList.toggle("is-open", open);
+  const list = $("#nav-list");
+  const menu = $(".has-menu");
+  const menuBtn = menu && $(".menu-btn", menu);
+  const setMenu = (open) => {
+    if (!menu) return;
+    menu.classList.toggle("is-open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+  };
+  const setNav = (open) => {
+    if (!toggle) return;
+    toggle.setAttribute("aria-expanded", String(open));
+    list.classList.toggle("is-open", open);
+    if (!open) setMenu(false);
+  };
+  toggle && toggle.addEventListener("click", () => setNav(toggle.getAttribute("aria-expanded") !== "true"));
+  menuBtn && menuBtn.addEventListener("click", () => setMenu(!menu.classList.contains("is-open")));
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (menu && menu.classList.contains("is-open")) { setMenu(false); menuBtn.focus(); }
+    setNav(false);
+  });
+  document.addEventListener("click", (e) => {
+    if (menu && !e.target.closest(".has-menu")) setMenu(false);
+    if (!e.target.closest(".masthead nav")) setNav(false);
+  });
+  const mast = $(".masthead");
+  const onScroll = () => mast && mast.classList.toggle("is-scrolled", scrollY > 8);
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* --- Hero: topic → a ready-to-paste prompt ------------------------------- */
+  const form = $("[data-topic]");
+  const recipe = $("[data-recipe]");
+  if (form && recipe) {
+    const input = $("#topic-in", form);
+    const select = $("#topic-theme", form);
+    const promptLi = $("[data-recipe-prompt]", recipe);
+    const look = $("[data-recipe-look]", recipe);
+    const build = () => {
+      const topic = input.value.trim().replace(/\s+/g, " ").replace(/[.!?]+$/, "") || "how sleep shapes memory";
+      const opt = select.options[select.selectedIndex];
+      const text = `Make a presentation about ${topic}, in the ${opt.text} theme.`;
+      $("code", promptLi).textContent = text;
+      $(".cmd-copy", promptLi).dataset.copy = text;
+      look.href = `${ROOT}themes/${opt.value}/`;
+      $("img", look).src = `${ROOT}assets/frames/${opt.value}/01.webp`;
+      $("[data-recipe-name]", look).textContent = opt.text;
     };
-    toggle.addEventListener("click", () => set(toggle.getAttribute("aria-expanded") !== "true"));
-    document.addEventListener("keydown", (e) => e.key === "Escape" && set(false));
-    document.addEventListener("click", (e) => !e.target.closest(".masthead nav") && set(false));
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      build();
+      const first = !recipe.classList.contains("is-open");
+      recipe.classList.add("is-open");
+      if (first) recipe.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+      $(".cmd-copy", promptLi).focus({ preventScroll: true });
+    });
+    select.addEventListener("change", () => recipe.classList.contains("is-open") && build());
+    $$("[data-focus-topic]").forEach((a) => a.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      setTimeout(() => input.focus({ preventScroll: true }), reduce ? 0 : 450);
+    }));
+  }
+
+  /* --- Hero room: lean toward the pointer, rest when off screen ------------- */
+  const room = $("[data-room]");
+  if (room && !reduce && matchMedia("(pointer: fine)").matches) {
+    const scene = $(".room-scene", room);
+    const hero = room.parentElement;
+    hero.addEventListener("pointermove", (e) => {
+      const r = hero.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      scene.style.setProperty("--ry", `${(x * 4).toFixed(2)}deg`);
+      scene.style.setProperty("--rx", `${(-y * 3).toFixed(2)}deg`);
+    });
+    hero.addEventListener("pointerleave", () => {
+      scene.style.setProperty("--ry", "0deg");
+      scene.style.setProperty("--rx", "0deg");
+    });
+  }
+  if (room && "IntersectionObserver" in window) {
+    new IntersectionObserver(([en]) => room.classList.toggle("is-off", !en.isIntersecting)).observe(room);
+  }
+
+  /* --- Reveal small details when cards scroll into view --------------------- */
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+    }), { rootMargin: "0px 0px -15% 0px" });
+    $$(".how-card, .tile").forEach((el) => io.observe(el));
   }
 
   /* --- Deck frames: load a live demo deck into a .screen ------------------ */
@@ -145,36 +227,6 @@
       }
     });
     whenNear(sw, () => { if (!current) render(); });
-  }
-
-  /* --- Prompt → deck story --------------------------------------------- */
-  const story = $("[data-story]");
-  if (story) {
-    story.classList.add("is-ready");
-    const stages = $$(".stage", story);
-    const steps = $$("[data-step]", story);
-    const typed = $(".typed", story);
-    let typedDone = false;
-    const typeOut = async () => {
-      if (typedDone || reduce || !typed) return;
-      typedDone = true;
-      const text = typed.dataset.type;
-      typed.textContent = "";
-      for (let i = 1; i <= text.length; i++) {
-        typed.textContent = text.slice(0, i);
-        await wait(18);
-      }
-    };
-    const activate = (n) => {
-      steps.forEach((s) => s.classList.toggle("is-active", s.dataset.step === n));
-      stages.forEach((s) => s.classList.toggle("is-active", s.dataset.stage === n));
-      if (n === "1") typeOut();
-    };
-    activate("1");
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((en) => en.isIntersecting && activate(en.target.dataset.step));
-    }, { rootMargin: "-45% 0px -45% 0px" });
-    steps.forEach((s) => io.observe(s));
   }
 
   /* --- QA inspector ------------------------------------------------------ */

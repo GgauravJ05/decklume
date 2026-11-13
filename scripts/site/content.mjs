@@ -24,13 +24,13 @@ export const SLIDES = [
   "Gallery — further reading", "People — teaching team", "Full bleed — tonight's homework", "Bento — the night at a glance", "Cover — the take-home issue", "Closing — thank you",
 ];
 
-/* Hero contact sheet: [theme, slide] in reading order. Slide 1 of Folio is the keeper. */
-export const HERO_FRAMES = [
-  ["nocturne", 7], ["grid", 17], ["campus", 8], ["atlas", 18], ["aurora", 16], ["volt", 26],
-  ["ma", 27], ["bloom", 25], ["folio", 1], ["chalk", 11],
-  ["grid", 3], ["nocturne", 30], ["campus", 14], ["bloom", 28],
-];
-export const KEEPER_INDEX = 8;
+/* Hero room: [theme, slide] per wall. Frames drift along each wall toward the viewer. */
+export const ROOM_FRAMES = {
+  left: [["nocturne", 7], ["folio", 1], ["grid", 17], ["campus", 8], ["bloom", 25]],
+  right: [["aurora", 16], ["volt", 26], ["atlas", 18], ["chalk", 11], ["ma", 27]],
+  floor: [["blueprint", 14], ["broadsheet", 32], ["clinic", 15], ["folio", 31]],
+  ceil: [["nocturne", 30], ["grid", 3], ["campus", 14], ["aurora", 1]],
+};
 
 export const SWITCH_SLIDES = [
   [1, "Title"], [7, "Process"], [8, "Chart"], [15, "Compare"], [17, "Numbers"], [25, "Cards"],

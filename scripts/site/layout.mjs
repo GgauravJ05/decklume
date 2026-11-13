@@ -19,15 +19,20 @@ const ICONS = {
   github: '<path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/>',
   loupe: '<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/>',
   reset: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4"/>',
+  chevron: '<path d="M7 10l5 5 5-5"/>',
+  spark: '<path d="M12 3.5l1.9 5.2 5.1 1.8-5.1 1.9L12 17.6l-1.9-5.2-5.1-1.9 5.1-1.8z"/>',
+  star: '<path d="M12 4.5l2.3 4.7 5.2.8-3.8 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1-3.8-3.6 5.2-.8z"/>',
+  file: '<path d="M14 3.5H7.5A1.5 1.5 0 0 0 6 5v14a1.5 1.5 0 0 0 1.5 1.5h9A1.5 1.5 0 0 0 18 19V7.5zM14 3.5V7.5h4"/>',
 };
 export const icon = (name, cls = "") =>
   `<svg class="icon ${cls}" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
 
+/* --- Logo: a 16:9 slide catching light --------------------------------- */
+export const logoMark = `<svg class="logo-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#141413"/><rect x="5.5" y="9" width="21" height="14" rx="2.2" fill="#fbfaf7"/><rect x="8.5" y="12.5" width="9" height="2.2" rx="1.1" fill="#141413"/><rect x="8.5" y="16.3" width="6" height="1.6" rx=".8" fill="#9a958b"/><circle cx="22.6" cy="9.4" r="4.2" fill="#e5482f"/></svg>`;
+
 /* --- Grease-pencil marks (authored SVG strokes) ------------------------ */
 export const greaseCircle = (cls = "") =>
   `<svg class="grease ${cls}" viewBox="0 0 220 140" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M118 12C64 6 14 26 10 66c-4 40 44 66 104 64 62-2 100-28 96-64-4-34-46-56-102-54-30 1-58 8-74 20"/></svg>`;
-export const greaseArrow = (cls = "") =>
-  `<svg class="grease ${cls}" viewBox="0 0 160 70" aria-hidden="true"><path pathLength="1" d="M6 52C40 18 92 10 146 28M146 28l-20-16M146 28l-24 10"/></svg>`;
 
 /* --- Frames and film --------------------------------------------------- */
 export const frameSrc = (root, theme, n, size = 640) =>
@@ -37,7 +42,7 @@ export function frame(root, theme, n, { eager = false, label = true, href = null
   const alt = `${themeName} theme: ${SLIDES[n - 1]}`;
   const img = `<img src="${frameSrc(root, theme, n)}" alt="${esc(alt)}" width="640" height="360" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
   const body = href ? `<a href="${href}" class="frame-link">${img}</a>` : img;
-  return `<figure class="frame">${body}${label ? `<figcaption class="edge"><span>${esc(themeName.toUpperCase())}</span><span>${pad(n)}A</span></figcaption>` : ""}</figure>`;
+  return `<figure class="frame">${body}${label ? `<figcaption class="frame-cap"><span>${esc(themeName)}</span><span>${pad(n)}</span></figcaption>` : ""}</figure>`;
 }
 
 /* --- Copyable command ---------------------------------------------------- */
@@ -50,28 +55,36 @@ export const command = (text, { big = false } = {}) =>
 const NAV = [
   ["themes/", "Themes"],
   ["examples/", "Examples"],
-  ["for/students/", "Students"],
-  ["for/teachers/", "Teachers"],
-  ["for/researchers/", "Researchers"],
-  ["for/founders/", "Founders"],
   ["docs/", "Docs"],
 ];
+const USES = [
+  ["for/students/", "Students", "Class talks, demos, defenses"],
+  ["for/teachers/", "Teachers", "Lectures from lesson plans"],
+  ["for/researchers/", "Researchers", "One claim per slide"],
+  ["for/founders/", "Founders", "Pitches investors can follow"],
+];
+const FONTS = "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Instrument+Serif:ital@0;1&family=Martian+Mono:wght@400;600&display=swap";
 
 export function page({ root, path, title, description, jsonld = [], body, current = "", ogImage = "assets/og.png", noindex = false, bodyClass = "" }) {
   const url = SITE.base + path;
   const fullTitle = title.includes("Decklume") ? title : `${title} | Decklume`;
   const ld = jsonld.length ? `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": jsonld })}</script>` : "";
-  const nav = NAV.map(([href, label]) => `<li><a href="${root}${href}"${current === href ? ' aria-current="page"' : ""}>${label}</a></li>`).join("");
+  const here = (href) => (current === href ? ' aria-current="page"' : "");
+  const usesOpen = current.startsWith("for/");
+  const nav = NAV.map(([href, label]) => `<li><a href="${root}${href}"${here(href)}>${label}</a></li>`);
+  nav.splice(1, 0, `<li class="has-menu"><button type="button" class="menu-btn${usesOpen ? " is-here" : ""}" aria-expanded="false" aria-controls="uses-menu">Use cases${icon("chevron", "i-chev")}</button>
+      <ul class="menu" id="uses-menu">${USES.map(([href, label, sub]) => `<li><a href="${root}${href}"${here(href)}><b>${label}</b><span>${sub}</span></a></li>`).join("")}</ul></li>`);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js")</script>
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description)}">
 ${noindex ? "" : `<link rel="canonical" href="${url}">`}
 <meta name="robots" content="${noindex ? "noindex" : "index, follow, max-image-preview:large"}">
-<meta name="theme-color" content="#F1EEE7">
+<meta name="theme-color" content="#FBFAF7">
 <meta name="author" content="${SITE.author}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Decklume">
@@ -88,34 +101,41 @@ ${noindex ? "" : `<link rel="canonical" href="${url}">`}
 <link rel="icon" href="${root}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Martian+Mono:wght@400;600&family=Reenie+Beanie&display=swap">
+<link rel="stylesheet" href="${FONTS}">
 <link rel="stylesheet" href="${root}assets/site.css">
 ${ld}
 </head>
 <body class="${bodyClass}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="masthead">
-  <a class="wordmark" href="${root}" aria-label="Decklume home">Decklume</a>
-  <nav aria-label="Main">
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list">${icon("menu", "i-open")}${icon("close", "i-close")}<span class="sr">Menu</span></button>
-    <ul id="nav-list">${nav}<li><a class="nav-gh" href="${SITE.repo}">${icon("github")}<span>GitHub</span></a></li></ul>
-  </nav>
+  <div class="mast-inner">
+    <a class="wordmark" href="${root}" aria-label="Decklume home">${logoMark}<span>Decklume</span></a>
+    <nav aria-label="Main">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list">${icon("menu", "i-open")}${icon("close", "i-close")}<span class="sr">Menu</span></button>
+      <ul id="nav-list">${nav.join("")}</ul>
+    </nav>
+    <div class="mast-act">
+      <a class="btn btn-quiet btn-sm" href="${SITE.repo}">${icon("github")}<span>GitHub</span></a>
+      <a class="btn btn-primary btn-sm" href="${root}#install">Install free</a>
+    </div>
+  </div>
 </header>
 <main id="main">
 ${body}
 </main>
 <footer class="colophon">
-  <div class="rebate" aria-hidden="true"><span>DECKLUME 1920×1080</span><span>▸ 01A</span><span>${FACTS.themes} THEMES</span><span>▸ ${FACTS.layouts} LAYOUTS</span><span>MIT</span><span>▸ ${FACTS.slides}A</span></div>
   <div class="colophon-grid">
-    <div>
-      <a class="wordmark" href="${root}">Decklume</a>
-      <p>Designer-grade HTML presentations for Claude Code. Free and open source.</p>
+    <div class="col-brand">
+      <a class="wordmark" href="${root}">${logoMark}<span>Decklume</span></a>
+      <p>Designer-grade HTML presentations for Claude Code. ${FACTS.themes} themes, ${FACTS.layouts} layouts, free and open source.</p>
+      <a class="btn btn-quiet btn-sm" href="${SITE.repo}">${icon("star")}<span>Star on GitHub</span></a>
     </div>
-    <nav aria-label="Product"><p class="col-h">Product</p><ul><li><a href="${root}themes/">Themes</a></li><li><a href="${root}docs/">Docs</a></li><li><a href="${root}examples/">Examples</a></li><li><a href="${root}compare/frontend-slides/">Compare</a></li><li><a href="${root}demos/folio.html">Live demo</a></li></ul></nav>
-    <nav aria-label="Use cases"><p class="col-h">Made for</p><ul><li><a href="${root}for/students/">Students</a></li><li><a href="${root}for/teachers/">Teachers</a></li><li><a href="${root}for/researchers/">Researchers</a></li><li><a href="${root}for/founders/">Founders</a></li></ul></nav>
+    <nav aria-label="Product"><p class="col-h">Product</p><ul><li><a href="${root}themes/">Themes</a></li><li><a href="${root}examples/">Examples</a></li><li><a href="${root}docs/">Docs</a></li><li><a href="${root}compare/frontend-slides/">Compare</a></li><li><a href="${root}demos/folio.html">Live demo</a></li></ul></nav>
+    <nav aria-label="Use cases"><p class="col-h">Made for</p><ul>${USES.map(([href, label]) => `<li><a href="${root}${href}">${label}</a></li>`).join("")}</ul></nav>
     <nav aria-label="Project"><p class="col-h">Project</p><ul><li><a href="${SITE.repo}">GitHub</a></li><li><a href="${SITE.repo}/blob/main/CHANGELOG.md">Changelog</a></li><li><a href="${SITE.repo}/blob/main/CONTRIBUTING.md">Contribute</a></li><li><a href="${SITE.repo}/blob/main/LICENSE">MIT License</a></li></ul></nav>
   </div>
-  <p class="credit">© 2026 GgauravJ05 · MIT License · Typefaces from Google Fonts.</p>
+  <p class="credit"><span>© 2026 GgauravJ05 · MIT License</span><span>v${FACTS.version}</span></p>
+  <p class="giant" aria-hidden="true">Decklume</p>
 </footer>
 <script src="${root}assets/site.js" defer></script>
 </body>
@@ -136,7 +156,7 @@ export const faqLd = (faq) => ({
 
 export const faqHtml = (faq, heading = "Questions") => `
 <section class="faq band" aria-labelledby="faq-h">
-  <h2 id="faq-h">${heading}</h2>
+  <div class="band-head center"><h2 id="faq-h">${heading}</h2></div>
   <div class="faq-list">${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>
 </section>`;
 

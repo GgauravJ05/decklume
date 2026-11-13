@@ -272,16 +272,17 @@ export function notFound() {
     noindex: true,
     body: `
 <section class="page-head lost">
-  <h1>This frame didn’t develop.</h1>
+  <p class="big-404" aria-hidden="true">404</p>
+  <h1>This slide isn’t in the deck.</h1>
   <p class="lede">The page you’re looking for doesn’t exist. Try the themes, the docs, or play the demo deck.</p>
-  <div class="head-act"><a class="btn btn-primary" href="/decklume/">Back to the contact sheet</a><a class="btn btn-ghost" href="/decklume/themes/">Browse themes</a></div>
+  <div class="head-act"><a class="btn btn-primary" href="/decklume/">Back home</a><a class="btn btn-quiet" href="/decklume/themes/">Browse themes</a></div>
 </section>`,
   });
 }
 
 /* --- Example decks ----------------------------------------------------------- */
 const exampleFrame = (root, ex, n) =>
-  `<figure class="frame"><a class="frame-link" href="${root}examples/${ex.slug}.html#/${n}"><img src="${root}assets/examples/${ex.slug}/${String(n).padStart(2, "0")}.webp" alt="${esc(ex.title)}, slide ${n}" width="640" height="360" loading="lazy" decoding="async"></a><figcaption class="edge" aria-hidden="true"><span>${esc(ex.theme.toUpperCase())}</span><span>${String(n).padStart(2, "0")}A</span></figcaption></figure>`;
+  `<figure class="frame"><a class="frame-link" href="${root}examples/${ex.slug}.html#/${n}"><img src="${root}assets/examples/${ex.slug}/${String(n).padStart(2, "0")}.webp" alt="${esc(ex.title)}, slide ${n}" width="640" height="360" loading="lazy" decoding="async"></a><figcaption class="frame-cap" aria-hidden="true"><span>${esc(cap(ex.theme))}</span><span>${String(n).padStart(2, "0")}</span></figcaption></figure>`;
 
 export function examplesPage(themes) {
   const root = "../";
