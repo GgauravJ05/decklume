@@ -63,7 +63,7 @@ const USES = [
   ["for/researchers/", "Researchers", "One claim per slide"],
   ["for/founders/", "Founders", "Pitches investors can follow"],
 ];
-const FONTS = "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Instrument+Serif:ital@0;1&family=Martian+Mono:wght@400;600&display=swap";
+const FONTS = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Lora:ital,wght@0,400..700;1,400..700&family=Martian+Mono:wght@400;600&display=swap";
 
 export function page({ root, path, title, description, jsonld = [], body, current = "", ogImage = "assets/og.png", noindex = false, bodyClass = "" }) {
   const url = SITE.base + path;
