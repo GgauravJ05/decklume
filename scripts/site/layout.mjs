@@ -134,7 +134,7 @@ ${body}
     <nav aria-label="Use cases"><p class="col-h">Made for</p><ul>${USES.map(([href, label]) => `<li><a href="${root}${href}">${label}</a></li>`).join("")}</ul></nav>
     <nav aria-label="Project"><p class="col-h">Project</p><ul><li><a href="${SITE.repo}">GitHub</a></li><li><a href="${SITE.repo}/blob/main/CHANGELOG.md">Changelog</a></li><li><a href="${SITE.repo}/blob/main/CONTRIBUTING.md">Contribute</a></li><li><a href="${SITE.repo}/blob/main/LICENSE">MIT License</a></li></ul></nav>
   </div>
-  <p class="credit"><span>© 2026 GgauravJ05 · MIT License</span><span>v${FACTS.version}</span></p>
+  <p class="credit"><span>© 2026 GgauravJ05 · MIT License · Not affiliated with Anthropic</span><span>v${FACTS.version}</span></p>
   <p class="giant" aria-hidden="true">Decklume</p>
 </footer>
 <script src="${root}assets/site.js" defer></script>
