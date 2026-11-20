@@ -28,7 +28,7 @@ export const icon = (name, cls = "") =>
   `<svg class="icon ${cls}" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
 
 /* --- Logo: a 16:9 slide catching light --------------------------------- */
-export const logoMark = `<svg class="logo-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#141413"/><rect x="5.5" y="9" width="21" height="14" rx="2.2" fill="#fbfaf7"/><rect x="8.5" y="12.5" width="9" height="2.2" rx="1.1" fill="#141413"/><rect x="8.5" y="16.3" width="6" height="1.6" rx=".8" fill="#9a958b"/><circle cx="22.6" cy="9.4" r="4.2" fill="#e5482f"/></svg>`;
+export const logoMark = `<svg class="logo-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#141413"/><rect x="5.5" y="9" width="21" height="14" rx="2.2" fill="#faf9f5"/><rect x="8.5" y="12.5" width="9" height="2.2" rx="1.1" fill="#141413"/><rect x="8.5" y="16.3" width="6" height="1.6" rx=".8" fill="#9a958b"/><circle cx="22.6" cy="9.4" r="4.2" fill="#d97757"/></svg>`;
 
 /* --- Grease-pencil marks (authored SVG strokes) ------------------------ */
 export const greaseCircle = (cls = "") =>
@@ -84,7 +84,7 @@ export function page({ root, path, title, description, jsonld = [], body, curren
 <meta name="description" content="${esc(description)}">
 ${noindex ? "" : `<link rel="canonical" href="${url}">`}
 <meta name="robots" content="${noindex ? "noindex" : "index, follow, max-image-preview:large"}">
-<meta name="theme-color" content="#FBFAF7">
+<meta name="theme-color" content="#FAF9F5">
 <meta name="author" content="${SITE.author}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Decklume">

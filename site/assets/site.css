@@ -1,26 +1,36 @@
 /* =====================================================================
    Decklume website.
-   Light and airy: warm white, soft tinted bands, rounded cards with
-   small mock interfaces. One accent (the lume orange) for action and
-   emphasis; real slide frames carry all other colour.
+   Warm light paper, soft grey bands, rounded cards with small mock
+   interfaces. Brand palette: dark #141413, light #faf9f5, mid grey
+   #b0aea5, light grey #e8e6dc; orange #d97757 leads, blue #6a9bcc and
+   green #788c5d take turns on shapes. Each accent has a darker -ink
+   shade for text so every pair clears WCAG AA.
    ===================================================================== */
 
 :root {
-  --bg: #fbfaf7;
+  --bg: #faf9f5;
   --surface: #ffffff;
-  --tint: #f3f1ec;
-  --tint-2: #ebe8e1;
+  --tint: #f1efe8;
+  --tint-2: #e8e6dc;
   --ink: #141413;
   --ink-2: #47443e;
   --ink-3: #6b675f;
   --line: rgba(20, 20, 19, 0.09);
   --line-2: rgba(20, 20, 19, 0.16);
-  --accent: #e5482f;
-  --accent-ink: #b93520;
-  --accent-soft: #fdebe5;
+  --mid: #b0aea5;
+  --accent: #d97757;
+  --accent-ink: #9e4c2a;
+  --accent-soft: #f5e4dc;
   --dark: #141413;
-  --ok: #1f7a4d;
-  --ok-soft: #e3f3ea;
+  --ok: #556640;
+  --ok-mark: #788c5d;
+  --ok-soft: #e9eddf;
+  --blue: #6a9bcc;
+  --blue-ink: #3d6a99;
+  --blue-soft: #e3ecf5;
+  --green: #788c5d;
+  --green-ink: #556640;
+  --green-soft: #e9eddf;
 
   --display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
   --text: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
@@ -56,7 +66,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -0.0
 p { margin: 0; text-wrap: pretty; }
 code, kbd { font-family: var(--mono); font-size: 0.8em; }
 :not(pre) > code { background: var(--tint); padding: 0.14em 0.45em; border-radius: 6px; }
-kbd { border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 6px; padding: 0.1em 0.45em; background: var(--surface); white-space: nowrap; }
+kbd { border: 1px solid var(--mid); border-bottom-width: 2px; border-radius: 6px; padding: 0.1em 0.45em; background: var(--surface); white-space: nowrap; }
 ::selection { background: var(--accent-soft); color: var(--ink); }
 :focus-visible { outline: 2.5px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 [hidden] { display: none !important; }
@@ -293,7 +303,7 @@ kbd { border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 
 .node span { font-size: 11.5px; color: var(--ink-3); }
 .ring { position: relative; width: 92px; height: 92px; display: grid; place-items: center; border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-2); }
 .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
-.ring circle { fill: none; stroke: var(--ok); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0.25; transition: stroke-dashoffset 1.4s var(--ease); }
+.ring circle { fill: none; stroke: var(--ok-mark); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0.25; transition: stroke-dashoffset 1.4s var(--ease); }
 .how-card.is-in .ring circle { stroke-dashoffset: 0; }
 .ring > .icon { width: 34px; height: 34px; color: var(--ok); stroke-width: 2.4; }
 .flow-big { font: 700 34px/1 var(--display); letter-spacing: -0.04em; margin-top: 14px; }
@@ -374,10 +384,10 @@ legend { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-
 .tile img { border-radius: 10px; aspect-ratio: 16 / 9; object-fit: cover; box-shadow: 0 0 0 1px var(--line), var(--shadow-2); }
 .t-dark { background: var(--dark); color: #fff; box-shadow: none; }
 .t-dark p { color: rgba(255, 255, 255, 0.72); }
-.t-dark h3 span { color: #ff9a85; }
+.t-dark h3 span { color: var(--accent); }
 .t-accent { background: var(--accent-ink); color: #fff; box-shadow: none; }
 .t-accent p { color: rgba(255, 255, 255, 0.9); }
-.t-accent h3 span { color: #ffe1d9; }
+.t-accent h3 span { color: var(--accent-soft); }
 .t-pptx { grid-row: span 2; align-content: stretch; grid-template-rows: 1fr auto auto; }
 .t-wide { grid-column: span 2; }
 .mini-finds { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; width: min(240px, 100%); }
@@ -410,7 +420,7 @@ legend { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-
 .tile .big-num, .big-num { margin: 0; max-width: none; font: 700 clamp(48px, 6vw, 72px)/1 var(--display); letter-spacing: -0.05em; color: var(--ok); }
 .tile.t-file .big-num { color: #fff; }
 .tile .num-sub { font-weight: 600; color: var(--ink); font-size: 15px; }
-.t-dark .num-sub { color: #ff9a85; }
+.t-dark .num-sub { color: var(--accent); }
 
 /* --- QA inspector ---------------------------------------------------------------- */
 .grease { position: absolute; overflow: visible; pointer-events: none; }
@@ -461,7 +471,7 @@ legend { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-
 .findings li.is-found { color: var(--ink); background: var(--accent-soft); box-shadow: none; }
 .findings li.is-found::before { box-shadow: none; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7L7 17' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center / 11px no-repeat; }
 .findings li.is-fixed { background: var(--ok-soft); color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--line-2); }
-.findings li.is-fixed::before { background: var(--ok) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; }
+.findings li.is-fixed::before { background: var(--ok-mark) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; }
 .findings code { background: none; padding: 0; color: var(--accent-ink); font-weight: 600; }
 .findings li.is-fixed code { color: var(--ink-3); }
 .qa-result { display: flex; gap: 10px; align-items: center; font: 700 16px/1.4 var(--text); color: var(--ink-2); min-height: 1.4em; }
