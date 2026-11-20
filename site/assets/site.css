@@ -48,6 +48,14 @@
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Shapes take turns through the three brand accents. Overriding the
+   accent tokens on a card recolours everything inside it. */
+.how-card:nth-child(4n + 2), .t-morph, .aud-card:nth-child(4n + 2) { --accent: var(--blue); --accent-ink: var(--blue-ink); --accent-soft: var(--blue-soft); }
+.how-card:nth-child(4n + 3), .aud-card:nth-child(4n + 3) { --accent: var(--green); --accent-ink: var(--green-ink); --accent-soft: var(--green-soft); }
+.t-charts h3 span { color: var(--blue) !important; }
+.t-file h3 span { color: var(--green) !important; }
+.aud-card b::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 8px; vertical-align: 0.12em; }
+
 /* --- Base --------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 88px; }
