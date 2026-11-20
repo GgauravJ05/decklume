@@ -28,7 +28,7 @@ export const icon = (name, cls = "") =>
   `<svg class="icon ${cls}" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
 
 /* --- Logo: a 16:9 slide catching light --------------------------------- */
-export const logoMark = `<svg class="logo-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#141413"/><rect x="5.5" y="9" width="21" height="14" rx="2.2" fill="#fbfaf7"/><rect x="8.5" y="12.5" width="9" height="2.2" rx="1.1" fill="#141413"/><rect x="8.5" y="16.3" width="6" height="1.6" rx=".8" fill="#9a958b"/><circle cx="22.6" cy="9.4" r="4.2" fill="#e5482f"/></svg>`;
+export const logoMark = `<svg class="logo-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#141413"/><rect x="5.5" y="9" width="21" height="14" rx="2.2" fill="#faf9f5"/><rect x="8.5" y="12.5" width="9" height="2.2" rx="1.1" fill="#141413"/><rect x="8.5" y="16.3" width="6" height="1.6" rx=".8" fill="#9a958b"/><circle cx="22.6" cy="9.4" r="4.2" fill="#d97757"/></svg>`;
 
 /* --- Grease-pencil marks (authored SVG strokes) ------------------------ */
 export const greaseCircle = (cls = "") =>
@@ -63,7 +63,7 @@ const USES = [
   ["for/researchers/", "Researchers", "One claim per slide"],
   ["for/founders/", "Founders", "Pitches investors can follow"],
 ];
-const FONTS = "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Instrument+Serif:ital@0;1&family=Martian+Mono:wght@400;600&display=swap";
+const FONTS = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Lora:ital,wght@0,400..700;1,400..700&family=Martian+Mono:wght@400;600&display=swap";
 
 export function page({ root, path, title, description, jsonld = [], body, current = "", ogImage = "assets/og.png", noindex = false, bodyClass = "" }) {
   const url = SITE.base + path;
@@ -84,7 +84,7 @@ export function page({ root, path, title, description, jsonld = [], body, curren
 <meta name="description" content="${esc(description)}">
 ${noindex ? "" : `<link rel="canonical" href="${url}">`}
 <meta name="robots" content="${noindex ? "noindex" : "index, follow, max-image-preview:large"}">
-<meta name="theme-color" content="#FBFAF7">
+<meta name="theme-color" content="#FAF9F5">
 <meta name="author" content="${SITE.author}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Decklume">
@@ -134,7 +134,7 @@ ${body}
     <nav aria-label="Use cases"><p class="col-h">Made for</p><ul>${USES.map(([href, label]) => `<li><a href="${root}${href}">${label}</a></li>`).join("")}</ul></nav>
     <nav aria-label="Project"><p class="col-h">Project</p><ul><li><a href="${SITE.repo}">GitHub</a></li><li><a href="${SITE.repo}/blob/main/CHANGELOG.md">Changelog</a></li><li><a href="${SITE.repo}/blob/main/CONTRIBUTING.md">Contribute</a></li><li><a href="${SITE.repo}/blob/main/LICENSE">MIT License</a></li></ul></nav>
   </div>
-  <p class="credit"><span>© 2026 GgauravJ05 · MIT License</span><span>v${FACTS.version}</span></p>
+  <p class="credit"><span>© 2026 GgauravJ05 · MIT License · Not affiliated with Anthropic</span><span>v${FACTS.version}</span></p>
   <p class="giant" aria-hidden="true">Decklume</p>
 </footer>
 <script src="${root}assets/site.js" defer></script>

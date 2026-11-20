@@ -130,23 +130,23 @@ try {
   }
   await render(`<style>body{margin:0;background:#0f0f10;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;padding:16px}img{width:100%;aspect-ratio:16/9;border-radius:8px;display:block}</style>${themes.map((t) => img(strips[t.slug][0])).join("")}`, 1920, 466, join(OUT, "assets/hero.jpg"));
 
-  // Social card (1280×640), in the site's contact-sheet world.
+  // Social card (1280×640), in the site's palette: light paper, Poppins and Lora,
+  // three real slides fanned on the right.
   const og = await browser.newPage({ viewport: { width: 1280, height: 640 } });
-  const ogFrames = ["nocturne", "grid", "folio", "campus", "aurora", "chalk"].map((s, i) => `<img${i === 2 ? ' class="keep"' : ""} src="data:image/jpeg;base64,${strips[s][i % 3]}">`).join("");
-  await og.setContent(`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;800;900&family=Reenie+Beanie&display=swap">
-  <style>body{margin:0;width:1280px;height:640px;overflow:hidden;background:#f1eee7;font-family:"Schibsted Grotesk";color:#0d0d0d;position:relative}
-  .w{position:absolute;left:64px;top:48px;font:900 30px/1 "Schibsted Grotesk";letter-spacing:-.04em}
-  h1{position:absolute;left:60px;top:110px;margin:0;font:800 96px/.9 "Schibsted Grotesk";letter-spacing:-.045em}
-  p{position:absolute;left:64px;top:318px;margin:0;font:500 26px/1.35 "Schibsted Grotesk";color:#3d3a35;width:620px}
-  .sheet{position:absolute;left:0;right:0;bottom:0;height:210px;background:#0d0d0d;display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:30px 24px;box-sizing:border-box}
-  .sheet:before,.sheet:after{content:"";position:absolute;left:0;right:0;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='12'%3E%3Crect x='7' y='2' width='14' height='8' rx='2' fill='%233a3936'/%3E%3C/svg%3E") repeat-x}
-  .sheet:before{top:8px}.sheet:after{bottom:8px}
-  img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px;align-self:center}
-  .ring{position:absolute;left:428px;top:430px;width:250px;height:170px;border:6px solid #e4362b;border-radius:50%;transform:rotate(-5deg);box-sizing:border-box}
-  .note{position:absolute;left:700px;top:372px;font:56px "Reenie Beanie";color:#b3261c;transform:rotate(-4deg)}</style>
-  <div class="w">Decklume</div><h1>Pick the frame.<br>Ship the deck.</h1>
-  <p>Beautiful, animated presentations from any topic: a free Claude Code skill.</p>
-  <div class="note">keep this one</div><div class="sheet">${ogFrames}</div><div class="ring"></div>`, { waitUntil: "networkidle" });
+  const ogFrames = [["nocturne", 0], ["folio", 0], ["campus", 1]].map(([s, i], k) => `<img class="f${k}" src="data:image/jpeg;base64,${strips[s][i]}">`).join("");
+  await og.setContent(`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lora:wght@400&display=swap">
+  <style>body{margin:0;width:1280px;height:640px;overflow:hidden;background:#faf9f5;color:#141413;position:relative;font-family:Poppins}
+  .w{position:absolute;left:72px;top:60px;display:flex;align-items:center;gap:14px;font:700 30px/1 Poppins;letter-spacing:-.02em}
+  h1{position:absolute;left:68px;top:150px;margin:0;font:700 76px/1.04 Poppins;letter-spacing:-.03em}
+  p{position:absolute;left:72px;top:356px;margin:0;font:400 27px/1.45 Lora;color:#47443e;width:520px}
+  .dots{position:absolute;left:72px;bottom:68px;display:flex;gap:10px}.dots i{width:14px;height:14px;border-radius:50%}
+  img{position:absolute;width:470px;aspect-ratio:16/9;object-fit:cover;border-radius:12px;box-shadow:0 0 0 1px rgba(20,20,19,.1),0 30px 60px -24px rgba(20,20,19,.45)}
+  .f0{left:770px;top:52px;transform:rotate(5deg)}.f1{left:730px;top:214px;transform:rotate(-3deg)}.f2{left:790px;top:378px;transform:rotate(4deg)}</style>
+  <div class="w"><svg viewBox="0 0 32 32" width="40" height="40"><rect width="32" height="32" rx="8" fill="#141413"/><rect x="5.5" y="9" width="21" height="14" rx="2.2" fill="#faf9f5"/><rect x="8.5" y="12.5" width="9" height="2.2" rx="1.1" fill="#141413"/><rect x="8.5" y="16.3" width="6" height="1.6" rx=".8" fill="#b0aea5"/><circle cx="22.6" cy="9.4" r="4.2" fill="#d97757"/></svg>Decklume</div>
+  <h1>One prompt.<br>A designed deck.</h1>
+  <p>Animated HTML presentations from any topic, in a free Claude Code skill.</p>
+  <div class="dots"><i style="background:#d97757"></i><i style="background:#6a9bcc"></i><i style="background:#788c5d"></i></div>
+  ${ogFrames}`, { waitUntil: "networkidle" });
   await og.evaluate(() => document.fonts.ready);
   await og.screenshot({ path: join(OUT, "assets/og.png") });
   console.log("✓ og.png");
